@@ -1,7 +1,14 @@
 <test>
 	<h2>{name}</h2>
-	<button name='ttBtn' onclick={tt}>aaaaaaaaaaa</button>
+	<button onclick={tt}>aaaaaaaaaaa</button>
+
+	<ul>
+		<li each={parent.opts.items}>
+			{position} - {name}
+		</li>
+	</ul>
+
 	<script>
-		this.mixin(require('./test'));
+		this.mixin(require('./'));
 	</script>
 </test>

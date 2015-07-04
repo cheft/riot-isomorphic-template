@@ -25,7 +25,8 @@ require.extensions['.html'] = function(module, filename) {
 }
 
 app.engine('html', function (filePath, options, callback) {
-    var tagName = filePath.substr(filePath.lastIndexOf(path.sep) + 1).replace('.html', '');
+    var tmp = filePath.replace(path.sep + 'index.html', '');
+    var tagName = tmp.substr(tmp.lastIndexOf(path.sep) + 1);
     try {
         var view = riot.render(tagName, options);
         var index = fs.readFileSync(__dirname + '/public/index.html', 'utf8');

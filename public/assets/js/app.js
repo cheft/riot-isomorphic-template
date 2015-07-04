@@ -14,8 +14,9 @@ mapper({
     },
     expressAppName: 'app'
 });
-router(app);
 page();
+
+router(app);
 
 // var show = function(name, opts) {
 //     var app = document.getElementById('app');

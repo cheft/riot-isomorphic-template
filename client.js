@@ -7,15 +7,13 @@ var router = require('./router');
 mapper({
     renderMethod: function(name, model) {
         var _app = document.getElementById('app');
-		_app.innerHTML = '';
-	    _app.appendChild(document.createElement(name));
+        _app.setAttribute('riot-tag', name);
 	    riot.mount(name, model || {});
     },
     expressAppName: 'app'
 });
-page();
-
 router(app);
+window.onload = page;
 
 // var show = function(name, opts) {
 //     var app = document.getElementById('app');

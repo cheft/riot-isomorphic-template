@@ -8,15 +8,13 @@ var router = require('./router');
 mapper({
     renderMethod: function(name, model) {
         var _app = document.getElementById('app');
-		_app.innerHTML = '';
-	    _app.appendChild(document.createElement(name));
+        _app.setAttribute('riot-tag', name);
 	    riot.mount(name, model || {});
     },
     expressAppName: 'app'
 });
-page();
-
 router(app);
+window.onload = page;
 
 // var show = function(name, opts) {
 //     var app = document.getElementById('app');
@@ -3685,6 +3683,11 @@ module.exports = {
 		var self = this;
 		this.name = '11111';
 		this.on('mount', function() {
+			if(typeof window === 'object') {
+				var a = document.getElementById('app');
+				console.log(a);
+				console.log(888888888);
+			}
 			console.log(self, 999);
 			console.log('mount');
 		});

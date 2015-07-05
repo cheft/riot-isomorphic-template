@@ -3,6 +3,11 @@ module.exports = {
 		var self = this;
 		this.name = '11111';
 		this.on('mount', function() {
+			if(typeof window === 'object') {
+				var a = document.getElementById('app');
+				console.log(a);
+				console.log(888888888);
+			}
 			console.log(self, 999);
 			console.log('mount');
 		});

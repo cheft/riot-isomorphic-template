@@ -7,10 +7,23 @@
     "express": "^4.12.4",
     "html5-history-api": "^4.2.1",
     "page": "^1.6.3",
+    "page.js-express-mapper.js": "^1.0.5",
     "riot": "^2.1.0",
     "superagent": "^1.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "^9.0.8",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-eslint": "^0.14.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.1.0",
+    "riotify": "^0.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -3,7 +3,7 @@ var c = require('../../src/cheft');
 
 module.exports = {
 	init: function() {
-		console.log('init');
+		this.chain = 'data';
 		this.name = '11111';
 		var self = this;
 		this.on('mount', function() {
@@ -14,11 +14,11 @@ module.exports = {
 			console.log('mount');
 		});
 		
-		this.promise = store.get('/');
-		this.promise.then(function(data) {
+		store.get('/', function(data) {
 			self.items = data;
 			self.update();
-		})
+			self.trigger('data');
+		});
 	},
 
 	tt: function() {

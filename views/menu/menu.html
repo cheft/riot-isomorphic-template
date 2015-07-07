@@ -1,7 +1,15 @@
 <menu>
- 	<ul>
-        <li><a href="/" onclick="app.router.hold(event);">HOME</a></li>
-        <li><a href="/todo" onclick="app.router.hold(event);">TODO</a></li>
-        <li><a href="/test" onclick="app.router.hold(event);">Test</a></li>
+ 	<ul class="menu">
+        <li each={links}><a href={link} onclick={holdLink}>{name}</a></li>
     </ul>
+    <script>
+        this.links = [
+            {name: 'HOME', link: '/'},
+            {name: 'TODO', link: '/todo'},
+            {name: 'Test', link: '/test'}
+        ];
+        this.holdLink = function(e) {
+            app.router.hold(e);
+        }
+    </script>
 </menu>

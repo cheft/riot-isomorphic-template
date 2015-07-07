@@ -27,7 +27,7 @@ require.extensions['.html'] = function(module, filename) {
 riot.render = function(tagName, opts) {
     var root = document.createElement(tagName);
     var tag = riot.mount(root, opts);
-    if(tag && tag[0].promise) {
+    if(tag && tag[0].chain) {
         return {tag: tag[0], root: root, dom: function(root) {
             return sdom.serialize(root);
         }};
@@ -42,10 +42,10 @@ app.engine('html', function (filePath, options, callback) {
     try {
         var view = riot.render(tagName, options);
         var index = fs.readFileSync(__dirname + '/public/index.html', 'utf8');
-        if(view.tag && view.tag.promise) {
-            view.tag.promise.then(function() {
+        if(view.tag && view.tag.chain) {
+            view.tag.on(view.tag.chain, function() {
                 callback(null, index.replace('<div id="app"></div>', '<div id="app">' + view.dom(view.root) + '</div>'));
-            })
+            });
         }else {
             callback(null, index.replace('<div id="app"></div>', '<div id="app">' + view + '</div>'));
         }

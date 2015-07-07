@@ -1,3 +1,9 @@
 <hello>
 	<test></test>
+	<h1>Hello World</h1>
+	<script>
+		this.on('mount', function() {
+			this.promise = this.tags.test.promise;
+		});
+	</script>
 </hello>

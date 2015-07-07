@@ -1,40 +1,33 @@
 var riot = require('riot');
-var store = require('superagent');
-var page = window.page = require('page');
-var mapper = require('page.js-express-mapper.js');
-var router = require('./router');
+var routerExp = require('./router');
+var MinRouter = require('minrouter');
 
-mapper({
-    renderMethod: function(name, model) {
-        var _app = document.getElementById('app');
-        _app.setAttribute('riot-tag', name);
-	    riot.mount(name, model || {});
-    },
-    expressAppName: 'app'
-});
-router(app);
-window.onload = page;
+var app = window.app = {};
+app.render = function(name, model) {
+	var _app = document.getElementById('app');
+	_app.innerHTML = '';
+	_app.setAttribute('riot-tag', name);
+    riot.mount(name, model || {});
+}
 
-// var show = function(name, opts) {
-//     var app = document.getElementById('app');
-//     app.innerHTML = '';
-//     app.appendChild(document.createElement(name));
-//     riot.mount(name, opts || {});
-// }
+var routes = {};
+app.route = function(url) {
+	var rep = {
+		render: function(name, model) {
+			routes[url] = function() {
+				app.render(name, model);
+			}
+		}
+	}
+	return {
+		get: function(cb) {
+			cb({}, rep);
+		}
+	}
+}
 
-// window.onload = function() {
-// 	var href = location.href;
-// 	var name = href.substr(href.lastIndexOf('/') + 1);
-// 	if(name === '') {
-// 		name = 'hello';
-// 	}
-// 	if(name === 'hello') {
-// 		store.get('/api')
-// 		.end(function(err, res){
-// 		    var list = JSON.parse(res.text);
-// 		    show('hello', {items: list});
-// 		});
-// 	}else {
-// 		show(name);
-// 	}
-// }
+routerExp(app);
+window.onload = function() {
+	var router = app.router = new MinRouter({routes: routes});
+	router.start();
+}

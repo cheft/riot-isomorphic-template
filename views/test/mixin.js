@@ -1,29 +1,25 @@
+var store = require('../../src/store');
+var c = require('../../src/cheft');
+
 module.exports = {
 	init: function() {
-		var self = this;
+		console.log('init');
 		this.name = '11111';
+		var self = this;
 		this.on('mount', function() {
-			if(typeof window === 'object') {
+			if(c.isClient()) {
 				var a = document.getElementById('app');
-				console.log(a);
-				console.log(888888888);
+				window.tag = this;
 			}
-			console.log(self, 999);
 			console.log('mount');
 		});
 		
-		setTimeout(function() {
-			self.name = '11111222222';
-			console.log(self.name);
+		this.promise = store.get('/');
+		this.promise.then(function(data) {
+			self.items = data;
 			self.update();
-		},  5000);
-
-		this.on('yy', function() {
-			console.log('yy');
-		});
-		this.trigger('yy');
+		})
 	},
-
 
 	tt: function() {
 		console.log(2222);

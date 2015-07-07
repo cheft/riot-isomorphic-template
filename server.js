@@ -1,11 +1,11 @@
 var fs = require('fs');
 var path = require('path');
 var riot = require('riot');
+var sdom = require('riot/lib/server/sdom')
 var express = require('express');
 var app = express();
 var router = express.Router();
 var _router = require('./router');
-
 
 var options = {
     dotfiles: 'ignore',
@@ -24,13 +24,31 @@ require.extensions['.html'] = function(module, filename) {
     module._compile('module.exports = ' + src, filename)
 }
 
+riot.render = function(tagName, opts) {
+    var root = document.createElement(tagName);
+    var tag = riot.mount(root, opts);
+    if(tag && tag[0].promise) {
+        return {tag: tag[0], root: root, dom: function(root) {
+            return sdom.serialize(root);
+        }};
+    }else {
+        return sdom.serialize(root);
+    }
+}
+
 app.engine('html', function (filePath, options, callback) {
     var tmp = filePath.replace(path.sep + 'index.html', '');
     var tagName = tmp.substr(tmp.lastIndexOf(path.sep) + 1);
     try {
         var view = riot.render(tagName, options);
         var index = fs.readFileSync(__dirname + '/public/index.html', 'utf8');
-        callback(null, index.replace('<div id="app"></div>', '<div id="app">' + view + '</div>'));
+        if(view.tag && view.tag.promise) {
+            view.tag.promise.then(function() {
+                callback(null, index.replace('<div id="app"></div>', '<div id="app">' + view.dom(view.root) + '</div>'));
+            })
+        }else {
+            callback(null, index.replace('<div id="app"></div>', '<div id="app">' + view + '</div>'));
+        }
     } catch (e) {
         console.log("App engine error: ", e, " Filepath: ", filePath);
         console.log(e.stack);
@@ -74,3 +92,4 @@ router.get('/api', function(req, rep) {
     ];
     rep.send(list);
 });
+

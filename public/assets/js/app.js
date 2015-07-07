@@ -1,59 +1,60 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var riot = require('riot');
-var store = require('superagent');
-var page = window.page = require('page');
-var mapper = require('page.js-express-mapper.js');
-var router = require('./router');
+var routerExp = require('./router');
+var MinRouter = require('minrouter');
 
-mapper({
-    renderMethod: function(name, model) {
-        var _app = document.getElementById('app');
-        _app.setAttribute('riot-tag', name);
-	    riot.mount(name, model || {});
-    },
-    expressAppName: 'app'
-});
-router(app);
-window.onload = page;
+var app = window.app = {};
+app.render = function(name, model) {
+	var _app = document.getElementById('app');
+	_app.innerHTML = '';
+	_app.setAttribute('riot-tag', name);
+    riot.mount(name, model || {});
+}
 
-// var show = function(name, opts) {
-//     var app = document.getElementById('app');
-//     app.innerHTML = '';
-//     app.appendChild(document.createElement(name));
-//     riot.mount(name, opts || {});
-// }
+var routes = {};
+app.route = function(url) {
+	var rep = {
+		render: function(name, model) {
+			routes[url] = function() {
+				app.render(name, model);
+			}
+		}
+	}
+	return {
+		get: function(cb) {
+			cb({}, rep);
+		}
+	}
+}
 
-// window.onload = function() {
-// 	var href = location.href;
-// 	var name = href.substr(href.lastIndexOf('/') + 1);
-// 	if(name === '') {
-// 		name = 'hello';
-// 	}
-// 	if(name === 'hello') {
-// 		store.get('/api')
-// 		.end(function(err, res){
-// 		    var list = JSON.parse(res.text);
-// 		    show('hello', {items: list});
-// 		});
-// 	}else {
-// 		show(name);
-// 	}
-// }
+routerExp(app);
+window.onload = function() {
+	var router = app.router = new MinRouter({routes: routes});
+	router.start();
+}
 
-},{"./router":14,"page":7,"page.js-express-mapper.js":6,"riot":10,"superagent":11}],2:[function(require,module,exports){
+},{"./router":12,"minrouter":7,"riot":8}],2:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('hello', '<test></test>', function(opts) {
+module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', function(opts) {
+		this.on('mount', function() {
+			this.promise = this.tags.test.promise;
+		});
+	
+});
+},{"riot":8}],3:[function(require,module,exports){
+var riot = require('riot');
+module.exports = riot.tag('menu', '<ul> <li><a href="/" onclick="app.router.hold(event);">HOME</a></li> <li><a href="/todo" onclick="app.router.hold(event);">TODO</a></li> <li><a href="/test" onclick="app.router.hold(event);">Test</a></li> </ul>', function(opts) {
 
 });
-},{"riot":10}],3:[function(require,module,exports){
+},{"riot":8}],4:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('test', '<h2>{name}</h2> <button onclick="{tt}">aaaaaaaaaaa</button> <ul> <li each="{parent.opts.items}"> {position} - {name} </li> </ul>', function(opts) {
+module.exports = riot.tag('test', '<menu></menu> <h2>{name}</h2> <button onclick="{tt}">aaaaaaaaaaa</button> <ul> <li each="{items}"> {position} - {name} </li> </ul>', function(opts) {
 		this.mixin(require('./mixin'));
 	
 });
-},{"./mixin":15,"riot":10}],4:[function(require,module,exports){
+},{"./mixin":16,"riot":8}],5:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('todo', '<h3>{ opts.title }</h3> <ul><li each="{ item, i in items }">{ item }</li></ul> <input name="title"> <button onclick="{add}">Add #{ items.length + 1 }</button>', function(opts) {
+module.exports = riot.tag('todo', '<menu></menu> <h3>{ opts.title }</h3> <ul><li each="{ item, i in items }">{ item }</li></ul> <input name="title"> <button onclick="{add}">Add #{ items.length + 1 }</button>', function(opts) {
         this.items = []
 
         this.add = function(e) {
@@ -63,969 +64,117 @@ module.exports = riot.tag('todo', '<h3>{ opts.title }</h3> <ul><li each="{ item,
     
 });
 
-},{"riot":10}],5:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    draining = true;
-    var currentQueue;
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        var i = -1;
-        while (++i < len) {
-            currentQueue[i]();
-        }
-        len = queue.length;
-    }
-    draining = false;
+},{"riot":8}],6:[function(require,module,exports){
+module.exports = {
+	apiRoot: typeof window === 'object' ? '/api': 'http://localhost:3000/api'
 }
-process.nextTick = function (fun) {
-    queue.push(fun);
-    if (!draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],6:[function(require,module,exports){
-;(function() {
-
-  function pageExpressMapper(params) {
-    var app, res;
-
-    // renderMethod param
-    if (params.renderMethod && typeof params.renderMethod == 'function') {
-
-      res = {
-        render: params.renderMethod, // template, model
-        redirect: function(route) {
-          page.redirect(route);
-        }
-      };
-
-      // overload page.js route prototype
-      page.Route.prototype.middleware = function(fn) {
-        var self = this;
-        return function(ctx, next) {
-          if (self.match(ctx.path, ctx.params)) return fn(ctx, res, next); // new
-          next();
-        };
-      };
-    }
-
-    // customRouter param
-    if (params.customRouter) {
-      app = params.customRouter;
-    }
-    else {
-      app = {
-        route: function(route) {
-          return {
-            get: function(callback) {
-              page(route, callback);
-            },
-            post: function(callback) {
-              page(route, callback);
-            },
-            all: function(callback) {
-              page(route, callback);
-            }
-          }
-        }
-      };
-    }
-
-    // expressAppName param
-    if (params.expressAppName && typeof params.expressAppName == 'string') {
-      window[params.expressAppName] = app;
-    }
-    else {
-      window.app = app;
-    }
-  }
-  
-  // expose pageExpressMapper
-  if ('undefined' == typeof module) {
-    window.pageExpressMapper = pageExpressMapper;
-  }
-  else {
-    module.exports = pageExpressMapper;
-  }
-})();
 },{}],7:[function(require,module,exports){
-(function (process){
-  /* globals require, module */
-
-  'use strict';
-
-  /**
-   * Module dependencies.
-   */
-
-  var pathtoRegexp = require('path-to-regexp');
-
-  /**
-   * Module exports.
-   */
-
-  module.exports = page;
-
-  /**
-   * Detect click event
-   */
-  var clickEvent = ('undefined' !== typeof document) && document.ontouchstart ? 'touchstart' : 'click';
-
-  /**
-   * To work properly with the URL
-   * history.location generated polyfill in https://github.com/devote/HTML5-History-API
-   */
-
-  var location = ('undefined' !== typeof window) && (window.history.location || window.location);
-
-  /**
-   * Perform initial dispatch.
-   */
-
-  var dispatch = true;
-
-
-  /**
-   * Decode URL components (query string, pathname, hash).
-   * Accommodates both regular percent encoding and x-www-form-urlencoded format.
-   */
-  var decodeURLComponents = true;
-
-  /**
-   * Base path.
-   */
-
-  var base = '';
-
-  /**
-   * Running flag.
-   */
-
-  var running;
-
-  /**
-   * HashBang option
-   */
-
-  var hashbang = false;
-
-  /**
-   * Previous context, for capturing
-   * page exit events.
-   */
-
-  var prevContext;
-
-  /**
-   * Register `path` with callback `fn()`,
-   * or route `path`, or redirection,
-   * or `page.start()`.
-   *
-   *   page(fn);
-   *   page('*', fn);
-   *   page('/user/:id', load, user);
-   *   page('/user/' + user.id, { some: 'thing' });
-   *   page('/user/' + user.id);
-   *   page('/from', '/to')
-   *   page();
-   *
-   * @param {String|Function} path
-   * @param {Function} fn...
-   * @api public
-   */
-
-  function page(path, fn) {
-    // <callback>
-    if ('function' === typeof path) {
-      return page('*', path);
-    }
-
-    // route <path> to <callback ...>
-    if ('function' === typeof fn) {
-      var route = new Route(path);
-      for (var i = 1; i < arguments.length; ++i) {
-        page.callbacks.push(route.middleware(arguments[i]));
-      }
-      // show <path> with [state]
-    } else if ('string' === typeof path) {
-      page['string' === typeof fn ? 'redirect' : 'show'](path, fn);
-      // start [options]
-    } else {
-      page.start(path);
-    }
-  }
-
-  /**
-   * Callback functions.
-   */
-
-  page.callbacks = [];
-  page.exits = [];
-
-  /**
-   * Current path being processed
-   * @type {String}
-   */
-  page.current = '';
-
-  /**
-   * Number of pages navigated to.
-   * @type {number}
-   *
-   *     page.len == 0;
-   *     page('/login');
-   *     page.len == 1;
-   */
-
-  page.len = 0;
-
-  /**
-   * Get or set basepath to `path`.
-   *
-   * @param {String} path
-   * @api public
-   */
-
-  page.base = function(path) {
-    if (0 === arguments.length) return base;
-    base = path;
-  };
-
-  /**
-   * Bind with the given `options`.
-   *
-   * Options:
-   *
-   *    - `click` bind to click events [true]
-   *    - `popstate` bind to popstate [true]
-   *    - `dispatch` perform initial dispatch [true]
-   *
-   * @param {Object} options
-   * @api public
-   */
-
-  page.start = function(options) {
-    options = options || {};
-    if (running) return;
-    running = true;
-    if (false === options.dispatch) dispatch = false;
-    if (false === options.decodeURLComponents) decodeURLComponents = false;
-    if (false !== options.popstate) window.addEventListener('popstate', onpopstate, false);
-    if (false !== options.click) {
-      document.addEventListener(clickEvent, onclick, false);
-    }
-    if (true === options.hashbang) hashbang = true;
-    if (!dispatch) return;
-    var url = (hashbang && ~location.hash.indexOf('#!')) ? location.hash.substr(2) + location.search : location.pathname + location.search + location.hash;
-    page.replace(url, null, true, dispatch);
-  };
-
-  /**
-   * Unbind click and popstate event handlers.
-   *
-   * @api public
-   */
-
-  page.stop = function() {
-    if (!running) return;
-    page.current = '';
-    page.len = 0;
-    running = false;
-    document.removeEventListener(clickEvent, onclick, false);
-    window.removeEventListener('popstate', onpopstate, false);
-  };
-
-  /**
-   * Show `path` with optional `state` object.
-   *
-   * @param {String} path
-   * @param {Object} state
-   * @param {Boolean} dispatch
-   * @return {Context}
-   * @api public
-   */
-
-  page.show = function(path, state, dispatch, push) {
-    var ctx = new Context(path, state);
-    page.current = ctx.path;
-    if (false !== dispatch) page.dispatch(ctx);
-    if (false !== ctx.handled && false !== push) ctx.pushState();
-    return ctx;
-  };
-
-  /**
-   * Goes back in the history
-   * Back should always let the current route push state and then go back.
-   *
-   * @param {String} path - fallback path to go back if no more history exists, if undefined defaults to page.base
-   * @param {Object} [state]
-   * @api public
-   */
-
-  page.back = function(path, state) {
-    if (page.len > 0) {
-      // this may need more testing to see if all browsers
-      // wait for the next tick to go back in history
-      history.back();
-      page.len--;
-    } else if (path) {
-      setTimeout(function() {
-        page.show(path, state);
-      });
-    }else{
-      setTimeout(function() {
-        page.show(base, state);
-      });
-    }
-  };
-
-
-  /**
-   * Register route to redirect from one path to other
-   * or just redirect to another route
-   *
-   * @param {String} from - if param 'to' is undefined redirects to 'from'
-   * @param {String} [to]
-   * @api public
-   */
-  page.redirect = function(from, to) {
-    // Define route from a path to another
-    if ('string' === typeof from && 'string' === typeof to) {
-      page(from, function(e) {
-        setTimeout(function() {
-          page.replace(to);
-        }, 0);
-      });
-    }
-
-    // Wait for the push state and replace it with another
-    if ('string' === typeof from && 'undefined' === typeof to) {
-      setTimeout(function() {
-        page.replace(from);
-      }, 0);
-    }
-  };
-
-  /**
-   * Replace `path` with optional `state` object.
-   *
-   * @param {String} path
-   * @param {Object} state
-   * @return {Context}
-   * @api public
-   */
-
-
-  page.replace = function(path, state, init, dispatch) {
-    var ctx = new Context(path, state);
-    page.current = ctx.path;
-    ctx.init = init;
-    ctx.save(); // save before dispatching, which may redirect
-    if (false !== dispatch) page.dispatch(ctx);
-    return ctx;
-  };
-
-  /**
-   * Dispatch the given `ctx`.
-   *
-   * @param {Object} ctx
-   * @api private
-   */
-
-  page.dispatch = function(ctx) {
-    var prev = prevContext,
-      i = 0,
-      j = 0;
-
-    prevContext = ctx;
-
-    function nextExit() {
-      var fn = page.exits[j++];
-      if (!fn) return nextEnter();
-      fn(prev, nextExit);
-    }
-
-    function nextEnter() {
-      var fn = page.callbacks[i++];
-
-      if (ctx.path !== page.current) {
-        ctx.handled = false;
-        return;
-      }
-      if (!fn) return unhandled(ctx);
-      fn(ctx, nextEnter);
-    }
-
-    if (prev) {
-      nextExit();
-    } else {
-      nextEnter();
-    }
-  };
-
-  /**
-   * Unhandled `ctx`. When it's not the initial
-   * popstate then redirect. If you wish to handle
-   * 404s on your own use `page('*', callback)`.
-   *
-   * @param {Context} ctx
-   * @api private
-   */
-
-  function unhandled(ctx) {
-    if (ctx.handled) return;
-    var current;
-
-    if (hashbang) {
-      current = base + location.hash.replace('#!', '');
-    } else {
-      current = location.pathname + location.search;
-    }
-
-    if (current === ctx.canonicalPath) return;
-    page.stop();
-    ctx.handled = false;
-    location.href = ctx.canonicalPath;
-  }
-
-  /**
-   * Register an exit route on `path` with
-   * callback `fn()`, which will be called
-   * on the previous context when a new
-   * page is visited.
-   */
-  page.exit = function(path, fn) {
-    if (typeof path === 'function') {
-      return page.exit('*', path);
-    }
-
-    var route = new Route(path);
-    for (var i = 1; i < arguments.length; ++i) {
-      page.exits.push(route.middleware(arguments[i]));
-    }
-  };
-
-  /**
-   * Remove URL encoding from the given `str`.
-   * Accommodates whitespace in both x-www-form-urlencoded
-   * and regular percent-encoded form.
-   *
-   * @param {str} URL component to decode
-   */
-  function decodeURLEncodedURIComponent(val) {
-    if (typeof val !== 'string') { return val; }
-    return decodeURLComponents ? decodeURIComponent(val.replace(/\+/g, ' ')) : val;
-  }
-
-  /**
-   * Initialize a new "request" `Context`
-   * with the given `path` and optional initial `state`.
-   *
-   * @param {String} path
-   * @param {Object} state
-   * @api public
-   */
-
-  function Context(path, state) {
-    if ('/' === path[0] && 0 !== path.indexOf(base)) path = base + (hashbang ? '#!' : '') + path;
-    var i = path.indexOf('?');
-
-    this.canonicalPath = path;
-    this.path = path.replace(base, '') || '/';
-    if (hashbang) this.path = this.path.replace('#!', '') || '/';
-
-    this.title = document.title;
-    this.state = state || {};
-    this.state.path = path;
-    this.querystring = ~i ? decodeURLEncodedURIComponent(path.slice(i + 1)) : '';
-    this.pathname = decodeURLEncodedURIComponent(~i ? path.slice(0, i) : path);
-    this.params = {};
-
-    // fragment
-    this.hash = '';
-    if (!hashbang) {
-      if (!~this.path.indexOf('#')) return;
-      var parts = this.path.split('#');
-      this.path = parts[0];
-      this.hash = decodeURLEncodedURIComponent(parts[1]) || '';
-      this.querystring = this.querystring.split('#')[0];
-    }
-  }
-
-  /**
-   * Expose `Context`.
-   */
-
-  page.Context = Context;
-
-  /**
-   * Push state.
-   *
-   * @api private
-   */
-
-  Context.prototype.pushState = function() {
-    page.len++;
-    history.pushState(this.state, this.title, hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath);
-  };
-
-  /**
-   * Save the context state.
-   *
-   * @api public
-   */
-
-  Context.prototype.save = function() {
-    history.replaceState(this.state, this.title, hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath);
-  };
-
-  /**
-   * Initialize `Route` with the given HTTP `path`,
-   * and an array of `callbacks` and `options`.
-   *
-   * Options:
-   *
-   *   - `sensitive`    enable case-sensitive routes
-   *   - `strict`       enable strict matching for trailing slashes
-   *
-   * @param {String} path
-   * @param {Object} options.
-   * @api private
-   */
-
-  function Route(path, options) {
-    options = options || {};
-    this.path = (path === '*') ? '(.*)' : path;
-    this.method = 'GET';
-    this.regexp = pathtoRegexp(this.path,
-      this.keys = [],
-      options.sensitive,
-      options.strict);
-  }
-
-  /**
-   * Expose `Route`.
-   */
-
-  page.Route = Route;
-
-  /**
-   * Return route middleware with
-   * the given callback `fn()`.
-   *
-   * @param {Function} fn
-   * @return {Function}
-   * @api public
-   */
-
-  Route.prototype.middleware = function(fn) {
-    var self = this;
-    return function(ctx, next) {
-      if (self.match(ctx.path, ctx.params)) return fn(ctx, next);
-      next();
-    };
-  };
-
-  /**
-   * Check if this route matches `path`, if so
-   * populate `params`.
-   *
-   * @param {String} path
-   * @param {Object} params
-   * @return {Boolean}
-   * @api private
-   */
-
-  Route.prototype.match = function(path, params) {
-    var keys = this.keys,
-      qsIndex = path.indexOf('?'),
-      pathname = ~qsIndex ? path.slice(0, qsIndex) : path,
-      m = this.regexp.exec(decodeURIComponent(pathname));
-
-    if (!m) return false;
-
-    for (var i = 1, len = m.length; i < len; ++i) {
-      var key = keys[i - 1];
-      var val = decodeURLEncodedURIComponent(m[i]);
-      if (val !== undefined || !(hasOwnProperty.call(params, key.name))) {
-        params[key.name] = val;
-      }
-    }
-
-    return true;
-  };
-
-
-  /**
-   * Handle "populate" events.
-   */
-
-  var onpopstate = (function () {
-    var loaded = false;
-    if ('undefined' === typeof window) {
-      return;
-    }
-    if (document.readyState === 'complete') {
-      loaded = true;
-    } else {
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          loaded = true;
-        }, 0);
-      });
-    }
-    return function onpopstate(e) {
-      if (!loaded) return;
-      if (e.state) {
-        var path = e.state.path;
-        page.replace(path, e.state);
-      } else {
-        page.show(location.pathname + location.hash, undefined, undefined, false);
-      }
-    };
-  })();
-  /**
-   * Handle "click" events.
-   */
-
-  function onclick(e) {
-
-    if (1 !== which(e)) return;
-
-    if (e.metaKey || e.ctrlKey || e.shiftKey) return;
-    if (e.defaultPrevented) return;
-
-
-
-    // ensure link
-    var el = e.target;
-    while (el && 'A' !== el.nodeName) el = el.parentNode;
-    if (!el || 'A' !== el.nodeName) return;
-
-
-
-    // Ignore if tag has
-    // 1. "download" attribute
-    // 2. rel="external" attribute
-    if (el.hasAttribute('download') || el.getAttribute('rel') === 'external') return;
-
-    // ensure non-hash for the same path
-    var link = el.getAttribute('href');
-    if (!hashbang && el.pathname === location.pathname && (el.hash || '#' === link)) return;
-
-
-
-    // Check for mailto: in the href
-    if (link && link.indexOf('mailto:') > -1) return;
-
-    // check target
-    if (el.target) return;
-
-    // x-origin
-    if (!sameOrigin(el.href)) return;
-
-
-
-    // rebuild path
-    var path = el.pathname + el.search + (el.hash || '');
-
-    // strip leading "/[drive letter]:" on NW.js on Windows
-    if (typeof process !== 'undefined' && path.match(/^\/[a-zA-Z]:\//)) {
-      path = path.replace(/^\/[a-zA-Z]:\//, '/');
-    }
-
-    // same page
-    var orig = path;
-
-    if (path.indexOf(base) === 0) {
-      path = path.substr(base.length);
-    }
-
-    if (hashbang) path = path.replace('#!', '');
-
-    if (base && orig === path) return;
-
-    e.preventDefault();
-    page.show(orig);
-  }
-
-  /**
-   * Event button.
-   */
-
-  function which(e) {
-    e = e || window.event;
-    return null === e.which ? e.button : e.which;
-  }
-
-  /**
-   * Check if `href` is the same origin.
-   */
-
-  function sameOrigin(href) {
-    var origin = location.protocol + '//' + location.hostname;
-    if (location.port) origin += ':' + location.port;
-    return (href && (0 === href.indexOf(origin)));
-  }
-
-  page.sameOrigin = sameOrigin;
-
-}).call(this,require('_process'))
-},{"_process":5,"path-to-regexp":8}],8:[function(require,module,exports){
-var isArray = require('isarray');
-
-/**
- * Expose `pathToRegexp`.
- */
-module.exports = pathToRegexp;
-
-/**
- * The main path matching regexp utility.
- *
- * @type {RegExp}
- */
-var PATH_REGEXP = new RegExp([
-  // Match escaped characters that would otherwise appear in future matches.
-  // This allows the user to escape special characters that won't transform.
-  '(\\\\.)',
-  // Match Express-style parameters and un-named parameters with a prefix
-  // and optional suffixes. Matches appear as:
-  //
-  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?"]
-  // "/route(\\d+)" => [undefined, undefined, undefined, "\d+", undefined]
-  '([\\/.])?(?:\\:(\\w+)(?:\\(((?:\\\\.|[^)])*)\\))?|\\(((?:\\\\.|[^)])*)\\))([+*?])?',
-  // Match regexp special characters that are always escaped.
-  '([.+*?=^!:${}()[\\]|\\/])'
-].join('|'), 'g');
-
-/**
- * Escape the capturing group by escaping special characters and meaning.
- *
- * @param  {String} group
- * @return {String}
- */
-function escapeGroup (group) {
-  return group.replace(/([=!:$\/()])/g, '\\$1');
-}
-
-/**
- * Attach the keys as a property of the regexp.
- *
- * @param  {RegExp} re
- * @param  {Array}  keys
- * @return {RegExp}
- */
-function attachKeys (re, keys) {
-  re.keys = keys;
-  return re;
-}
-
-/**
- * Get the flags for a regexp from the options.
- *
- * @param  {Object} options
- * @return {String}
- */
-function flags (options) {
-  return options.sensitive ? '' : 'i';
-}
-
-/**
- * Pull out keys from a regexp.
- *
- * @param  {RegExp} path
- * @param  {Array}  keys
- * @return {RegExp}
- */
-function regexpToRegexp (path, keys) {
-  // Use a negative lookahead to match only capturing groups.
-  var groups = path.source.match(/\((?!\?)/g);
-
-  if (groups) {
-    for (var i = 0; i < groups.length; i++) {
-      keys.push({
-        name:      i,
-        delimiter: null,
-        optional:  false,
-        repeat:    false
-      });
-    }
-  }
-
-  return attachKeys(path, keys);
-}
-
-/**
- * Transform an array into a regexp.
- *
- * @param  {Array}  path
- * @param  {Array}  keys
- * @param  {Object} options
- * @return {RegExp}
- */
-function arrayToRegexp (path, keys, options) {
-  var parts = [];
-
-  for (var i = 0; i < path.length; i++) {
-    parts.push(pathToRegexp(path[i], keys, options).source);
-  }
-
-  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options));
-  return attachKeys(regexp, keys);
-}
-
-/**
- * Replace the specific tags with regexp strings.
- *
- * @param  {String} path
- * @param  {Array}  keys
- * @return {String}
- */
-function replacePath (path, keys) {
-  var index = 0;
-
-  function replace (_, escaped, prefix, key, capture, group, suffix, escape) {
-    if (escaped) {
-      return escaped;
-    }
-
-    if (escape) {
-      return '\\' + escape;
-    }
-
-    var repeat   = suffix === '+' || suffix === '*';
-    var optional = suffix === '?' || suffix === '*';
-
-    keys.push({
-      name:      key || index++,
-      delimiter: prefix || '/',
-      optional:  optional,
-      repeat:    repeat
-    });
-
-    prefix = prefix ? ('\\' + prefix) : '';
-    capture = escapeGroup(capture || group || '[^' + (prefix || '\\/') + ']+?');
-
-    if (repeat) {
-      capture = capture + '(?:' + prefix + capture + ')*';
-    }
-
-    if (optional) {
-      return '(?:' + prefix + '(' + capture + '))?';
-    }
-
-    // Basic parameter support.
-    return prefix + '(' + capture + ')';
-  }
-
-  return path.replace(PATH_REGEXP, replace);
-}
-
-/**
- * Normalize the given path string, returning a regular expression.
- *
- * An empty array can be passed in for the keys, which will hold the
- * placeholder key descriptions. For example, using `/user/:id`, `keys` will
- * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
- *
- * @param  {(String|RegExp|Array)} path
- * @param  {Array}                 [keys]
- * @param  {Object}                [options]
- * @return {RegExp}
- */
-function pathToRegexp (path, keys, options) {
-  keys = keys || [];
-
-  if (!isArray(keys)) {
-    options = keys;
-    keys = [];
-  } else if (!options) {
-    options = {};
-  }
-
-  if (path instanceof RegExp) {
-    return regexpToRegexp(path, keys, options);
-  }
-
-  if (isArray(path)) {
-    return arrayToRegexp(path, keys, options);
-  }
-
-  var strict = options.strict;
-  var end = options.end !== false;
-  var route = replacePath(path, keys);
-  var endsWithSlash = path.charAt(path.length - 1) === '/';
-
-  // In non-strict mode we allow a slash at the end of match. If the path to
-  // match already ends with a slash, we remove it for consistency. The slash
-  // is valid at the end of a path match, not in the middle. This is important
-  // in non-ending mode, where "/test/" shouldn't match "/test//route".
-  if (!strict) {
-    route = (endsWithSlash ? route.slice(0, -2) : route) + '(?:\\/(?=$))?';
-  }
-
-  if (end) {
-    route += '$';
-  } else {
-    // In non-ending mode, we need the capturing groups to match as much as
-    // possible by using a positive lookahead to the end or next path segment.
-    route += strict && endsWithSlash ? '' : '(?=\\/|$)';
-  }
-
-  return attachKeys(new RegExp('^' + route, flags(options)), keys);
-}
-
-},{"isarray":9}],9:[function(require,module,exports){
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-},{}],10:[function(require,module,exports){
-/* Riot v2.2.1, @license MIT, (c) 2015 Muut Inc. + contributors */
+;(function() {
+	if(!window) return;
+	var win = window, evt = 'pushState' in history ? 'popstate' : 'hashchange', self = {};
+
+	var regexps = [
+		/[\-{}\[\]+?.,\\\^$|#\s]/g,
+		/\((.*?)\)/g,
+		/(\(\?)?:\w+/g,
+		/\*\w+/g,
+	],
+	getRegExp = function(route) {
+		route = route.replace(regexps[0], '\\$&')
+			.replace(regexps[1], '(?:$1)?')
+			.replace(regexps[2], function(match, optional) {
+				return optional ? match : '([^/?]+)'
+			}).replace(regexps[3], '([^?]*?)');
+		return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
+	},
+	extractParams = function(route, fragment) {
+		var params = route.exec(fragment).slice(1);
+		var results = [], i;
+		for(i = 0; i < params.length; i++) {
+			results.push(decodeURIComponent(params[i]) || null);
+		}
+		return results;
+	};
+
+	function Router(opts, sep) {
+		this.routes = opts.routes;
+		this.opts = opts;
+		this.sep = sep || '';
+		this.exec(location.pathname);
+		self = this;
+	}
+	Router.prototype.exec = function(path) {
+		for(var r in this.routes) {
+		    var route = getRegExp(r);
+		    if (!route.test(path)) {
+		    	continue;
+		    }
+		    if (typeof this.routes[r] === 'function') {
+		    	this.routes[r].apply(this, extractParams(route, path));
+		    } else {
+		    	var fn = this.opts[this.routes[r]];
+		      	fn ? fn.apply(this, extractParams(route, path)) : void 0;
+		    }
+		}
+	};
+	Router.prototype.emmit = function(path) {
+		if('pushState' in history) {
+			path = path.state.path;
+		}else {
+			path = location.href.split('#')[1] || '';
+		}
+		self.exec(path);
+	}
+	Router.prototype.start = function() {
+		win.addEventListener ? win.addEventListener(evt, this.emmit, false) : win.attachEvent('on' + evt, this.emmit)
+	};
+	Router.prototype.stop = function() {
+		win.removeEventListener ? win.removeEventListener(evt, this.emmit, false) : win.detachEvent('on' + evt, this.emmit);
+	};
+	Router.prototype.go = function(path) {
+		if('pushState' in history) {
+			history.pushState({path: path}, document.title, path);
+		}else {
+			if(this.sep !== '/') {
+				location.hash = this.sep + path;
+			}
+		}
+		this.exec(path);
+	};
+	Router.prototype.hold = function(e) {
+		if(!e) return;
+		var path = e.srcElement.pathname;
+		if(!('pushState' in history)) {
+			path = '/' + path;
+		}
+		this.go(path);
+		if(e && e.preventDefault) {
+			e.preventDefault();      
+		}else {
+			if(this.sep !== '/') {
+				e.returnValue = false;              
+		 		return false; 
+			}
+		}
+	};
+	Router.prototype.back = function() {
+		history.back();
+	};
+
+	if(typeof exports === 'object') {
+		module.exports = Router;
+	}else if(typeof define === 'function' && define.amd) {
+		define(function() { return window.MinRouter = Router; })
+	}else {
+		window.MinRouter = Router;
+	}
+})(typeof window != 'undefined' ? window : undefined);
+},{}],8:[function(require,module,exports){
+/* Riot v2.2.2-beta, @license MIT, (c) 2015 Muut Inc. + contributors */
 
 ;(function(window) {
   'use strict'
-  var riot = { version: 'v2.2.1', settings: {} }
+  var riot = { version: 'v2.2.2-beta', settings: {} }
 
   // This globals 'const' helps code size reduction
 
@@ -1442,7 +591,7 @@ var tmpl = (function() {
 // { key, i in items} -> { key, i, items }
 function loopKeys(expr) {
   var b0 = brackets(0),
-      els = expr.slice(b0.length).match(/\s*(\S+?)\s*(?:,\s*(\S)+)?\s+in\s+(.+)/)
+      els = expr.slice(b0.length).match(/^\s*(\S+?)\s*(?:,\s*(\S+))?\s+in\s+(.+)$/)
   return els ? { key: els[1], pos: els[2], val: b0 + els[3] } : { val: expr }
 }
 
@@ -1483,9 +632,8 @@ function _each(dom, parent, expr) {
 
       // object loop. any changes cause full redraw
       if (!isArray(items)) {
-        test = checksum
+
         checksum = items ? JSON.stringify(items) : ''
-        if (checksum === test) return
 
         items = !items ? [] :
           Object.keys(items).map(function (key) {
@@ -1516,9 +664,12 @@ function _each(dom, parent, expr) {
           ).mount()
 
           frag.appendChild(tags[i].root)
+        } else {
+          tags[i].update(_item)
         }
+
         tags[i]._item = _item
-        tags[i].update(_item)
+
       }
 
       root.insertBefore(frag, placeholder)
@@ -1644,6 +795,7 @@ function Tag(impl, conf, innerHTML) {
       fn = impl.fn,
       tagName = root.tagName.toLowerCase(),
       attr = {},
+      propsInSyncWithParent = [],
       loopDom,
       TAG_ATTRIBUTES = /([\w\-]+)\s?=\s?['"]([^'"]+)["']/gim
 
@@ -1698,7 +850,35 @@ function Tag(impl, conf, innerHTML) {
     })
   }
 
+  function normalizeData(data) {
+    for (var key in item) {
+      if (typeof self[key] != 'undefined')
+        self[key] = data[key]
+    }
+  }
+
+  function inheritFromParent () {
+    if (!self.parent || !isLoop) return
+    each(Object.keys(self.parent), function(k) {
+      // some properties must be always in sync with the parent tag
+      var mustSync = ~propsInSyncWithParent.indexOf(k)
+      if (typeof self[k] == 'undefined' || mustSync) {
+        // track the property to keep in sync
+        // so we can keep it updated
+        if (!mustSync) propsInSyncWithParent.push(k)
+        self[k] = self.parent[k]
+      }
+    })
+  }
+
   this.update = function(data) {
+    // inherit properties from the parent
+    inheritFromParent()
+    // normalize the tag properties in case an item object was initially passed
+    if (item && JSON.stringify(item) != JSON.stringify(data)) {
+      normalizeData(data)
+      item = data
+    }
     extend(self, data)
     updateOpts()
     self.trigger('update', data)
@@ -1732,7 +912,7 @@ function Tag(impl, conf, innerHTML) {
     // parse layout after init. fn may calculate args for nested custom tags
     parseExpressions(dom, self, expressions)
 
-    if (!self.parent) self.update()
+    if (!self.parent || isLoop) self.update(item)
 
     // internal use only, fixes #403
     self.trigger('premount')
@@ -1767,21 +947,20 @@ function Tag(impl, conf, innerHTML) {
 
     if (p) {
 
-      if (parent) {
+      if (parent)
         // remove this tag from the parent tags object
         // if there are multiple nested tags with same name..
         // remove this element form the array
-        if (isArray(parent.tags[tagName])) {
+        if (isArray(parent.tags[tagName]))
           each(parent.tags[tagName], function(tag, i) {
             if (tag._id == self._id)
               parent.tags[tagName].splice(i, 1)
           })
-        } else
+        else
           // otherwise just delete the tag instance
           parent.tags[tagName] = undefined
-      } else {
+      else
         while (el.firstChild) el.removeChild(el.firstChild)
-      }
 
       if (!keepRootTag)
         p.removeChild(el)
@@ -1827,11 +1006,10 @@ function setEventHandler(name, handler, dom, tag, item) {
     // cross browser event fix
     e = e || window.event
 
-    if (!e.which) e.which = e.charCode || e.keyCode
-    if (!e.target) e.target = e.srcElement
-
     // ignore error on some browsers
     try {
+      if (!e.which) e.which = e.charCode || e.keyCode
+      if (!e.target) e.target = e.srcElement
       e.currentTarget = dom
     } catch (ignored) { '' }
 
@@ -2077,9 +1255,7 @@ function tbodyInnerHTML(el, html, tagName) {
   div.innerHTML = '<table>' + html + '</table>'
   child = div.firstChild
 
-  while (loops--) {
-    child = child.firstChild
-  }
+  while (loops--) child = child.firstChild
 
   el.appendChild(child)
 
@@ -2098,27 +1274,13 @@ function optionInnerHTML(el, html) {
       eachMatch = html.match(eachRegx),
       ifMatch = html.match(ifRegx)
 
-  if (innerValue) {
-    opt.innerHTML = innerValue[1]
-  } else {
-    opt.innerHTML = html
-  }
+  if (innerValue) opt.innerHTML = innerValue[1]
+  else opt.innerHTML = html
 
-  if (valuesMatch) {
-    opt.value = valuesMatch[1]
-  }
-
-  if (selectedMatch) {
-    opt.setAttribute('riot-selected', selectedMatch[1])
-  }
-
-  if (eachMatch) {
-    opt.setAttribute('each', eachMatch[1])
-  }
-
-  if (ifMatch) {
-    opt.setAttribute('if', ifMatch[1])
-  }
+  if (valuesMatch) opt.value = valuesMatch[1]
+  if (selectedMatch) opt.setAttribute('riot-selected', selectedMatch[1])
+  if (eachMatch) opt.setAttribute('each', eachMatch[1])
+  if (ifMatch) opt.setAttribute('if', ifMatch[1])
 
   el.appendChild(opt)
 }
@@ -2138,9 +1300,7 @@ function optgroupInnerHTML(el, html) {
     innerContent = options
   }
 
-  if (labelMatch) {
-    opt.setAttribute('riot-label', labelMatch[1])
-  }
+  if (labelMatch) opt.setAttribute('riot-label', labelMatch[1])
 
   if (innerContent) {
     var innerOpt = mkEl('div')
@@ -2187,9 +1347,8 @@ function injectStyle(css) {
       if (rs) {
         rs.parentNode.insertBefore(styleNode, rs)
         rs.parentNode.removeChild(rs)
-      } else {
-        document.head.appendChild(styleNode)
-      }
+      } else document.head.appendChild(styleNode)
+
     }
 
   styleNode._rendered = true
@@ -2277,14 +1436,14 @@ riot.mount = function(selector, tagName, opts) {
 
   // crawl the DOM to find the tag
   if (typeof selector === T_STRING) {
-    if (selector === '*') {
+    if (selector === '*')
       // select all the tags registered
       // and also the tags found with the riot-tag attribute set
       selector = allTags = selectAllTags()
-    } else {
+    else
       // or just the ones named like the selector
       selector += addRiotTags(selector.split(','))
-    }
+
     els = $$(selector)
   }
   else
@@ -2296,9 +1455,9 @@ riot.mount = function(selector, tagName, opts) {
     // get all custom tags
     tagName = allTags || selectAllTags()
     // if the root els it's just a single tag
-    if (els.tagName) {
+    if (els.tagName)
       els = $$(tagName, els)
-    } else {
+    else {
       // select all the children for all the different root elements
       var nodeList = []
       each(els, function (_el) {
@@ -2336,13 +1495,13 @@ riot.mountTo = riot.mount
   if (typeof exports === 'object')
     module.exports = riot
   else if (typeof define === 'function' && define.amd)
-    define(function() { return riot })
+    define(function() { return window.riot = riot })
   else
     window.riot = riot
 
 })(typeof window != 'undefined' ? window : undefined);
 
-},{}],11:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -3467,7 +2626,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":12,"reduce":13}],12:[function(require,module,exports){
+},{"emitter":10,"reduce":11}],10:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -3633,7 +2792,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],13:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -3658,55 +2817,317 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],14:[function(require,module,exports){
-var store = require('superagent');
-
+},{}],12:[function(require,module,exports){
 module.exports = function(app) {
-
     app.route('/').get(function(req, rep) {
-        store.get('http://localhost:3000/api')
-        .end(function(err, res) {
-            var list = JSON.parse(res.text);
-            rep.render('hello', {items: list});
-        });
-        
+    	rep.render('hello');
     });
 
     app.route('/todo').get(function(req, rep) {
-        rep.render('todo');
+    	rep.render('todo');
+    });
+
+    app.route('/test').get(function(req, rep) {
+        rep.render('test');
     });
 }
 
-},{"superagent":11}],15:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
+var C, Cheft, toString, types;
+
+C = Cheft = {version: '0.0.1'}, toString = Object.prototype.toString,
+types = ['Function', 'Object', 'String', 'Array', 'Number', 'Boolean', 'Date', 'RegExp', 'Undefined', 'Null'];
+
+fn = function(item) {
+    return C["is" + item] = function(obj) {
+        return toString.call(obj) === ("[object " + item + "]");
+    };
+};
+for (i = 0, len = types.length; i < len; i++) {
+    item = types[i];
+    fn(item);
+}
+
+C.extend = function() {
+    var j, key, len1, mixin, mixins, target, value;
+    target = arguments[0], mixins = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+    if (!target) {
+      return target;
+    }
+    for (j = 0, len1 = mixins.length; j < len1; j++) {
+        mixin = mixins[j];
+        for (key in mixin) {
+            value = mixin[key];
+            target[key] = value;
+        }
+    }
+    return target;
+};
+
+C.isServer = function() {
+    return typeof window !== 'object';
+}
+
+C.isClient = function() {
+    return typeof window === 'object';
+}
+
+module.exports = C;
+},{}],14:[function(require,module,exports){
+var State = {
+    PENDING: 0,
+    FULFILLED: 2,
+    REJECTED: 3
+};
+
+function resolve(promise, x) {
+    if (promise.state === State.FULFILLED || promise.state === State.REJECTED) {
+        return;
+    }
+    if (promise === x) { // 2.3.1
+        promise.done = true;
+        promise.state = State.REJECTED;
+        promise.value = new TypeError("Resolving promise with it self is not allowed");
+        purgeWaiting(promise);
+    } else if (x instanceof Promise) { // 2.3.2
+        x.then(function (value) { // 2.3.2.2
+            resolve(promise, value);
+        }, function (reason) { // 2.3.2.3
+            reject(promise, reason);
+        });
+    } else if (x && (typeof x === "object" || typeof x === "function")) { // 2.3.3
+        var then = null;
+        var called = false;
+        try {
+            then = x.then; // 2.3.3.1
+        } catch (e) { // 2.3.3.2
+            promise.done = true;
+            promise.state = State.REJECTED;
+            promise.value = e;
+            purgeWaiting(promise);
+            return;
+        }
+        if (typeof then === "function") { // 2.3.3.3
+            var called = false;
+            try {
+                then.call(x, function (value) { // 2.3.3.3.1
+                    if (called) return; // 2.2.2.3
+                    resolve(promise, value);
+                    called = true;
+                }, function (reason) { // 2.3.3.3.2
+                    if (called) return; // 2.2.3.3
+                    reject(promise, reason);
+                    called = true;
+                });
+            } catch (e) { // 2.3.3.3.4
+                if (!called) { // 2.3.3.3.4.1 && 2.3.3.3.4.2
+                    promise.done = true;
+                    promise.state = State.REJECTED;
+                    promise.value = e;
+                    purgeWaiting(promise);
+                }
+            }
+        } else { // 2.3.3.4
+            promise.done = true;
+            promise.state = State.FULFILLED;
+            promise.value = x;
+            purgeWaiting(promise);
+        }
+    } else { // 2.3.4
+        promise.done = true;
+        promise.state = State.FULFILLED;
+        promise.value = x;
+        purgeWaiting(promise);
+    }
+}
+
+function reject(promise, reason) {
+    if (promise.state === State.FULFILLED || promise.state === State.REJECTED) {
+        return; // 2.2.2.3
+    }
+    promise.done = true;
+    promise.state = State.REJECTED;
+    if (promise === reason) {
+        promise.value = new TypeError("Promise cannot be reject with self as reason");
+    } else {
+        promise.value = reason;
+    }
+    purgeWaiting(promise);
+}
+
+function purgeWaiting(promise) {
+    var item = null;
+    var a = null;
+    if (promise.done) {
+        a = promise.pending;
+        while (item = a.shift()) {
+            setTimeout(function (p, fn) {
+                if (typeof fn === "function") {
+                    try {
+                        var ret = fn(promise.value);
+                        resolve(p, ret);
+                    } catch (e) {
+                        reject(p, e);
+                    }
+                } else {
+                    if (promise.state === State.FULFILLED) {
+                        resolve(p, promise.value);
+                    } else if (promise.state === State.REJECTED) {
+                        reject(p, promise.value);
+                    }
+                }
+            }, 0, item.p, (promise.state === State.FULFILLED ? item.f : item.r));
+        }
+    }
+}
+
+function Promise(payload) {
+    this.done = false;
+    this.state = State.PENDING;
+    this.value = null;
+    this.pending = [];
+    if (payload instanceof Function) {
+        try  {
+            var ret = payload(Promise.prototype.resolve.bind(this), Promise.prototype.reject.bind(this));
+            if (ret !== undefined) {
+                resolve(this, ret);
+            }
+        } catch (e) {
+            reject(this, e);
+        }
+    } else if (payload !== undefined) {
+        resolve(this, payload);
+    }
+}
+
+Promise.prototype.then = function (onFulfilled, onRejected) {
+    var promise = new Promise();
+
+    var obj = {
+        f: (typeof onFulfilled === "function") ? onFulfilled : null, // 2.2.1.1
+        r: (typeof onRejected === "function") ? onRejected : null, // 2.2.1.2
+        p: promise
+    };
+
+    this.pending.push(obj);
+
+    if (this.done) {
+        purgeWaiting(this);
+    }
+
+    return promise; // 2.2.7
+};
+
+Promise.prototype.catch = function (onRejected) {
+    return this.then(null, onRejected);
+};
+
+Promise.prototype.resolve = function (value) {
+    resolve(this, value);
+};
+
+Promise.prototype.reject = function (value) {
+    reject(this, value);
+};
+
+Promise.cast = function (obj) {
+    if (obj instanceof Promise) {
+        return obj;
+    } else {
+        return new Promise(function (resolve, reject) {
+            resolve(obj);
+        });
+    }
+};
+
+Promise.resolve = function (value) {
+    return new Promise(function (resolve, reject) {
+        resolve(value);
+    });
+};
+
+Promise.reject = function (reason) {
+    return new Promise(function (resolve, reject) {
+        reject(reason);
+    });
+};
+
+Promise.all = function (promises) {
+    return new Promise(function (resolve, reject) {
+        var values = [];
+        var done = 0;
+        for (var i = 0; i < promises.length; ++i) {
+            Promise.cast(promises[i]).then((function (n, value) {
+                values[n] = value;
+                if (++done === promises.length) {
+                    resolve(values);
+                }
+            }).bind(undefined, i), function (reason) {
+                reject(reason);
+            });
+        }
+    });
+};
+
+Promise.race = function (promises) {
+    return new Promise(function (resolve, reject) {
+        for (var i = 0; i < promises.length; ++i) {
+            Promise.cast(promises[i]).then((function (n, value) {
+                resolve(value);
+            }).bind(undefined, i), function (reason) {
+                reject(reason);
+            });
+        }
+    });
+};
+
+module.exports = Promise;
+},{}],15:[function(require,module,exports){
+var request = require('superagent');
+var Promise = require('./promise');
+var config = require('../config');
+
+module.exports = {
+	get: function(url) {
+		var p = new Promise();
+		request.get(config.apiRoot + url)
+		.set('Accept', 'application/json')
+        .end(function(err, res) {
+        	if(err) {
+        		p.reject(err);
+        	}
+			p.resolve(res.body);            
+        });
+        return p;
+	}
+};
+
+},{"../config":6,"./promise":14,"superagent":9}],16:[function(require,module,exports){
+var store = require('../../src/store');
+var c = require('../../src/cheft');
+
 module.exports = {
 	init: function() {
-		var self = this;
+		console.log('init');
 		this.name = '11111';
+		var self = this;
 		this.on('mount', function() {
-			if(typeof window === 'object') {
+			if(c.isClient()) {
 				var a = document.getElementById('app');
-				console.log(a);
-				console.log(888888888);
+				window.tag = this;
 			}
-			console.log(self, 999);
 			console.log('mount');
 		});
 		
-		setTimeout(function() {
-			self.name = '11111222222';
-			console.log(self.name);
+		this.promise = store.get('/');
+		this.promise.then(function(data) {
+			self.items = data;
 			self.update();
-		},  5000);
-
-		this.on('yy', function() {
-			console.log('yy');
-		});
-		this.trigger('yy');
+		})
 	},
-
 
 	tt: function() {
 		console.log(2222);
 	}
 }
-},{}]},{},[1,2,3,4]);
+},{"../../src/cheft":13,"../../src/store":15}]},{},[1,2,3,4,5]);

@@ -1,9 +1,7 @@
 
 <blog-detail>
     <script>
-        this.holdLink = function(e) {
-            app.router.back();
-        };
+        this.mixin(require('./detail.js'));
     </script>
     <div class="demo-blog demo-blog--blogpost mdl-layout mdl-js-layout has-drawer is-upgraded">
         <main class="mdl-layout__content">

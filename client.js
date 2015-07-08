@@ -1,33 +1,13 @@
-var riot = require('riot');
-var routerExp = require('./router');
-var MinRouter = require('minrouter');
+var riot   = require('riot');
+var client = require('cheft/client');
+var config = require('./config');
+var router = require('./app/router');
 
-var app = window.app = {};
+var app = window.app = client(config, router);
 app.render = function(name, model) {
-	var _app = document.getElementById('app');
-	_app.innerHTML = '';
-	_app.setAttribute('riot-tag', name);
+	var appDiv = document.getElementById('app');
+	appDiv.innerHTML = '';
+	appDiv.setAttribute('riot-tag', name);
     riot.mount(name, model || {});
-}
-
-var routes = {};
-app.route = function(url) {
-	var rep = {
-		render: function(name, model) {
-			routes[url] = function() {
-				app.render(name, model);
-			}
-		}
-	}
-	return {
-		get: function(cb) {
-			cb({}, rep);
-		}
-	}
-}
-
-routerExp(app);
-window.onload = function() {
-	var router = app.router = new MinRouter({routes: routes});
-	router.start();
-}
+};
+app.start();

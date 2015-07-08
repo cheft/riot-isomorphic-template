@@ -23,7 +23,7 @@ gulp.task('watch', function() {
     function rebundle() {
         var b = watchify(browserify(options)
         .transform(riotify, {ext: 'html'}));
-        recurse('./views', './', b);
+        recurse('./app', './', b);
         b.on('update', rebundle);
         b.bundle()
             .pipe(source('app.js'))
@@ -52,7 +52,7 @@ var recurse = function(dir, root, b) {
 
 gulp.task('browserify', function() {
     var b = browserify(options).transform(riotify, {ext: 'html', compact: true});
-    recurse('./views', './', b);
+    recurse('./app', './', b);
     b.bundle()
         .pipe(source('app.js'))
         .pipe(buffer())
@@ -62,7 +62,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('lint', function() {
-    gulp.src('views/**/*.js')
+    gulp.src('app/**/*.js')
         .pipe(eslint())
         .pipe(eslint.format());
 });

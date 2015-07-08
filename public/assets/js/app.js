@@ -1,40 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var riot = require('riot');
-var routerExp = require('./router');
-var MinRouter = require('minrouter');
-
-var app = window.app = {};
-app.render = function(name, model) {
-	var _app = document.getElementById('app');
-	_app.innerHTML = '';
-	_app.setAttribute('riot-tag', name);
-    riot.mount(name, model || {});
-}
-
-var routes = {};
-app.route = function(url) {
-	var rep = {
-		render: function(name, model) {
-			routes[url] = function() {
-				app.render(name, model);
-			}
-		}
-	}
-	return {
-		get: function(cb) {
-			cb({}, rep);
-		}
-	}
-}
-
-routerExp(app);
-window.onload = function() {
-	var router = app.router = new MinRouter({routes: routes});
-	router.start();
-}
-
-},{"./router":12,"minrouter":7,"riot":8}],2:[function(require,module,exports){
-var riot = require('riot');
 module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', function(opts) {
 		this.on('mount', function() {
             this.chain = this.tags.test.chain;
@@ -45,26 +10,27 @@ module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', functio
 		});
 	
 });
-},{"riot":8}],3:[function(require,module,exports){
+},{"riot":13}],2:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('menu', '<ul class="menu"> <li each="{links}"><a href="{link}" onclick="{holdLink}">{name}</a></li> </ul>', function(opts) {
         this.links = [
             {name: 'HOME', link: '/'},
             {name: 'TODO', link: '/todo'},
-            {name: 'Test', link: '/test'}
+            {name: 'Test', link: '/test'},
+            {name: 'Tab',  link: '/tab/1122'}
         ];
         this.holdLink = function(e) {
             app.router.hold(e);
         }
     
 });
-},{"riot":8}],4:[function(require,module,exports){
+},{"riot":13}],3:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('test', '<menu></menu> <h2>{name}</h2> <button onclick="{tt}">aaaaaaaaaaa</button> <ul> <li each="{items}"> {position} - {name} </li> </ul>', function(opts) {
 		this.mixin(require('./mixin'));
 	
 });
-},{"./mixin":15,"riot":8}],5:[function(require,module,exports){
+},{"./mixin":7,"riot":13}],4:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('todo', '<menu></menu> <h3>{ opts.title }</h3> <ul><li each="{ item, i in items }">{ item }</li></ul> <input name="title"> <button onclick="{add}">Add #{ items.length + 1 }</button>', function(opts) {
         this.items = []
@@ -76,119 +42,278 @@ module.exports = riot.tag('todo', '<menu></menu> <h3>{ opts.title }</h3> <ul><li
     
 });
 
-},{"riot":8}],6:[function(require,module,exports){
-module.exports = {
-	apiRoot: typeof window === 'object' ? '/api': 'http://localhost:3000/api'
+},{"riot":13}],5:[function(require,module,exports){
+var riot   = require('riot');
+var client = require('cheft/client');
+var config = require('./config');
+var router = require('./app/router');
+
+var app = window.app = client(config, router);
+app.render = function(name, model) {
+	var appDiv = document.getElementById('app');
+	appDiv.innerHTML = '';
+	appDiv.setAttribute('riot-tag', name);
+    riot.mount(name, model || {});
+};
+app.start();
+
+},{"./app/router":6,"./config":8,"cheft/client":10,"riot":13}],6:[function(require,module,exports){
+module.exports = function(router) {
+	router.get('/', function(req, rep) {
+		rep.render('hello');
+	});
+
+	router.get('/todo', function(req, rep) {
+		rep.render('todo');
+	});
+
+	router.get('/test', function(req, rep) {
+	    rep.render('test');
+	});
+
+	router.get('/tab/:id', function(req, rep) {
+		rep.render('test');
+	})
 }
+
 },{}],7:[function(require,module,exports){
-;(function() {
-    if(!window) return;
-    var win = window, supportPushState = 'pushState' in history, evt = supportPushState ? 'popstate' : 'hashchange', self = {};
+module.exports = {
+	init: function() {
+		this.chain = 'data';
+		this.name = '11111';
+		var self = this;
+		this.on('mount', function() {
+			if(app.isServer()) {
+				return;
+			}
+			var a = document.getElementById('app');
+			console.log('mount');
+		});
+		
+		app.rest.get('/test', function(data) {
+			self.items = data;
+			self.update();
+			self.trigger('data');
+		});
+	},
 
-    var regexps = [
-        /[\-{}\[\]+?.,\\\^$|#\s]/g,
-        /\((.*?)\)/g,
-        /(\(\?)?:\w+/g,
-        /\*\w+/g,
-    ],
-    getRegExp = function(route) {
-        route = route.replace(regexps[0], '\\$&')
-            .replace(regexps[1], '(?:$1)?')
-            .replace(regexps[2], function(match, optional) {
-                return optional ? match : '([^/?]+)'
-            }).replace(regexps[3], '([^?]*?)');
-        return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
-    },
-    extractParams = function(route, fragment) {
-        var params = route.exec(fragment).slice(1);
-        var results = [], i;
-        for(i = 0; i < params.length; i++) {
-            results.push(decodeURIComponent(params[i]) || null);
-        }
-        return results;
-    };
-
-    function Router(opts) {
-        this.opts = opts;
-        this.routes = opts.routes;
-        this.sep = opts.sep || '';
-        this.exec(location.pathname);
-        this.holdLinks(opts.links || []);
-        self = this;
-    }
-    Router.prototype.exec = function(path) {
-        for(var r in this.routes) {
-            var route = getRegExp(r);
-            if (!route.test(path)) {
-                continue;
-            }
-            if (typeof this.routes[r] === 'function') {
-                this.routes[r].apply(this, extractParams(route, path));
-            } else {
-                var fn = this.opts[this.routes[r]];
-                fn ? fn.apply(this, extractParams(route, path)) : void 0;
-            }
-        }
-    };
-    Router.prototype.emmit = function(path) {
-        if(supportPushState) {
-            path = path.state.path;
-        }else {
-            path = location.href.split('#')[1] || '';
-        }
-        self.exec(path);
-    }
-    Router.prototype.start = function() {
-        win.addEventListener ? win.addEventListener(evt, this.emmit, false) : win.attachEvent('on' + evt, this.emmit)
-    };
-    Router.prototype.stop = function() {
-        win.removeEventListener ? win.removeEventListener(evt, this.emmit, false) : win.detachEvent('on' + evt, this.emmit);
-    };
-    Router.prototype.go = function(path) {
-        if(supportPushState) {
-            history.pushState({path: path}, document.title, path);
-        }else {
-            if(this.sep !== '/') {
-                location.hash = this.sep + path;
-            }
-        }
-        this.exec(path);
-    };
-    Router.prototype.back = function() {
-        history.back();
-    };
-    Router.prototype.hold = function(e) {
-        if(!e) return;
-        var path = e.srcElement.pathname;
-        if(!supportPushState) {
-            path = '/' + path;
-        }
-        this.go(path);
-        if(e && e.preventDefault) {
-            e.preventDefault();      
-        }else {
-            if(this.sep !== '/') {
-                e.returnValue = false;              
-                return false; 
-            }
-        }
-    };
-    Router.prototype.holdLinks = function(links) {
-        for(var i = 0; i < links.length; i++) {
-            links[i].onclick = function(e) {
-                self.hold(e);
-            }
-        }
-    };
-    if(typeof exports === 'object') {
-        module.exports = Router;
-    }else if(typeof define === 'function' && define.amd) {
-        define(function() { return window.MinRouter = Router; })
-    }else {
-        window.MinRouter = Router;
-    }
-})(typeof window != 'undefined' ? window : undefined);
+	tt: function() {
+		console.log(2222);
+	}
+}
 },{}],8:[function(require,module,exports){
+(function (__dirname){
+module.exports = {
+	apiPrefix: '/api',
+	apiRoot: typeof window === 'object' ? '/api': 'http://localhost:3000/api',
+	dirname: typeof window === 'object' ? '/public' : __dirname,
+}
+}).call(this,"/")
+},{}],9:[function(require,module,exports){
+var C, Cheft, toString, types, slice = [].slice;
+
+C = Cheft = {version: '0.0.1'}, toString = Object.prototype.toString,
+types = ['Function', 'Object', 'String', 'Array', 'Number', 'Boolean', 'Date', 'RegExp', 'Undefined', 'Null'];
+
+fn = function(item) {
+    return C["is" + item] = function(obj) {
+        return toString.call(obj) === ("[object " + item + "]");
+    };
+};
+for (i = 0, len = types.length; i < len; i++) {
+    item = types[i];
+    fn(item);
+}
+
+C.extend = function() {
+    var j, key, len1, mixin, mixins, target, value;
+    target = arguments[0], mixins = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+    if (!target) {
+      return target;
+    }
+    for (j = 0, len1 = mixins.length; j < len1; j++) {
+        mixin = mixins[j];
+        for (key in mixin) {
+            value = mixin[key];
+            target[key] = value;
+        }
+    }
+    return target;
+};
+
+C.isServer = function() {
+    return typeof window !== 'object';
+}
+
+C.isClient = function() {
+    return typeof window === 'object';
+}
+
+module.exports = C;
+},{}],10:[function(require,module,exports){
+var MinRouter = require('minrouter');
+var cheft     = require('cheft');
+var Rest      = require('cheft/rest');
+
+module.exports = function(config, router) {
+	var routes = {};
+	var _app = {
+		rest: Rest(config),
+		get: function(url, cb) {
+			var req = {
+				params: {}
+			};
+			var rep = {
+				render: function(name, model) {
+					routes[url] = function() {
+						app.render(name, model);
+					}
+				}
+			};
+			cb(req, rep);
+		},
+		start: function() {
+			window.onload = function() {
+				router(_app);
+				_app.router = new MinRouter({routes: routes});
+				_app.router.start();
+			}
+		}
+	}
+	_app = cheft.extend(_app, cheft);
+	return _app;
+}
+},{"cheft":9,"cheft/rest":11,"minrouter":12}],11:[function(require,module,exports){
+var request = require('superagent');
+
+module.exports = function(opts) {
+	if(!opts.apiRoot) throw 'must apiRoot';
+	var accept = opts.accept || 'application/json';
+
+	return {
+		get: function(url, cb) {
+			request.get(opts.apiRoot + url)
+			.set('Accept', accept)
+	        .end(function(err, res) {
+	        	cb(res.body, err);
+	        });
+		},
+		post: function() {
+
+		},
+
+		put: function() {
+
+		},
+
+		del: function() {
+
+		}
+	}
+};
+
+},{"superagent":14}],12:[function(require,module,exports){
+;(function() {
+	if(!window) return;
+	var win = window, evt = 'pushState' in history ? 'popstate' : 'hashchange', self = {};
+
+	var regexps = [
+		/[\-{}\[\]+?.,\\\^$|#\s]/g,
+		/\((.*?)\)/g,
+		/(\(\?)?:\w+/g,
+		/\*\w+/g,
+	],
+	getRegExp = function(route) {
+		route = route.replace(regexps[0], '\\$&')
+			.replace(regexps[1], '(?:$1)?')
+			.replace(regexps[2], function(match, optional) {
+				return optional ? match : '([^/?]+)'
+			}).replace(regexps[3], '([^?]*?)');
+		return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
+	},
+	extractParams = function(route, fragment) {
+		var params = route.exec(fragment).slice(1);
+		var results = [], i;
+		for(i = 0; i < params.length; i++) {
+			results.push(decodeURIComponent(params[i]) || null);
+		}
+		return results;
+	};
+
+	function Router(opts, sep) {
+		this.routes = opts.routes;
+		this.opts = opts;
+		this.sep = sep || '';
+		this.exec(location.pathname);
+		self = this;
+	}
+	Router.prototype.exec = function(path) {
+		for(var r in this.routes) {
+		    var route = getRegExp(r);
+		    if (!route.test(path)) {
+		    	continue;
+		    }
+		    if (typeof this.routes[r] === 'function') {
+		    	this.routes[r].apply(this, extractParams(route, path));
+		    } else {
+		    	var fn = this.opts[this.routes[r]];
+		      	fn ? fn.apply(this, extractParams(route, path)) : void 0;
+		    }
+		}
+	};
+	Router.prototype.emmit = function(path) {
+		if('pushState' in history) {
+			path = path.state.path;
+		}else {
+			path = location.href.split('#')[1] || '';
+		}
+		self.exec(path);
+	}
+	Router.prototype.start = function() {
+		win.addEventListener ? win.addEventListener(evt, this.emmit, false) : win.attachEvent('on' + evt, this.emmit)
+	};
+	Router.prototype.stop = function() {
+		win.removeEventListener ? win.removeEventListener(evt, this.emmit, false) : win.detachEvent('on' + evt, this.emmit);
+	};
+	Router.prototype.go = function(path) {
+		if('pushState' in history) {
+			history.pushState({path: path}, document.title, path);
+		}else {
+			if(this.sep !== '/') {
+				location.hash = this.sep + path;
+			}
+		}
+		this.exec(path);
+	};
+	Router.prototype.hold = function(e) {
+		if(!e) return;
+		var path = e.srcElement.pathname;
+		if(!('pushState' in history)) {
+			path = '/' + path;
+		}
+		this.go(path);
+		if(e && e.preventDefault) {
+			e.preventDefault();      
+		}else {
+			if(this.sep !== '/') {
+				e.returnValue = false;              
+		 		return false; 
+			}
+		}
+	};
+	Router.prototype.back = function() {
+		history.back();
+	};
+
+	if(typeof exports === 'object') {
+		module.exports = Router;
+	}else if(typeof define === 'function' && define.amd) {
+		define(function() { return window.MinRouter = Router; })
+	}else {
+		window.MinRouter = Router;
+	}
+})(typeof window != 'undefined' ? window : undefined);
+},{}],13:[function(require,module,exports){
 /* Riot v2.2.2-beta, @license MIT, (c) 2015 Muut Inc. + contributors */
 
 ;(function(window) {
@@ -1520,7 +1645,7 @@ riot.mountTo = riot.mount
 
 })(typeof window != 'undefined' ? window : undefined);
 
-},{}],9:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -2645,7 +2770,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":10,"reduce":11}],10:[function(require,module,exports){
+},{"emitter":15,"reduce":16}],15:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -2811,7 +2936,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -2836,102 +2961,4 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],12:[function(require,module,exports){
-module.exports = function(app) {
-    app.route('/').get(function(req, rep) {
-    	rep.render('hello');
-    });
-
-    app.route('/todo').get(function(req, rep) {
-    	rep.render('todo');
-    });
-
-    app.route('/test').get(function(req, rep) {
-        rep.render('test');
-    });
-}
-
-},{}],13:[function(require,module,exports){
-var C, Cheft, toString, types;
-
-C = Cheft = {version: '0.0.1'}, toString = Object.prototype.toString,
-types = ['Function', 'Object', 'String', 'Array', 'Number', 'Boolean', 'Date', 'RegExp', 'Undefined', 'Null'];
-
-fn = function(item) {
-    return C["is" + item] = function(obj) {
-        return toString.call(obj) === ("[object " + item + "]");
-    };
-};
-for (i = 0, len = types.length; i < len; i++) {
-    item = types[i];
-    fn(item);
-}
-
-C.extend = function() {
-    var j, key, len1, mixin, mixins, target, value;
-    target = arguments[0], mixins = 2 <= arguments.length ? slice.call(arguments, 1) : [];
-    if (!target) {
-      return target;
-    }
-    for (j = 0, len1 = mixins.length; j < len1; j++) {
-        mixin = mixins[j];
-        for (key in mixin) {
-            value = mixin[key];
-            target[key] = value;
-        }
-    }
-    return target;
-};
-
-C.isServer = function() {
-    return typeof window !== 'object';
-}
-
-C.isClient = function() {
-    return typeof window === 'object';
-}
-
-module.exports = C;
-},{}],14:[function(require,module,exports){
-var request = require('superagent');
-var config = require('../config');
-
-module.exports = {
-	get: function(url, cb) {
-		request.get(config.apiRoot + url)
-		.set('Accept', 'application/json')
-        .end(function(err, res) {
-        	cb(res.body, err);
-        });
-	}
-};
-
-},{"../config":6,"superagent":9}],15:[function(require,module,exports){
-var store = require('../../src/store');
-var c = require('../../src/cheft');
-
-module.exports = {
-	init: function() {
-		this.chain = 'data';
-		this.name = '11111';
-		var self = this;
-		this.on('mount', function() {
-			if(c.isClient()) {
-				var a = document.getElementById('app');
-				window.tag = this;
-			}
-			console.log('mount');
-		});
-		
-		store.get('/', function(data) {
-			self.items = data;
-			self.update();
-			self.trigger('data');
-		});
-	},
-
-	tt: function() {
-		console.log(2222);
-	}
-}
-},{"../../src/cheft":13,"../../src/store":14}]},{},[1,2,3,4,5]);
+},{}]},{},[5,1,2,3,4]);

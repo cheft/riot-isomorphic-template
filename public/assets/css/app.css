@@ -1,1 +1,28 @@
 @import url(material.min.css);
+@import url(font.css);
+
+body {
+/*    background-image: url('/assets/img/bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;*/
+    background: #37474F;
+}
+
+/*body::before {
+    background-image: url('/assets/img/head.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    content: '';
+    will-change: transform;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    position: fixed;
+}*/
+
+body .demo-blog {
+	font-family: 'Roboto', 'Helvetica', sans-serif;
+}

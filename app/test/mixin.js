@@ -3,6 +3,7 @@ module.exports = {
 		this.chain = 'data';
 		this.name = '11111';
 		var self = this;
+		
 		this.on('mount', function() {
 			if(app.isServer()) {
 				return;

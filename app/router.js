@@ -11,7 +11,15 @@ module.exports = function(router) {
 	    rep.render('test');
 	});
 
+	router.get('/blog', function(req, rep) {
+		rep.render('blog');
+	});
+
+	router.get('/blog/:id', function(req, rep) {
+		rep.render('blog-detail');
+	});
+
 	router.get('/tab/:id', function(req, rep) {
 		rep.render('test');
-	})
+	});
 }

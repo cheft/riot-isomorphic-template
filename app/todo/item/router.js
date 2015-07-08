@@ -1,5 +1,5 @@
 module.exports = function(router) {
-	router.get('/api', function(req, rep) {
+	router.get('/', function(req, rep) {
 	    var list = [
 	        {name: '刘备', position: '主公'},
 	        {name: '关羽', position: '前将军'},

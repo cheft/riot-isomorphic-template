@@ -4,11 +4,11 @@ module.exports = {
             if (app.isClient()) window.scrollTo(0, 0);
         });
         var self = this;
-        self.chain = 'server:data';
+        self.chain = 'detail.data';
         app.rest.get('/blog/' + app.routerParams[0], function(data) {
             self.blog = data;
             self.update();
-            self.trigger('server:data');
+            app.trigger('detail:data');
         });
     },
     holdLink: function(e) {

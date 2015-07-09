@@ -15,25 +15,21 @@ module.exports = riot.tag('blog', '<div class="demo-blog mdl-layout mdl-js-layou
 
 },{"./blog.js":9,"riot":17}],3:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', function(opts) {
-		this.on('mount', function() {
-            this.chain = this.tags.test.chain;
-            var self = this;
-            this.tags.test.on(self.chain, function() {
-                self.trigger(self.chain);
-            });
-		});
+module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', function(opts) {
 	
 });
 },{"riot":17}],4:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('menu', '<ul class="menu"> <li each="{links}"><a href="{link}" onclick="{holdLink}">{name}</a></li> </ul>', function(opts) {
-        this.links = [
-            {name: 'HOME', link: '/'},
-            {name: 'TODO', link: '/todo'},
-            {name: 'Blog', link: '/blog'},
-            {name: 'Tab',  link: '/tab/1122'}
-        ];
+        var self = this;
+        self.done = 'menu.done';
+        app.rest.get('/menu', function(data) {
+            self.links = data;
+            self.update();
+            
+            self.trigger('menu.done');
+            app.trigger('menu.done');
+        });
         this.holdLink = function(e) {
             app.router.hold(e);
         }
@@ -59,31 +55,35 @@ module.exports = riot.tag('todo', '<menu></menu> <h3>{ opts.title }</h3> <ul><li
 
 },{"riot":17}],7:[function(require,module,exports){
 var riot   = require('riot');
+var cheft  = require('cheft');
 var client = require('cheft/client');
 var config = require('./config');
 var router = require('./app/router');
 
 var app = window.app = client(config, router);
+
 app.render = function(name, model) {
 	var appDiv = document.getElementById('app');
-	appDiv.innerHTML = '';
-	appDiv.setAttribute('riot-tag', name);
+	if(appDiv.getElementsByTagName(name).length === 0) {
+		appDiv.setAttribute('riot-tag', name);
+	}
     riot.mount(name, model || {});
 };
 app.start();
 
-},{"./app/router":10,"./config":12,"cheft/client":14,"riot":17}],8:[function(require,module,exports){
+
+},{"./app/router":10,"./config":12,"cheft":13,"cheft/client":14,"riot":17}],8:[function(require,module,exports){
 module.exports = {
     init: function() {
         this.on('mount', function() {
             if (app.isClient()) window.scrollTo(0, 0);
         });
         var self = this;
-        self.chain = 'server:data';
+        self.chain = 'detail.data';
         app.rest.get('/blog/' + app.routerParams[0], function(data) {
             self.blog = data;
             self.update();
-            self.trigger('server:data');
+            app.trigger('detail:data');
         });
     },
     holdLink: function(e) {
@@ -99,11 +99,11 @@ module.exports = {
 module.exports = {
 	init: function() {
 		var self = this;
-		self.chain = 'server:data';
+		self.done = 'blog:done';
 		app.rest.get('/blog', function(data) {
 			self.blogs = data;
 			self.update();
-			self.trigger('server:data');
+			self.trigger('blog:done');
 		});
 	},
 
@@ -114,35 +114,40 @@ module.exports = {
 },{}],10:[function(require,module,exports){
 module.exports = function(router) {
 	router.get('/', function(req, rep) {
-		rep.render('hello');
+		return rep.render('blog');
 	});
 
 	router.get('/todo', function(req, rep) {
-		rep.render('todo');
+		return rep.render('todo');
+	});
+
+	router.get('/hello', function(req, rep) {
+		return rep.render('hello');
 	});
 
 	router.get('/test', function(req, rep) {
-	    rep.render('test');
+	    return rep.render('test');
 	});
 
 	router.get('/blog', function(req, rep) {
-		rep.render('blog');
+		return rep.render('blog');
 	});
 
 	router.get('/blog/:id', function(req, rep) {
 		app.routerParams = [req.params.id];
-		rep.render('blog-detail');
+		return rep.render('blog-detail');
 	});
 
 	router.get('/tab/:id', function(req, rep) {
-		rep.render('test');
+		return rep.render('test');
 	});
 }
 
 },{}],11:[function(require,module,exports){
 module.exports = {
 	init: function() {
-		this.chain = 'data';
+		this.done = 'test.done';
+
 		this.name = '11111';
 		var self = this;
 		
@@ -157,8 +162,26 @@ module.exports = {
 		app.rest.get('/test', function(data) {
 			self.items = data;
 			self.update();
-			self.trigger('data');
+			self.trigger('temp');
 		});
+
+		app.on('menu.done', function() {
+			// self.trigger('temp');
+			app.rest.get('/test', function(data) {
+				self.items = data;
+				self.update();
+				self.trigger('test.done');
+			});
+		});
+		
+		// this.counter = 2;
+		// this.on('temp', function() {
+		// 	this.counter--;
+		// 	if(this.counter <= 0) {
+		// 		this.counter = 2;
+		// 		self.trigger('test.done');
+		// 	}
+		// });
 	},
 
 	tt: function() {
@@ -174,6 +197,8 @@ module.exports = {
 }
 }).call(this,"/")
 },{}],13:[function(require,module,exports){
+var riot = require('riot');
+
 var C, Cheft, toString, types, slice = [].slice;
 
 C = Cheft = {version: '0.0.1'}, toString = Object.prototype.toString,
@@ -213,8 +238,28 @@ C.isClient = function() {
     return typeof window === 'object';
 }
 
+// C.observable = function(el) {
+//     riot.observable(el);
+//     el.chain = function(events, fn) {
+//         var names = {}, counter = 0;
+//         events.replace(/\S+/g, function(name, pos) {
+//             names[name] = true;
+//             counter++;
+//         });
+//         el.on('all', function(type) {
+//             if(type in names) {
+//                 counter--;
+//             }
+//             if(counter <= 0) {
+//                 el.off(events);
+//                 fn.apply(el);
+//             }
+//         });
+//     }
+// }
+
 module.exports = C;
-},{}],14:[function(require,module,exports){
+},{"riot":17}],14:[function(require,module,exports){
 var MinRouter = require('minrouter');
 var cheft     = require('cheft');
 var Rest      = require('cheft/rest');
@@ -246,6 +291,7 @@ module.exports = function(config, router) {
 		}
 	}
 	_app = cheft.extend(_app, cheft);
+	riot.observable(_app);
 	return _app;
 }
 },{"cheft":13,"cheft/rest":15,"minrouter":16}],15:[function(require,module,exports){
@@ -260,7 +306,7 @@ module.exports = function(opts) {
 			request.get(opts.apiRoot + url)
 			.set('Accept', accept)
 	        .end(function(err, res) {
-	        	cb(res.body, err);
+	        	return cb(res.body, err);
 	        });
 		},
 		post: function() {

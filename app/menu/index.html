@@ -3,12 +3,15 @@
         <li each={links}><a href={link} onclick={holdLink}>{name}</a></li>
     </ul>
     <script>
-        this.links = [
-            {name: 'HOME', link: '/'},
-            {name: 'TODO', link: '/todo'},
-            {name: 'Blog', link: '/blog'},
-            {name: 'Tab',  link: '/tab/1122'}
-        ];
+        var self = this;
+        self.done = 'menu.done';
+        app.rest.get('/menu', function(data) {
+            self.links = data;
+            self.update();
+            
+            self.trigger('menu.done');
+            app.trigger('menu.done');
+        });
         this.holdLink = function(e) {
             app.router.hold(e);
         }

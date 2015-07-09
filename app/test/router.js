@@ -7,6 +7,6 @@ module.exports = function(router) {
 	        {name: '赵云', position: '先锋'},
 	        {name: '诸葛', position: '军师'},
 	    ];
-	    rep.send(list);
+	    return rep.send(list);
 	});
 }

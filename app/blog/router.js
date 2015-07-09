@@ -50,14 +50,14 @@ module.exports = function(router) {
 			row.content = row.content.substr(0, 255);
 			data.push(row);
 		}
-		rep.send(data);
+		return rep.send(data);
 	});
 
 	router.get('/:id', function(req, rep) {
 		var id = req.params.id;
 		for(var i = 0; i < blogs.length; i++) {
 			if(blogs[i].id === id) {
-				rep.send(blogs[i]);
+				return rep.send(blogs[i]);
 			}
 		}
 	});

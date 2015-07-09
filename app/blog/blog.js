@@ -1,11 +1,11 @@
 module.exports = {
 	init: function() {
 		var self = this;
-		self.chain = 'server:data';
+		self.done = 'blog:done';
 		app.rest.get('/blog', function(data) {
 			self.blogs = data;
 			self.update();
-			self.trigger('server:data');
+			self.trigger('blog:done');
 		});
 	},
 

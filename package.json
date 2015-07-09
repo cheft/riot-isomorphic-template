@@ -7,7 +7,7 @@
     "express": "^4.12.4",
     "riot": "^2.2.2-beta",
     "superagent": "^1.2.0",
-    "minrouter": "^0.0.4"
+    "minrouter": "^0.0.6"
   },
   "devDependencies": {
     "browserify": "^9.0.8",

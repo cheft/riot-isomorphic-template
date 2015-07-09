@@ -16,6 +16,7 @@ module.exports = function(router) {
 	});
 
 	router.get('/blog/:id', function(req, rep) {
+		app.routerParams = [req.params.id];
 		rep.render('blog-detail');
 	});
 

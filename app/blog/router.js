@@ -57,7 +57,7 @@ module.exports = function(router) {
 		var id = req.params.id;
 		for(var i = 0; i < blogs.length; i++) {
 			if(blogs[i].id === id) {
-				rep.send(blogs);
+				rep.send(blogs[i]);
 			}
 		}
 	});

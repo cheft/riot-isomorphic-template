@@ -8,8 +8,6 @@
         app.rest.get('/menu', function(data) {
             self.links = data;
             self.update();
-            
-            self.trigger('menu.done');
             app.trigger('menu.done');
         });
         this.holdLink = function(e) {

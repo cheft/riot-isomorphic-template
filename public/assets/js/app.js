@@ -15,7 +15,13 @@ module.exports = riot.tag('blog', '<div class="demo-blog mdl-layout mdl-js-layou
 
 },{"./blog.js":9,"riot":17}],3:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', function(opts) {
+module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', function(opts) {
+
+
+
+
+
+
 	
 });
 },{"riot":17}],4:[function(require,module,exports){
@@ -26,8 +32,6 @@ module.exports = riot.tag('menu', '<ul class="menu"> <li each="{links}"><a href=
         app.rest.get('/menu', function(data) {
             self.links = data;
             self.update();
-            
-            self.trigger('menu.done');
             app.trigger('menu.done');
         });
         this.holdLink = function(e) {
@@ -79,11 +83,11 @@ module.exports = {
             if (app.isClient()) window.scrollTo(0, 0);
         });
         var self = this;
-        self.chain = 'detail.data';
+        self.done = 'detail.done';
         app.rest.get('/blog/' + app.routerParams[0], function(data) {
             self.blog = data;
             self.update();
-            app.trigger('detail:data');
+            app.trigger('detail.done');
         });
     },
     holdLink: function(e) {
@@ -103,7 +107,7 @@ module.exports = {
 		app.rest.get('/blog', function(data) {
 			self.blogs = data;
 			self.update();
-			self.trigger('blog:done');
+			app.trigger('blog:done');
 		});
 	},
 
@@ -146,7 +150,7 @@ module.exports = function(router) {
 },{}],11:[function(require,module,exports){
 module.exports = {
 	init: function() {
-		this.done = 'test.done';
+		this.done = 'menu.done test.done';
 
 		this.name = '11111';
 		var self = this;
@@ -162,26 +166,8 @@ module.exports = {
 		app.rest.get('/test', function(data) {
 			self.items = data;
 			self.update();
-			self.trigger('temp');
+			app.trigger('test.done');
 		});
-
-		app.on('menu.done', function() {
-			// self.trigger('temp');
-			app.rest.get('/test', function(data) {
-				self.items = data;
-				self.update();
-				self.trigger('test.done');
-			});
-		});
-		
-		// this.counter = 2;
-		// this.on('temp', function() {
-		// 	this.counter--;
-		// 	if(this.counter <= 0) {
-		// 		this.counter = 2;
-		// 		self.trigger('test.done');
-		// 	}
-		// });
 	},
 
 	tt: function() {
@@ -238,25 +224,25 @@ C.isClient = function() {
     return typeof window === 'object';
 }
 
-// C.observable = function(el) {
-//     riot.observable(el);
-//     el.chain = function(events, fn) {
-//         var names = {}, counter = 0;
-//         events.replace(/\S+/g, function(name, pos) {
-//             names[name] = true;
-//             counter++;
-//         });
-//         el.on('all', function(type) {
-//             if(type in names) {
-//                 counter--;
-//             }
-//             if(counter <= 0) {
-//                 el.off(events);
-//                 fn.apply(el);
-//             }
-//         });
-//     }
-// }
+C.observable = function(el) {
+    riot.observable(el);
+    el.chain = function(events, fn) {
+        var names = {}, counter = 0;
+        events.replace(/\S+/g, function(name, pos) {
+            names[name] = true;
+            counter++;
+        });
+        el.on('all', function(type) {
+            if(type in names) {
+                counter--;
+            }
+            if(counter <= 0) {
+                el.off('all');
+                fn.apply(el);
+            }
+        });
+    }
+}
 
 module.exports = C;
 },{"riot":17}],14:[function(require,module,exports){
@@ -291,7 +277,7 @@ module.exports = function(config, router) {
 		}
 	}
 	_app = cheft.extend(_app, cheft);
-	riot.observable(_app);
+	cheft.observable(_app);
 	return _app;
 }
 },{"cheft":13,"cheft/rest":15,"minrouter":16}],15:[function(require,module,exports){
@@ -355,7 +341,7 @@ module.exports = function(opts) {
         this.opts = opts;
         this.routes = opts.routes;
         this.sep = opts.sep || '';
-        this.go(location.pathname, true);
+        this.exec(location.pathname);
         this.holdLinks(opts.links || []);
         self = this;
     }
@@ -387,13 +373,9 @@ module.exports = function(opts) {
     Router.prototype.stop = function() {
         win.removeEventListener ? win.removeEventListener(evt, this.emmit, false) : win.detachEvent('on' + evt, this.emmit);
     };
-    Router.prototype.go = function(path, isReplace) {
+    Router.prototype.go = function(path) {
         if(supportPushState) {
-            if(isReplace) {
-                history.replaceState({path: path}, document.title, path);
-            }else {
-                history.pushState({path: path}, document.title, path);
-            }
+            history.pushState({path: path}, document.title, path);
         }else {
             if(this.sep !== '/') {
                 location.hash = this.sep + path;
@@ -404,17 +386,13 @@ module.exports = function(opts) {
     Router.prototype.back = function() {
         history.back();
     };
-    Router.prototype.hold = function(e, href) {
+    Router.prototype.hold = function(e) {
         if(!e) return;
-        var isReplace = false, path = href ? href : e.target.pathname; 
+        var path = e.srcElement.pathname;
         if(!supportPushState) {
             path = '/' + path;
-        }else {
-            if(path === history.state.path) {
-                isReplace = true;
-            }
         }
-        this.go(path, isReplace);
+        this.go(path);
         if(e && e.preventDefault) {
             e.preventDefault();      
         }else {

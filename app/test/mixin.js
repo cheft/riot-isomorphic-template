@@ -1,6 +1,6 @@
 module.exports = {
 	init: function() {
-		this.done = 'test.done';
+		this.done = 'menu.done test.done';
 
 		this.name = '11111';
 		var self = this;
@@ -16,26 +16,8 @@ module.exports = {
 		app.rest.get('/test', function(data) {
 			self.items = data;
 			self.update();
-			self.trigger('temp');
+			app.trigger('test.done');
 		});
-
-		app.on('menu.done', function() {
-			// self.trigger('temp');
-			app.rest.get('/test', function(data) {
-				self.items = data;
-				self.update();
-				self.trigger('test.done');
-			});
-		});
-		
-		// this.counter = 2;
-		// this.on('temp', function() {
-		// 	this.counter--;
-		// 	if(this.counter <= 0) {
-		// 		this.counter = 2;
-		// 		self.trigger('test.done');
-		// 	}
-		// });
 	},
 
 	tt: function() {

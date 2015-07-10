@@ -5,7 +5,7 @@ module.exports = {
 		app.rest.get('/blog', function(data) {
 			self.blogs = data;
 			self.update();
-			self.trigger('blog:done');
+			app.trigger('blog:done');
 		});
 	},
 

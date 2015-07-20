@@ -1,3 +1,4 @@
+// only router.js
 module.exports = function(router) {
 	router.get('/', function(req, rep) {
 	    var list = [

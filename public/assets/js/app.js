@@ -1,65 +1,38 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var riot = require('riot');
-module.exports = 
-riot.tag('blog-detail', '<div class="demo-blog demo-blog--blogpost mdl-layout mdl-js-layout has-drawer is-upgraded"> <main class="mdl-layout__content"> <div class="demo-back"> <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="/blog" onclick="app.router.back();"> <i class="material-icons">arrow_back</i> </a> </div> <div class="demo-blog__posts mdl-grid"> <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col"> <div class="mdl-card__media mdl-color-text--grey-50" riot-style="background-image: url({blog.image})"> <h3>{blog.title}</h3> </div> <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>{blog.timeDiff} ago</span> </div> <div class="section-spacer"></div> <div class="meta__favorites">425 <i class="material-icons">favorite</i></div> <div><i class="material-icons">bookmark</i></div> <div><i class="material-icons">share</i></div> </div> <div class="mdl-color-text--grey-700 mdl-card__supporting-text"> <p> {blog.content} </p> </div> <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments"> <form> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <textarea rows=1 class="mdl-textfield__input" id="comment"></textarea> <label for="comment" class="mdl-textfield__label">Join the discussion</label> </div> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">check</i> </button> </form> <div class="comment mdl-color-text--grey-700"> <header class="comment__header"> <img src="/assets/img/co1.jpg" class="comment__avatar"> <div class="comment__author"> <strong>James Splayd</strong> <span>2 days ago</span> </div> </header> <div class="comment__text"> In in culpa nulla elit esse. Ex cillum enim aliquip sit sit ullamco ex eiusmod fugiat. Cupidatat ad minim officia mollit laborum magna dolor tempor cupidatat mollit. Est velit sit ad aliqua ullamco laborum excepteur dolore proident incididunt in labore elit. </div> <nav class="comment__actions"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_up</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_down</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">share</i> </button> </nav> <div class="comment__answers"> <div class="comment"> <header class="comment__header"> <img src="/assets/img/co2.jpg" class="comment__avatar"> <div class="comment__author"> <strong>John Dufry</strong> <span>2 days ago</span> </div> </header> <div class="comment__text"> Yep, agree! </div> <nav class="comment__actions"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_up</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_down</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">share</i> </button> </nav> </div> </div> </div> </div> </div> <nav class="demo-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col"> <a href="/blog" onclick="{holdLink}" class="demo-nav__button"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900"> <i class="material-icons">arrow_back</i> </button> Newer </a> <div class="section-spacer"></div> <a href="/blog" onclick="{holdLink}" class="demo-nav__button"> Older <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900"> <i class="material-icons">arrow_forward</i> </button> </a> </nav> </div> <footer class="mdl-mini-footer"> <div class="mdl-mini-footer--left-section"> <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button> </div> <div class="mdl-mini-footer--right-section"> <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button> </div> </footer> </main> <div class="mdl-layout__obfuscator"></div> </div>', function(opts) {
-        this.mixin(require('./detail.js'));
+module.exports = riot.tag('blog-detail', '<div class="demo-blog demo-blog--blogpost mdl-layout mdl-js-layout has-drawer is-upgraded"> <main class="mdl-layout__content"> <div class="demo-back"> <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="/blog" onclick="app.router.back();"> <i class="material-icons">arrow_back</i> </a> </div> <div class="demo-blog__posts mdl-grid"> <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col"> <div class="mdl-card__media mdl-color-text--grey-50" riot-style="background-image: url({blog.image})"> <h3>{blog.title}</h3> </div> <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>{blog.timeDiff} ago</span> </div> <div class="section-spacer"></div> <div class="meta__favorites">425 <i class="material-icons">favorite</i></div> <div><i class="material-icons">bookmark</i></div> <div><i class="material-icons">share</i></div> </div> <div class="mdl-color-text--grey-700 mdl-card__supporting-text"> <p> {blog.content} </p> </div> <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments"> <form> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <textarea rows=1 class="mdl-textfield__input" id="comment"></textarea> <label for="comment" class="mdl-textfield__label">Join the discussion</label> </div> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">check</i> </button> </form> <div class="comment mdl-color-text--grey-700"> <header class="comment__header"> <img src="/assets/img/co1.jpg" class="comment__avatar"> <div class="comment__author"> <strong>James Splayd</strong> <span>2 days ago</span> </div> </header> <div class="comment__text"> In in culpa nulla elit esse. Ex cillum enim aliquip sit sit ullamco ex eiusmod fugiat. Cupidatat ad minim officia mollit laborum magna dolor tempor cupidatat mollit. Est velit sit ad aliqua ullamco laborum excepteur dolore proident incididunt in labore elit. </div> <nav class="comment__actions"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_up</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_down</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">share</i> </button> </nav> <div class="comment__answers"> <div class="comment"> <header class="comment__header"> <img src="/assets/img/co2.jpg" class="comment__avatar"> <div class="comment__author"> <strong>John Dufry</strong> <span>2 days ago</span> </div> </header> <div class="comment__text"> Yep, agree! </div> <nav class="comment__actions"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_up</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_down</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">share</i> </button> </nav> </div> </div> </div> </div> </div> <nav class="demo-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col"> <a href="/blog" onclick="{holdLink}" class="demo-nav__button"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900"> <i class="material-icons">arrow_back</i> </button> Newer </a> <div class="section-spacer"></div> <a href="/blog" onclick="{holdLink}" class="demo-nav__button"> Older <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900"> <i class="material-icons">arrow_forward</i> </button> </a> </nav> </div> <footer class="mdl-mini-footer"> <div class="mdl-mini-footer--left-section"> <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button> </div> <div class="mdl-mini-footer--right-section"> <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button> </div> </footer> </main> <div class="mdl-layout__obfuscator"></div> </div>', function(opts) {
+        app.mixin(this, require('./detail'));
     
 });
 
-},{"./detail.js":8,"riot":17}],2:[function(require,module,exports){
+},{"./detail":7,"riot":18}],2:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('blog', '<div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded"> <main class="mdl-layout__content"> <div class="demo-blog__posts mdl-grid"> <div class="mdl-card coffee-pic mdl-cell mdl-cell--8-col"> <div class="mdl-card__media mdl-color-text--grey-50"> <h3><a href="/blog/123456">Coffee Pic</a></h3> </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>2 days ago</span> </div> </div> </div> <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop"> <button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent"><i class="material-icons mdl-color-text--white">add</i></button> <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600"> <img src="/assets/img/logo.png"> +1,337 </div> <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600"> <div> <strong>The Newist</strong> </div> <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn"> <button class="mdl-menu__item mdl-js-ripple-effect">About</button> <button class="mdl-menu__item mdl-js-ripple-effect">Message</button> <button class="mdl-menu__item mdl-js-ripple-effect">Favorite</button> <button class="mdl-menu__item mdl-js-ripple-effect">Search</button> </ul> <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">more_vert</i> </button> </div> </div> <div class="mdl-card on-the-road-again mdl-cell mdl-cell--12-col" each="{blogs}"> <div class="mdl-card__media mdl-color-text--grey-50" riot-style="background-image: url({image})"> <h3><a href="/blog/{id}" onclick="{holdLink}">{title}</a></h3> </div> <div class="mdl-color-text--grey-600 mdl-card__supporting-text"> {content} </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>{timeDiff} ago</span> </div> </div> </div> <nav class="demo-nav mdl-cell mdl-cell--12-col"> <div class="section-spacer"></div> <a href="/blog/123456" onclick="{holdLink}" class="demo-nav__button"> More <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">arrow_forward</i> </button> </a> </nav> </div> <footer class="mdl-mini-footer"> <div class="mdl-mini-footer--left-section"> <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button> </div> <div class="mdl-mini-footer--right-section"> <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button> </div> </footer> </main> <div class="mdl-layout__obfuscator"></div> </div>', function(opts) {
-        this.mixin(require('./blog.js'));
+        app.mixin(this, require('./blog'));
     
 });
 
-},{"./blog.js":9,"riot":17}],3:[function(require,module,exports){
-var riot = require('riot');
-module.exports = riot.tag('hello', '<test></test> <h1>Hello World</h1>', function(opts) {
-
-
-
-
-
-
-	
-});
-},{"riot":17}],4:[function(require,module,exports){
+},{"./blog":8,"riot":18}],3:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('menu', '<ul class="menu"> <li each="{links}"><a href="{link}" onclick="{holdLink}">{name}</a></li> </ul>', function(opts) {
-        var self = this;
-        self.done = 'menu.done';
-        app.rest.get('/menu', function(data) {
-            self.links = data;
-            self.update();
-            app.trigger('menu.done');
-        });
-        this.holdLink = function(e) {
-            app.router.hold(e);
-        }
+        app.mixin(this, require('./menu'));
     
 });
-},{"riot":17}],5:[function(require,module,exports){
+},{"./menu":9,"riot":18}],4:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('test', '<menu></menu> <h2>{name}</h2> <button onclick="{tt}">aaaaaaaaaaa</button> <ul> <li each="{items}"> {position} - {name} </li> </ul>', function(opts) {
-		this.mixin(require('./mixin'));
+module.exports = riot.tag('test', '<menu></menu> <h2>{name}</h2> <button onclick="{tt}">clickMe</button> <ul> <li each="{items}"> {position} - {name} </li> </ul>', function(opts) {
+		app.mixin(this, require('./mixin'));
 	
 });
-},{"./mixin":11,"riot":17}],6:[function(require,module,exports){
+},{"./mixin":11,"riot":18}],5:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('todo', '<menu></menu> <h3>{ opts.title }</h3> <ul><li each="{ item, i in items }">{ item }</li></ul> <input name="title"> <button onclick="{add}">Add #{ items.length + 1 }</button>', function(opts) {
-        this.items = []
-
-        this.add = function(e) {
-            this.items.push(this.title.value)
-            this.title.value = ''
-        }.bind(this);
+module.exports = riot.tag('todo', '<menu></menu> <h3>{ title }</h3> <ul><li each="{ item, i in items }">{ item }</li></ul> <input name="todo"> <button onclick="{add}">Add #{ items.length + 1 }</button>', function(opts) {
+        app.mixin(this, require('./todo'));
     
 });
 
-},{"riot":17}],7:[function(require,module,exports){
+},{"./todo":12,"riot":18}],6:[function(require,module,exports){
 var riot   = require('riot');
-var cheft  = require('cheft');
 var client = require('cheft/client');
 var config = require('./config');
 var router = require('./app/router');
@@ -71,48 +44,79 @@ app.render = function(name, model) {
 	if(appDiv.getElementsByTagName(name).length === 0) {
 		appDiv.setAttribute('riot-tag', name);
 	}
-    riot.mount(name, model || {});
+    riot.mount(name, model);
 };
+
 app.start();
 
-
-},{"./app/router":10,"./config":12,"cheft":13,"cheft/client":14,"riot":17}],8:[function(require,module,exports){
+},{"./app/router":10,"./config":13,"cheft/client":15,"riot":18}],7:[function(require,module,exports){
 module.exports = {
-    init: function() {
-        this.on('mount', function() {
-            if (app.isClient()) window.scrollTo(0, 0);
-        });
-        var self = this;
-        self.done = 'detail.done';
-        app.rest.get('/blog/' + app.routerParams[0], function(data) {
-            self.blog = data;
-            self.update();
-            app.trigger('detail.done');
-        });
-    },
-    holdLink: function(e) {
-        var href;
-        if (e.target.localName === 'i') {
-            href = e.target.parentElement.pathname;
+    on: {
+        init: function() {
+            var self = this;
+            self.done = 'detail.done';
+
+            app.rest.get('/blog/' + self.opts.params[0], function(data) {
+                self.blog = data;
+                self.update();
+                app.trigger('detail.done');
+            });
+        },
+
+        mount: function() {
+            console.log(window);
+            window.scrollTo(0, 0);
         }
-        app.router.hold(e, href);
+    },
+    do: {
+        holdLink: function(e) {
+            var href;
+            if (e.target.localName === 'i') {
+                href = e.target.parentElement.pathname;
+            }
+            app.router.hold(e, href);
+        }
     }
 }
 
+},{}],8:[function(require,module,exports){
+module.exports = {
+	on: {
+		init: function() {
+			var self = this;
+			self.done = 'blog.done';
+			
+			app.rest.get('/blog', function(data) {
+				self.blogs = data;
+				self.update();
+				app.trigger('blog.done');
+			});
+		}
+	},
+	do: {
+		holdLink: function(e) {
+			app.router.hold(e);
+		}
+	}
+}
 },{}],9:[function(require,module,exports){
 module.exports = {
-	init: function() {
-		var self = this;
-		self.done = 'blog:done';
-		app.rest.get('/blog', function(data) {
-			self.blogs = data;
-			self.update();
-			app.trigger('blog:done');
-		});
+	on: {
+		init: function() {
+			var self = this;
+		    self.done = 'menu.done';
+		    self.parent.done = self.parent.done ? self.parent.done + ' menu.done' : 'menu.done';
+		    app.rest.get('/menu', function(data) {
+		        self.links = data;
+		        self.update();
+		        app.trigger('menu.done');
+		    });
+		}
 	},
-
-	holdLink: function(e) {
-		app.router.hold(e);
+	do: {
+	    holdLink: function(e) {
+	        app.router.hold(e);
+	    }
 	}
 }
 },{}],10:[function(require,module,exports){
@@ -121,68 +125,77 @@ module.exports = function(router) {
 		return rep.render('blog');
 	});
 
-	router.get('/todo', function(req, rep) {
-		return rep.render('todo');
+	router.get('/blog', function(req, rep) {
+		return rep.render('blog');
 	});
 
-	router.get('/hello', function(req, rep) {
-		return rep.render('hello');
+	router.get('/blog/:id', function(req, rep) {
+		return rep.render('blog-detail', {params: [req.params.id]});
+	});
+
+	router.get('/todo', function(req, rep) {
+		return rep.render('todo');
 	});
 
 	router.get('/test', function(req, rep) {
 	    return rep.render('test');
 	});
 
-	router.get('/blog', function(req, rep) {
-		return rep.render('blog');
-	});
-
-	router.get('/blog/:id', function(req, rep) {
-		app.routerParams = [req.params.id];
-		return rep.render('blog-detail');
-	});
-
-	router.get('/tab/:id', function(req, rep) {
-		return rep.render('test');
+	router.get('/tab/:id/:name', function(req, rep) {
+		return rep.render('test', {params: [req.params.id, req.params.name]});
 	});
 }
 
 },{}],11:[function(require,module,exports){
 module.exports = {
-	init: function() {
-		this.done = 'menu.done test.done';
-
-		this.name = '11111';
-		var self = this;
-		
-		this.on('mount', function() {
-			if(app.isServer()) {
-				return;
-			}
+	on: {
+		init: function() {
+			var self = this;
+			self.done = 'test.done';
+			console.log('router params:', self.opts.params);
+			self.name = 'my name';
+						
+			app.rest.get('/test', function(data) {
+				self.items = data;
+				self.update();
+				app.trigger('test.done');
+			});
+		},
+		mount: function() {
 			var a = document.getElementById('app');
-			console.log('mount');
-		});
-		
-		app.rest.get('/test', function(data) {
-			self.items = data;
-			self.update();
-			app.trigger('test.done');
-		});
+			console.log(a);
+		}
 	},
-
-	tt: function() {
-		console.log(2222);
+	do: {
+		tt: function() {
+			console.log(2222);
+		}
 	}
 }
 },{}],12:[function(require,module,exports){
+module.exports = {
+	on: {
+		init: function() {
+			this.title = 'TODO';
+			this.items = [];     
+		}
+	},
+	do: {
+		add: function(e) {
+            this.items.push(this.todo.value)
+            this.todo.value = ''
+        }
+	}
+}
+},{}],13:[function(require,module,exports){
 (function (__dirname){
 module.exports = {
 	apiPrefix: '/api',
-	apiRoot: typeof window === 'object' ? '/api': 'http://localhost:3000/api',
-	dirname: typeof window === 'object' ? '/public' : __dirname,
+	apiRoot  : 'http://localhost:3000/api',
+	dirname  : typeof window === 'object' ? '/public' : __dirname,
 }
 }).call(this,"/")
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 var riot = require('riot');
 
 var C, Cheft, toString, types, slice = [].slice;
@@ -245,7 +258,7 @@ C.observable = function(el) {
 }
 
 module.exports = C;
-},{"riot":17}],14:[function(require,module,exports){
+},{"riot":18}],15:[function(require,module,exports){
 var MinRouter = require('minrouter');
 var cheft     = require('cheft');
 var Rest      = require('cheft/rest');
@@ -255,13 +268,14 @@ module.exports = function(config, router) {
 	var _app = {
 		rest: Rest(config),
 		get: function(url, cb) {
-			var req = {
-				params: {}
-			};
+			var req = {params: {}};
 			var rep = {
 				render: function(name, model) {
 					routes[url] = function() {
-						if(arguments) _app.routerParams = arguments;
+						model = model || {};
+						if(arguments) {
+							model.params = [].slice.apply(arguments);
+						}
 						_app.render(name, model);
 					}
 				}
@@ -278,9 +292,27 @@ module.exports = function(config, router) {
 	}
 	_app = cheft.extend(_app, cheft);
 	cheft.observable(_app);
+
+	_app.mixin = function(tag, obj) {
+	    var fn, init, item;
+	    init = function() {};
+	    if (obj.on) {
+	    	init = obj.on.init || function() {};
+			fn = function(item) {
+				return tag.on(item, obj.on[item]);
+			};
+			for (item in obj.on) {
+				fn(item);
+			}
+	    }
+	    obj.do = obj.do || {};
+	    obj.do.init = init;
+	    tag.mixin(obj.do);
+	};
+
 	return _app;
 }
-},{"cheft":13,"cheft/rest":15,"minrouter":16}],15:[function(require,module,exports){
+},{"cheft":14,"cheft/rest":16,"minrouter":17}],16:[function(require,module,exports){
 var request = require('superagent');
 
 module.exports = function(opts) {
@@ -309,7 +341,7 @@ module.exports = function(opts) {
 	}
 };
 
-},{"superagent":18}],16:[function(require,module,exports){
+},{"superagent":19}],17:[function(require,module,exports){
 ;(function() {
     if(!window) return;
     var win = window, supportPushState = 'pushState' in history, evt = supportPushState ? 'popstate' : 'hashchange', self = {};
@@ -341,7 +373,7 @@ module.exports = function(opts) {
         this.opts = opts;
         this.routes = opts.routes;
         this.sep = opts.sep || '';
-        this.exec(location.pathname);
+        this.go(location.pathname, true);
         this.holdLinks(opts.links || []);
         self = this;
     }
@@ -373,9 +405,13 @@ module.exports = function(opts) {
     Router.prototype.stop = function() {
         win.removeEventListener ? win.removeEventListener(evt, this.emmit, false) : win.detachEvent('on' + evt, this.emmit);
     };
-    Router.prototype.go = function(path) {
+    Router.prototype.go = function(path, isReplace) {
         if(supportPushState) {
-            history.pushState({path: path}, document.title, path);
+            if(isReplace) {
+                history.replaceState({path: path}, document.title, path);
+            }else {
+                history.pushState({path: path}, document.title, path);
+            }
         }else {
             if(this.sep !== '/') {
                 location.hash = this.sep + path;
@@ -386,13 +422,17 @@ module.exports = function(opts) {
     Router.prototype.back = function() {
         history.back();
     };
-    Router.prototype.hold = function(e) {
+    Router.prototype.hold = function(e, href) {
         if(!e) return;
-        var path = e.srcElement.pathname;
+        var isReplace = false, path = href ? href : e.target.pathname; 
         if(!supportPushState) {
             path = '/' + path;
+        }else {
+            if(path === history.state.path) {
+                isReplace = true;
+            }
         }
-        this.go(path);
+        this.go(path, isReplace);
         if(e && e.preventDefault) {
             e.preventDefault();      
         }else {
@@ -417,20 +457,22 @@ module.exports = function(opts) {
         window.MinRouter = Router;
     }
 })(typeof window != 'undefined' ? window : undefined);
-},{}],17:[function(require,module,exports){
-/* Riot v2.2.2-beta, @license MIT, (c) 2015 Muut Inc. + contributors */
+},{}],18:[function(require,module,exports){
+/* Riot v2.2.2, @license MIT, (c) 2015 Muut Inc. + contributors */
 
-;(function(window) {
+;(function(window, undefined) {
   'use strict'
-  var riot = { version: 'v2.2.2-beta', settings: {} }
+  var riot = { version: 'v2.2.2', settings: {} }
 
   // This globals 'const' helps code size reduction
 
   // for typeof == '' comparisons
-  var T_STRING = 'string'
-  var T_OBJECT = 'object'
+  var T_STRING = 'string',
+      T_OBJECT = 'object',
+      T_UNDEF  = 'undefined'
 
   // for IE8 and rest of the world
+  /* istanbul ignore next */
   var isArray = Array.isArray || (function () {
     var _ts = Object.prototype.toString
     return function (v) { return _ts.call(v) === '[object Array]' }
@@ -438,8 +480,8 @@ module.exports = function(opts) {
 
   // Version# for IE 8-11, 0 for others
   var ieVersion = (function (win) {
-    return (win && win.document || {}).documentMode | 0
-  })(window)
+    return (window && window.document || {}).documentMode | 0
+  })()
 
 riot.observable = function(el) {
 
@@ -450,7 +492,7 @@ riot.observable = function(el) {
 
   el.on = function(events, fn) {
     if (isFunction(fn)) {
-      fn._id = typeof fn._id == 'undefined' ? _id++ : fn._id
+      if (typeof fn.id === T_UNDEF) fn._id = _id++
 
       events.replace(/\S+/g, function(name, pos) {
         (callbacks[name] = callbacks[name] || []).push(fn)
@@ -467,7 +509,7 @@ riot.observable = function(el) {
         if (fn) {
           var arr = callbacks[name]
           for (var i = 0, cb; (cb = arr && arr[i]); ++i) {
-            if (cb._id == fn._id) { arr.splice(i, 1); i-- }
+            if (cb._id == fn._id) arr.splice(i--, 1)
           }
         } else {
           callbacks[name] = []
@@ -519,14 +561,13 @@ riot.mixin = (function() {
 
 })()
 
-;(function(riot, evt, window) {
+;(function(riot, evt, win) {
 
   // browsers only
-  if (!window) return
+  if (!win) return
 
-  var loc = window.location,
+  var loc = win.location,
       fns = riot.observable(),
-      win = window,
       started = false,
       current
 
@@ -856,7 +897,12 @@ function _each(dom, parent, expr) {
 
   remAttr(dom, 'each')
 
-  var template = dom.outerHTML,
+  var tagName = getTagName(dom),
+      template = dom.outerHTML,
+      hasImpl = !!tagImpl[tagName],
+      impl = tagImpl[tagName] || {
+        tmpl: template
+      },
       root = dom.parentNode,
       placeholder = document.createComment('riot placeholder'),
       tags = [],
@@ -875,8 +921,7 @@ function _each(dom, parent, expr) {
       dom.parentNode.removeChild(dom)
     })
     .on('update', function () {
-      var items = tmpl(expr.val, parent),
-          test
+      var items = tmpl(expr.val, parent)
 
       // object loop. any changes cause full redraw
       if (!isArray(items)) {
@@ -894,27 +939,28 @@ function _each(dom, parent, expr) {
           j = items.length
 
       // unmount leftover items
-      while (i > j) tags[--i].unmount()
-      tags.length = j
+      while (i > j) {
+        tags[--i].unmount()
+        tags.splice(i, 1)
+      }
 
-      test = !checksum && !!expr.key
       for (i = 0; i < j; ++i) {
-        var _item = test ? mkitem(expr, items[i], i) : items[i]
+        var _item = !checksum && !!expr.key ? mkitem(expr, items[i], i) : items[i]
 
         if (!tags[i]) {
           // mount new
-          (tags[i] = new Tag({ tmpl: template }, {
+          (tags[i] = new Tag(impl, {
               parent: parent,
               isLoop: true,
-              root: root,
+              hasImpl: hasImpl,
+              root: hasImpl ? dom.cloneNode() : root,
               item: _item
-            })
+            }, dom.innerHTML)
           ).mount()
 
           frag.appendChild(tags[i].root)
-        } else {
+        } else
           tags[i].update(_item)
-        }
 
         tags[i]._item = _item
 
@@ -922,7 +968,7 @@ function _each(dom, parent, expr) {
 
       root.insertBefore(frag, placeholder)
 
-      if (child) parent.tags[getTagName(dom)] = tags
+      if (child) parent.tags[tagName] = tags
 
     }).one('updated', function() {
       var keys = Object.keys(parent)// only set new values
@@ -943,7 +989,7 @@ function parseNamedElements(root, parent, childTags) {
 
   walk(root, function(dom) {
     if (dom.nodeType == 1) {
-      dom.isLoop = (dom.parentNode && dom.parentNode.isLoop || dom.getAttribute('each')) ? 1 : 0
+      dom.isLoop = dom.isLoop || (dom.parentNode && dom.parentNode.isLoop || dom.getAttribute('each')) ? 1 : 0
 
       // custom child tag
       var child = getTag(dom)
@@ -1036,7 +1082,8 @@ function Tag(impl, conf, innerHTML) {
       dom = mkdom(impl.tmpl),
       parent = conf.parent,
       isLoop = conf.isLoop,
-      item = conf.item,
+      hasImpl = conf.hasImpl,
+      item = cleanUpData(conf.item),
       expressions = [],
       childTags = [],
       root = conf.root,
@@ -1054,6 +1101,7 @@ function Tag(impl, conf, innerHTML) {
 
   // not yet mounted
   this.isMounted = false
+  root.isLoop = isLoop
 
   if (impl.attrs) {
     var attrs = impl.attrs.match(TAG_ATTRIBUTES)
@@ -1088,19 +1136,20 @@ function Tag(impl, conf, innerHTML) {
 
   // options
   function updateOpts() {
+    var ctx = hasImpl && isLoop ? self : parent || self
     // update opts from current DOM attributes
     each(root.attributes, function(el) {
-      opts[el.name] = tmpl(el.value, parent || self)
+      opts[el.name] = tmpl(el.value, ctx)
     })
     // recover those with expressions
     each(Object.keys(attr), function(name) {
-      opts[name] = tmpl(attr[name], parent || self)
+      opts[name] = tmpl(attr[name], ctx)
     })
   }
 
   function normalizeData(data) {
     for (var key in item) {
-      if (typeof self[key] != 'undefined')
+      if (typeof self[key] !== T_UNDEF)
         self[key] = data[key]
     }
   }
@@ -1110,7 +1159,7 @@ function Tag(impl, conf, innerHTML) {
     each(Object.keys(self.parent), function(k) {
       // some properties must be always in sync with the parent tag
       var mustSync = ~propsInSyncWithParent.indexOf(k)
-      if (typeof self[k] == 'undefined' || mustSync) {
+      if (typeof self[k] === T_UNDEF || mustSync) {
         // track the property to keep in sync
         // so we can keep it updated
         if (!mustSync) propsInSyncWithParent.push(k)
@@ -1120,27 +1169,30 @@ function Tag(impl, conf, innerHTML) {
   }
 
   this.update = function(data) {
+    // make sure the data passed will not override
+    // the component core methods
+    data = cleanUpData(data)
     // inherit properties from the parent
     inheritFromParent()
     // normalize the tag properties in case an item object was initially passed
-    if (item && JSON.stringify(item) != JSON.stringify(data)) {
+    if (typeof item === T_OBJECT || isArray(item)) {
       normalizeData(data)
       item = data
     }
     extend(self, data)
     updateOpts()
     self.trigger('update', data)
-    update(expressions, self, data)
+    update(expressions, self)
     self.trigger('updated')
   }
 
   this.mixin = function() {
     each(arguments, function(mix) {
-      mix = typeof mix == 'string' ? riot.mixin(mix) : mix
+      mix = typeof mix === T_STRING ? riot.mixin(mix) : mix
       each(Object.keys(mix), function(key) {
         // bind methods to self
         if (key != 'init')
-          self[key] = typeof mix[key] == 'function' ? mix[key].bind(self) : mix[key]
+          self[key] = isFunction(mix[key]) ? mix[key].bind(self) : mix[key]
       })
       // init method will be called automatically
       if (mix.init) mix.init.bind(self)()
@@ -1159,15 +1211,17 @@ function Tag(impl, conf, innerHTML) {
 
     // parse layout after init. fn may calculate args for nested custom tags
     parseExpressions(dom, self, expressions)
+    if (!self.parent || hasImpl) parseExpressions(self.root, self, expressions) // top level before update, empty root
 
     if (!self.parent || isLoop) self.update(item)
 
     // internal use only, fixes #403
     self.trigger('premount')
 
-    if (isLoop) {
+    if (isLoop && !hasImpl) {
       // update the root attribute for the looped elements
       self.root = root = loopDom = dom.firstChild
+
     } else {
       while (dom.firstChild) root.appendChild(dom.firstChild)
       if (root.stub) self.root = root = parent.root
@@ -1247,21 +1301,30 @@ function Tag(impl, conf, innerHTML) {
 
 }
 
-function setEventHandler(name, handler, dom, tag, item) {
+function setEventHandler(name, handler, dom, tag) {
 
   dom[name] = function(e) {
+
+    var item = tag._item,
+        ptag = tag.parent
+
+    if (!item)
+      while (ptag) {
+        item = ptag._item
+        ptag = item ? false : ptag.parent
+      }
 
     // cross browser event fix
     e = e || window.event
 
     // ignore error on some browsers
     try {
-      if (!e.which) e.which = e.charCode || e.keyCode
-      if (!e.target) e.target = e.srcElement
       e.currentTarget = dom
+      if (!e.target) e.target = e.srcElement
+      if (!e.which) e.which = e.charCode || e.keyCode
     } catch (ignored) { '' }
 
-    e.item = tag._item ? tag._item : item
+    e.item = item
 
     // prevent default behaviour (by default)
     if (handler.call(tag, e) !== true && !/radio|check/.test(dom.type)) {
@@ -1286,8 +1349,7 @@ function insertTo(root, node, before) {
   }
 }
 
-// item = currently looped item
-function update(expressions, tag, item) {
+function update(expressions, tag) {
 
   each(expressions, function(expr, i) {
 
@@ -1312,8 +1374,8 @@ function update(expressions, tag, item) {
     remAttr(dom, attrName)
 
     // event handler
-    if (typeof value == 'function') {
-      setEventHandler(attrName, value, dom, tag, item)
+    if (isFunction(value)) {
+      setEventHandler(attrName, value, dom, tag)
 
     // if- conditional
     } else if (attrName == 'if') {
@@ -1359,7 +1421,7 @@ function update(expressions, tag, item) {
         value = attrName
       }
 
-      if (typeof value != 'object') dom.setAttribute(attrName, value)
+      if (typeof value !== T_OBJECT) dom.setAttribute(attrName, value)
 
     }
 
@@ -1388,10 +1450,15 @@ function fastAbs(nr) {
   return (nr ^ (nr >> 31)) - (nr >> 31)
 }
 
+function getTag(dom) {
+  var tagName = dom.tagName.toLowerCase()
+  return tagImpl[dom.getAttribute(RIOT_TAG) || tagName]
+}
+
 function getTagName(dom) {
   var child = getTag(dom),
     namedTag = dom.getAttribute('name'),
-    tagName = namedTag && namedTag.indexOf(brackets(0)) < 0 ? namedTag : child.name
+    tagName = namedTag && namedTag.indexOf(brackets(0)) < 0 ? namedTag : child ? child.name : dom.tagName.toLowerCase()
 
   return tagName
 }
@@ -1406,6 +1473,19 @@ function extend(src) {
     }
   }
   return src
+}
+
+// with this function we avoid that the current Tag methods get overridden
+function cleanUpData(data) {
+  if (!(data instanceof Tag)) return data
+
+  var o = {},
+      blackList = ['update', 'root', 'mount', 'unmount', 'mixin', 'isMounted', 'isloop', 'tags', 'parent', 'opts']
+  for (var key in data) {
+    if (!~blackList.indexOf(key))
+      o[key] = data[key]
+  }
+  return o
 }
 
 function mkdom(template) {
@@ -1467,6 +1547,10 @@ function $$(selector, ctx) {
   return (ctx || document).querySelectorAll(selector)
 }
 
+function $(selector, ctx) {
+  return (ctx || document).querySelector(selector)
+}
+
 function inherit(parent) {
   function Child() {}
   Child.prototype = parent
@@ -1494,7 +1578,7 @@ function setNamed(dom, parent, keys) {
  * Hacks needed for the old internet explorer versions [lower than IE10]
  *
  */
-
+/* istanbul ignore next */
 function tbodyInnerHTML(el, html, tagName) {
   var div = mkEl('div'),
       loops = /td|th/.test(tagName) ? 3 : 2,
@@ -1508,7 +1592,7 @@ function tbodyInnerHTML(el, html, tagName) {
   el.appendChild(child)
 
 }
-
+/* istanbul ignore next */
 function optionInnerHTML(el, html) {
   var opt = mkEl('option'),
       valRegx = /value=[\"'](.+?)[\"']/,
@@ -1532,7 +1616,7 @@ function optionInnerHTML(el, html) {
 
   el.appendChild(opt)
 }
-
+/* istanbul ignore next */
 function optgroupInnerHTML(el, html) {
   var opt = mkEl('optgroup'),
       labelRegx = /label=[\"'](.+?)[\"']/,
@@ -1572,10 +1656,6 @@ var virtualDom = [],
 
 var RIOT_TAG = 'riot-tag'
 
-function getTag(dom) {
-  return tagImpl[dom.getAttribute(RIOT_TAG) || dom.tagName.toLowerCase()]
-}
-
 function injectStyle(css) {
 
   styleNode = styleNode || mkEl('style')
@@ -1591,7 +1671,7 @@ function injectStyle(css) {
     if (styleNode.styleSheet) {
       document.body.appendChild(styleNode)
     } else {
-      var rs = $$('style[type=riot]')[0]
+      var rs = $('style[type=riot]')
       if (rs) {
         rs.parentNode.insertBefore(styleNode, rs)
         rs.parentNode.removeChild(rs)
@@ -1740,7 +1820,8 @@ riot.mountTo = riot.mount
   riot.util = { brackets: brackets, tmpl: tmpl }
 
   // support CommonJS, AMD & browser
-  if (typeof exports === 'object')
+  /* istanbul ignore next */
+  if (typeof exports === T_OBJECT)
     module.exports = riot
   else if (typeof define === 'function' && define.amd)
     define(function() { return window.riot = riot })
@@ -1749,7 +1830,7 @@ riot.mountTo = riot.mount
 
 })(typeof window != 'undefined' ? window : undefined);
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -2874,7 +2955,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":19,"reduce":20}],19:[function(require,module,exports){
+},{"emitter":20,"reduce":21}],20:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -3040,7 +3121,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -3065,4 +3146,4 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}]},{},[7,2,1,3,4,5,6]);
+},{}]},{},[6,2,1,3,4,5]);

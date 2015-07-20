@@ -1,15 +1,14 @@
 <test>
+	<script>
+		app.mixin(this, require('./mixin'));
+	</script>
+	
 	<menu></menu>
 	<h2>{name}</h2>
-	<button onclick={tt}>aaaaaaaaaaa</button>
-
+	<button onclick={tt}>clickMe</button>
 	<ul>
 		<li each={items}>
 			{position} - {name}
 		</li>
 	</ul>
-
-	<script>
-		this.mixin(require('./mixin'));
-	</script>
 </test>

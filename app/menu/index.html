@@ -1,17 +1,8 @@
 <menu>
+    <script>
+        app.mixin(this, require('./menu'));
+    </script>
  	<ul class="menu">
         <li each={links}><a href={link} onclick={holdLink}>{name}</a></li>
     </ul>
-    <script>
-        var self = this;
-        self.done = 'menu.done';
-        app.rest.get('/menu', function(data) {
-            self.links = data;
-            self.update();
-            app.trigger('menu.done');
-        });
-        this.holdLink = function(e) {
-            app.router.hold(e);
-        }
-    </script>
 </menu>

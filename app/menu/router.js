@@ -1,11 +1,10 @@
 module.exports = function(router) {
 	router.get('/', function(req, rep) {
 		var links = [
-            {name: 'HOME', link: '/'},
-            {name: 'Blog', link: '/blog'},
-            {name: 'TODO', link: '/todo'},
-            {name: 'Hello',  link: '/hello'},
-            {name: 'Tab',  link: '/tab/1122'}
+            {name: 'Home', link: '/'},
+            {name: 'Todo', link: '/todo'},
+            {name: 'Test',  link: '/test'},
+            {name: 'mutil',  link: '/tab/id12/name34'}
         ];
 		return rep.send(links);
 	});

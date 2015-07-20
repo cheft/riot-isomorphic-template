@@ -1,5 +1,4 @@
 var riot   = require('riot');
-var cheft  = require('cheft');
 var client = require('cheft/client');
 var config = require('./config');
 var router = require('./app/router');
@@ -11,7 +10,7 @@ app.render = function(name, model) {
 	if(appDiv.getElementsByTagName(name).length === 0) {
 		appDiv.setAttribute('riot-tag', name);
 	}
-    riot.mount(name, model || {});
+    riot.mount(name, model);
 };
-app.start();
 
+app.start();

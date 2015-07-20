@@ -1,26 +1,25 @@
 module.exports = {
-	init: function() {
-		this.done = 'menu.done test.done';
-
-		this.name = '11111';
-		var self = this;
-		
-		this.on('mount', function() {
-			if(app.isServer()) {
-				return;
-			}
+	on: {
+		init: function() {
+			var self = this;
+			self.done = 'test.done';
+			console.log('router params:', self.opts.params);
+			self.name = 'my name';
+						
+			app.rest.get('/test', function(data) {
+				self.items = data;
+				self.update();
+				app.trigger('test.done');
+			});
+		},
+		mount: function() {
 			var a = document.getElementById('app');
-			console.log('mount');
-		});
-		
-		app.rest.get('/test', function(data) {
-			self.items = data;
-			self.update();
-			app.trigger('test.done');
-		});
+			console.log(a);
+		}
 	},
-
-	tt: function() {
-		console.log(2222);
+	do: {
+		tt: function() {
+			console.log(2222);
+		}
 	}
 }

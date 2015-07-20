@@ -1,7 +1,7 @@
 {
   "name": "cheft",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "a riot isomorphic framework base on riot & express",
   "main": "index.js",
   "dependencies": {
     "express": "^4.12.4",
@@ -9,22 +9,19 @@
     "superagent": "^1.2.0",
     "minrouter": "^0.0.6"
   },
-  "devDependencies": {
-    "browserify": "^9.0.8",
-    "gulp": "^3.8.11",
-    "gulp-concat": "^2.5.2",
-    "gulp-eslint": "^0.14.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.5.2",
-    "gulp-uglify": "^1.1.0",
-    "riotify": "^0.1.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheft/cheft.git"
   },
-  "scripts": {
-    "start": "node server"
+  "keywords": [
+    "cheft",
+    "riot",
+    "isomorphic"
+  ],
+  "author": "cheft",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cheft/cheft/issues"
   },
-  "author": "",
-  "license": "ISC"
+  "homepage": "https://github.com/cheft/cheft#readme"
 }

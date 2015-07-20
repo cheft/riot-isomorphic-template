@@ -5,33 +5,33 @@ module.exports = riot.tag('blog-detail', '<div class="demo-blog demo-blog--blogp
     
 });
 
-},{"./detail":7,"riot":18}],2:[function(require,module,exports){
+},{"./detail":7,"riot":22}],2:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('blog', '<div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded"> <main class="mdl-layout__content"> <div class="demo-blog__posts mdl-grid"> <div class="mdl-card coffee-pic mdl-cell mdl-cell--8-col"> <div class="mdl-card__media mdl-color-text--grey-50"> <h3><a href="/blog/123456">Coffee Pic</a></h3> </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>2 days ago</span> </div> </div> </div> <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop"> <button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent"><i class="material-icons mdl-color-text--white">add</i></button> <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600"> <img src="/assets/img/logo.png"> +1,337 </div> <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600"> <div> <strong>The Newist</strong> </div> <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn"> <button class="mdl-menu__item mdl-js-ripple-effect">About</button> <button class="mdl-menu__item mdl-js-ripple-effect">Message</button> <button class="mdl-menu__item mdl-js-ripple-effect">Favorite</button> <button class="mdl-menu__item mdl-js-ripple-effect">Search</button> </ul> <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">more_vert</i> </button> </div> </div> <div class="mdl-card on-the-road-again mdl-cell mdl-cell--12-col" each="{blogs}"> <div class="mdl-card__media mdl-color-text--grey-50" riot-style="background-image: url({image})"> <h3><a href="/blog/{id}" onclick="{holdLink}">{title}</a></h3> </div> <div class="mdl-color-text--grey-600 mdl-card__supporting-text"> {content} </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>{timeDiff} ago</span> </div> </div> </div> <nav class="demo-nav mdl-cell mdl-cell--12-col"> <div class="section-spacer"></div> <a href="/blog/123456" onclick="{holdLink}" class="demo-nav__button"> More <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">arrow_forward</i> </button> </a> </nav> </div> <footer class="mdl-mini-footer"> <div class="mdl-mini-footer--left-section"> <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button> </div> <div class="mdl-mini-footer--right-section"> <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button> </div> </footer> </main> <div class="mdl-layout__obfuscator"></div> </div>', function(opts) {
         app.mixin(this, require('./blog'));
     
 });
 
-},{"./blog":8,"riot":18}],3:[function(require,module,exports){
+},{"./blog":8,"riot":22}],3:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('menu', '<ul class="menu"> <li each="{links}"><a href="{link}" onclick="{holdLink}">{name}</a></li> </ul>', function(opts) {
         app.mixin(this, require('./menu'));
     
 });
-},{"./menu":9,"riot":18}],4:[function(require,module,exports){
+},{"./menu":9,"riot":22}],4:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('test', '<menu></menu> <h2>{name}</h2> <button onclick="{tt}">clickMe</button> <ul> <li each="{items}"> {position} - {name} </li> </ul>', function(opts) {
 		app.mixin(this, require('./mixin'));
 	
 });
-},{"./mixin":11,"riot":18}],5:[function(require,module,exports){
+},{"./mixin":11,"riot":22}],5:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('todo', '<menu></menu> <h3>{ title }</h3> <ul><li each="{ item, i in items }">{ item }</li></ul> <input name="todo"> <button onclick="{add}">Add #{ items.length + 1 }</button>', function(opts) {
         app.mixin(this, require('./todo'));
     
 });
 
-},{"./todo":12,"riot":18}],6:[function(require,module,exports){
+},{"./todo":12,"riot":22}],6:[function(require,module,exports){
 var riot   = require('riot');
 var client = require('cheft/client');
 var config = require('./config');
@@ -49,7 +49,7 @@ app.render = function(name, model) {
 
 app.start();
 
-},{"./app/router":10,"./config":13,"cheft/client":15,"riot":18}],7:[function(require,module,exports){
+},{"./app/router":10,"./config":13,"cheft/client":15,"riot":22}],7:[function(require,module,exports){
 module.exports = {
     on: {
         init: function() {
@@ -258,10 +258,10 @@ C.observable = function(el) {
 }
 
 module.exports = C;
-},{"riot":18}],15:[function(require,module,exports){
+},{"riot":17}],15:[function(require,module,exports){
 var MinRouter = require('minrouter');
-var cheft     = require('cheft');
-var Rest      = require('cheft/rest');
+var cheft     = require('./cheft');
+var Rest      = require('./rest');
 
 module.exports = function(config, router) {
 	var routes = {};
@@ -312,36 +312,7 @@ module.exports = function(config, router) {
 
 	return _app;
 }
-},{"cheft":14,"cheft/rest":16,"minrouter":17}],16:[function(require,module,exports){
-var request = require('superagent');
-
-module.exports = function(opts) {
-	if(!opts.apiRoot) throw 'must apiRoot';
-	var accept = opts.accept || 'application/json';
-
-	return {
-		get: function(url, cb) {
-			request.get(opts.apiRoot + url)
-			.set('Accept', accept)
-	        .end(function(err, res) {
-	        	return cb(res.body, err);
-	        });
-		},
-		post: function() {
-
-		},
-
-		put: function() {
-
-		},
-
-		del: function() {
-
-		}
-	}
-};
-
-},{"superagent":19}],17:[function(require,module,exports){
+},{"./cheft":14,"./rest":21,"minrouter":16}],16:[function(require,module,exports){
 ;(function() {
     if(!window) return;
     var win = window, supportPushState = 'pushState' in history, evt = supportPushState ? 'popstate' : 'hashchange', self = {};
@@ -424,7 +395,8 @@ module.exports = function(opts) {
     };
     Router.prototype.hold = function(e, href) {
         if(!e) return;
-        var isReplace = false, path = href ? href : e.target.pathname; 
+        var path = href ? href : (e.srcElement ? e.srcElement.pathname : e.target.pathname); 
+        var isReplace = false;
         if(!supportPushState) {
             path = '/' + path;
         }else {
@@ -457,7 +429,7 @@ module.exports = function(opts) {
         window.MinRouter = Router;
     }
 })(typeof window != 'undefined' ? window : undefined);
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* Riot v2.2.2, @license MIT, (c) 2015 Muut Inc. + contributors */
 
 ;(function(window, undefined) {
@@ -1830,7 +1802,7 @@ riot.mountTo = riot.mount
 
 })(typeof window != 'undefined' ? window : undefined);
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -2955,7 +2927,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":20,"reduce":21}],20:[function(require,module,exports){
+},{"emitter":19,"reduce":20}],19:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -3121,7 +3093,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -3146,4 +3118,35 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}]},{},[6,2,1,3,4,5]);
+},{}],21:[function(require,module,exports){
+var request = require('superagent');
+
+module.exports = function(opts) {
+	if(!opts.apiRoot) throw 'must apiRoot';
+	var accept = opts.accept || 'application/json';
+
+	return {
+		get: function(url, cb) {
+			request.get(opts.apiRoot + url)
+			.set('Accept', accept)
+	        .end(function(err, res) {
+	        	return cb(res.body, err);
+	        });
+		},
+		post: function() {
+
+		},
+
+		put: function() {
+
+		},
+
+		del: function() {
+
+		}
+	}
+};
+
+},{"superagent":18}],22:[function(require,module,exports){
+arguments[4][17][0].apply(exports,arguments)
+},{"dup":17}]},{},[6,2,1,3,4,5]);

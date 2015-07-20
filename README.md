@@ -2,17 +2,18 @@
 a riot isomorphic framework base on riot & express
 
 ## Fatures
-* support html5 pushState
-* support hashchange if IE < 10
-* support isomorphic router (riot, react)
+* JS fast rendering
+* SEO friendly
+* Support html5 pushState
+* Support hashchange if IE < 10
+* Support IE9+
 
-## Run
-    
-    npm install
+## Run [Demo](http://cheft.cn)
+
+	cd demo
+
+	npm install
 
     gulp
 
     node server
-  
-## [Demo](http://cheft.cn)
-

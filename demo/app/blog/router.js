@@ -43,22 +43,29 @@ module.exports = function(router) {
 		}
 	];
 
+	router.get('/initdata', function(req, rep) {
+		console.log('initdata');
+		app.models.blog.createEach(blogs, function(err, data) {
+			return rep.send(data);
+		});
+	});
+
 	router.get('/', function(req, rep) {
 		var data = [];
-		for(var i = 0; i < blogs.length; i++) {
-			var row = app.extend({}, blogs[i]);
-			row.content = row.content.substr(0, 255);
-			data.push(row);
-		}
-		return rep.send(data);
+		app.models.blog.find({}, function(err, blogs){
+			for(var i = 0; i < blogs.length; i++) {
+				var row = app.extend({}, blogs[i]);
+				row.content = row.content.substr(0, 255);
+				data.push(row);
+			}
+			return rep.send(data);
+		});
 	});
 
 	router.get('/:id', function(req, rep) {
 		var id = req.params.id;
-		for(var i = 0; i < blogs.length; i++) {
-			if(blogs[i].id === id) {
-				return rep.send(blogs[i]);
-			}
-		}
+		app.models.blog.findOne({id: id}, function(err, data) {
+			rep.send(data);
+		});
 	});
 }

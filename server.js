@@ -1,14 +1,15 @@
-var fs      = require('fs');
-var path    = require('path');
-var riot    = require('riot');
-var sdom    = require('riot/lib/server/sdom')
-var express = require('express');
-var cheft   = require('./cheft');
-var rest    = require('./rest');
-var _app    = express();
+var fs        = require('fs');
+var path      = require('path');
+var riot      = require('riot');
+var sdom      = require('riot/lib/server/sdom')
+var express   = require('express');
+var cheft     = require('./cheft');
+var rest      = require('./rest');
+var Waterline = require('waterline');
+var _app = express(), orm = new Waterline();
 
 cheft.observable(_app);
-module.exports = function(config, router) {
+module.exports = function(config, router, dbconfig) {
     var options = {
         dotfiles: 'ignore',
         etag: false,
@@ -17,7 +18,7 @@ module.exports = function(config, router) {
         maxAge: '1d',
         redirect: false,
         setHeaders: function (res, path) {
-            res.set('x-timestamp', Date.now())
+            res.set('x-timestamp', Date.now());
         }
     };
 
@@ -48,6 +49,9 @@ module.exports = function(config, router) {
                     }else {
                         _app.use(config.apiPrefix + routerDir, _r);
                     }
+                }else if(file === 'model.js') {
+                    var Model = Waterline.Collection.extend(require(filename));
+                    orm.loadCollection(Model);
                 }
             }
         })
@@ -87,11 +91,16 @@ module.exports = function(config, router) {
     _app.set('view engine', 'html');
 
     _app.rest = new rest(config);
-    _app.start= function(port) {
-        _app.listen(port || 3000, function() {
-            console.log('Listening on port %d', port || 3000);
+    _app.start = function(port) {
+        orm.initialize(dbconfig, function(err, models) {
+            if(err) throw err;
+            _app.models = models.collections;
+            _app.connections = models.connections;
+            _app.listen(port || 3000, function() {
+                console.log('Listening on port %d', port || 3000);
+            });
         });
-    }
+    };
     _app = cheft.extend(_app, cheft);
 
     _app.mixin = function(tag, obj) {

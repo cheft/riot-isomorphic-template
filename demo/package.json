@@ -4,7 +4,8 @@
   "description": "cheft demo",
   "main": "server.js",
   "dependencies": {
-    "cheft": "^0.0.2"
+    "cheft": "^0.0.2",
+    "sails-mysql": "^0.11.0"
   },
   "devDependencies": {
     "browserify": "^9.0.8",

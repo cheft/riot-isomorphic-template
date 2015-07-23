@@ -4,10 +4,11 @@
   "description": "a riot isomorphic framework base on riot & express",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.13.2",
     "express": "^4.12.4",
+    "minrouter": "^0.0.6",
     "riot": "^2.2.2",
-    "superagent": "^1.2.0",
-    "minrouter": "^0.0.6"
+    "superagent": "^1.2.0"
   },
   "repository": {
     "type": "git",

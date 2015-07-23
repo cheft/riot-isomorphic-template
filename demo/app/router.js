@@ -22,4 +22,12 @@ module.exports = function(router) {
 	router.get('/tab/:id/:name', function(req, rep) {
 		return rep.render('test', {params: [req.params.id, req.params.name]});
 	});
+
+	router.get('/admin', function(req, rep) {
+		return rep.render('admin');
+	});
+
+	router.get('/dashboard', function(req, rep) {
+		return rep.render('dashboard');
+	});
 }

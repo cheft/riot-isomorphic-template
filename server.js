@@ -1,14 +1,16 @@
-var fs        = require('fs');
-var path      = require('path');
-var riot      = require('riot');
-var sdom      = require('riot/lib/server/sdom')
-var express   = require('express');
-var cheft     = require('./cheft');
-var rest      = require('./rest');
-var Waterline = require('waterline');
+var fs         = require('fs');
+var path       = require('path');
+var riot       = require('riot');
+var sdom       = require('riot/lib/server/sdom')
+var express    = require('express');
+var bodyParser = require('body-parser');
+var cheft      = require('./cheft');
+var rest       = require('./rest');
+var Waterline  = require('waterline');
 var _app = express(), orm = new Waterline();
 
 cheft.observable(_app);
+_app.use(bodyParser.urlencoded({ extended: true }));
 module.exports = function(config, router, dbconfig) {
     var options = {
         dotfiles: 'ignore',

@@ -14,6 +14,9 @@ module.exports = {
 	do: {
 		holdLink: function(e) {
 			app.router.hold(e);
+		},
+		login: function() {
+			app.router.go('/admin');
 		}
 	}
 }

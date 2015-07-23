@@ -1,37 +1,51 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var riot = require('riot');
+module.exports = riot.tag('admin', '<div class="mdl-card mdl-shadow--2dp demo-card-square"> <div class="mdl-card__supporting-text"> blog admin manager </div> <div class="mdl-card__title mdl-card--expand"> <form action="#" style="width: 100%;"> <div class="mdl-textfield mdl-js-textfield textfield-demo"> <input class="mdl-textfield__input" type="text" name="username" onkeypress="{enter}"> <label class="mdl-textfield__label">Username...</label> </div> <br > <div class="mdl-textfield mdl-js-textfield textfield-demo"> <input class="mdl-textfield__input" type="password" name="password" onkeypress="{enter}"> <label class="mdl-textfield__label">Password...</label> </div> </form> </div> <div class="mdl-card__actions login-btn-group"> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect login-btn" onclick="{submit}"> Login </a> </div> </div>', 'admin , [riot-tag="admin"] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-box-pack: center; -webkit-box-align: center; text-align: center; height: 100%; } admin .demo-card-square.mdl-card, [riot-tag="admin"] .demo-card-square.mdl-card{ width: 320px; height: 320px; margin-top: -4em; } admin .mdl-card__supporting-text, [riot-tag="admin"] .mdl-card__supporting-text{ text-align: center; background: #3f51b5; color: #FFF; font-size: 1.1em; } admin .demo-card-square > .mdl-card__title, [riot-tag="admin"] .demo-card-square > .mdl-card__title{ color: rgba(0, 0, 0, 0.87); text-align: center; } admin .mdl-textfield.textfield-demo, [riot-tag="admin"] .mdl-textfield.textfield-demo{ width: 200px; } admin .login-btn-group, [riot-tag="admin"] .login-btn-group{ text-align: center; padding-bottom: 50px; } admin .login-btn, [riot-tag="admin"] .login-btn{ width: 200px; color:#FFF !important; }', function(opts) {
+        app.mixin(this, require('./mixin'));
+    
+});
+
+},{"./mixin":9,"riot":26}],2:[function(require,module,exports){
+var riot = require('riot');
 module.exports = riot.tag('blog-detail', '<div class="demo-blog demo-blog--blogpost mdl-layout mdl-js-layout has-drawer is-upgraded"> <main class="mdl-layout__content"> <div class="demo-back"> <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="/blog" onclick="app.router.back();"> <i class="material-icons">arrow_back</i> </a> </div> <div class="demo-blog__posts mdl-grid"> <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col"> <div class="mdl-card__media mdl-color-text--grey-50" riot-style="background-image: url({blog.image})"> <h3>{blog.title}</h3> </div> <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>{blog.timeDiff} ago</span> </div> <div class="section-spacer"></div> <div class="meta__favorites">425 <i class="material-icons">favorite</i></div> <div><i class="material-icons">bookmark</i></div> <div><i class="material-icons">share</i></div> </div> <div class="mdl-color-text--grey-700 mdl-card__supporting-text"> <p> {blog.content} </p> </div> <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments"> <form> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"> <textarea rows=1 class="mdl-textfield__input" id="comment"></textarea> <label for="comment" class="mdl-textfield__label">Join the discussion</label> </div> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">check</i> </button> </form> <div class="comment mdl-color-text--grey-700"> <header class="comment__header"> <img src="/assets/img/co1.jpg" class="comment__avatar"> <div class="comment__author"> <strong>James Splayd</strong> <span>2 days ago</span> </div> </header> <div class="comment__text"> In in culpa nulla elit esse. Ex cillum enim aliquip sit sit ullamco ex eiusmod fugiat. Cupidatat ad minim officia mollit laborum magna dolor tempor cupidatat mollit. Est velit sit ad aliqua ullamco laborum excepteur dolore proident incididunt in labore elit. </div> <nav class="comment__actions"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_up</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_down</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">share</i> </button> </nav> <div class="comment__answers"> <div class="comment"> <header class="comment__header"> <img src="/assets/img/co2.jpg" class="comment__avatar"> <div class="comment__author"> <strong>John Dufry</strong> <span>2 days ago</span> </div> </header> <div class="comment__text"> Yep, agree! </div> <nav class="comment__actions"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_up</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">thumb_down</i> </button> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">share</i> </button> </nav> </div> </div> </div> </div> </div> <nav class="demo-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col"> <a href="/blog" onclick="{holdLink}" class="demo-nav__button"> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900"> <i class="material-icons">arrow_back</i> </button> Newer </a> <div class="section-spacer"></div> <a href="/blog" onclick="{holdLink}" class="demo-nav__button"> Older <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900"> <i class="material-icons">arrow_forward</i> </button> </a> </nav> </div> <footer class="mdl-mini-footer"> <div class="mdl-mini-footer--left-section"> <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button> </div> <div class="mdl-mini-footer--right-section"> <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button> </div> </footer> </main> <div class="mdl-layout__obfuscator"></div> </div>', function(opts) {
         app.mixin(this, require('./detail'));
     
 });
 
-},{"./detail":7,"riot":22}],2:[function(require,module,exports){
+},{"./detail":10,"riot":26}],3:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('blog', '<div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded"> <main class="mdl-layout__content"> <div class="demo-blog__posts mdl-grid"> <div class="mdl-card coffee-pic mdl-cell mdl-cell--8-col"> <div class="mdl-card__media mdl-color-text--grey-50"> <h3><a href="/blog/123456">Coffee Pic</a></h3> </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>2 days ago</span> </div> </div> </div> <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop"> <button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent"><i class="material-icons mdl-color-text--white">add</i></button> <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600"> <img src="/assets/img/logo.png"> +1,337 </div> <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600"> <div> <strong>The Newist</strong> </div> <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn"> <button class="mdl-menu__item mdl-js-ripple-effect">About</button> <button class="mdl-menu__item mdl-js-ripple-effect">Message</button> <button class="mdl-menu__item mdl-js-ripple-effect">Favorite</button> <button class="mdl-menu__item mdl-js-ripple-effect">Search</button> </ul> <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">more_vert</i> </button> </div> </div> <div class="mdl-card on-the-road-again mdl-cell mdl-cell--12-col" each="{blogs}"> <div class="mdl-card__media mdl-color-text--grey-50" riot-style="background-image: url({image})"> <h3><a href="/blog/{id}" onclick="{holdLink}">{title}</a></h3> </div> <div class="mdl-color-text--grey-600 mdl-card__supporting-text"> {content}... </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>{timeDiff} ago</span> </div> </div> </div> <nav class="demo-nav mdl-cell mdl-cell--12-col"> <div class="section-spacer"></div> <a href="/blog/123456" onclick="{holdLink}" class="demo-nav__button"> More <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">arrow_forward</i> </button> </a> </nav> </div> <footer class="mdl-mini-footer"> <div class="mdl-mini-footer--left-section"> <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button> </div> <div class="mdl-mini-footer--right-section"> <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button> </div> </footer> </main> <div class="mdl-layout__obfuscator"></div> </div>', function(opts) {
-        app.mixin(this, require('./blog'));
+module.exports = riot.tag('blog', '<div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded"> <main class="mdl-layout__content"> <div class="demo-blog__posts mdl-grid"> <div class="mdl-card coffee-pic mdl-cell mdl-cell--8-col"> <div class="mdl-card__media mdl-color-text--grey-50"> <h3><a href="/blog/123456">Coffee Pic</a></h3> </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>2 days ago</span> </div> </div> </div> <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop"> <button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent" onclick="{login}"><i class="material-icons mdl-color-text--white">add</i></button> <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600"> <img src="/assets/img/logo.png"> +1,337 </div> <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600"> <div> <strong>The Newist</strong> </div> <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn"> <button class="mdl-menu__item mdl-js-ripple-effect">About</button> <button class="mdl-menu__item mdl-js-ripple-effect">Message</button> <button class="mdl-menu__item mdl-js-ripple-effect">Favorite</button> <button class="mdl-menu__item mdl-js-ripple-effect">Search</button> </ul> <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">more_vert</i> </button> </div> </div> <div class="mdl-card on-the-road-again mdl-cell mdl-cell--12-col" each="{blogs}"> <div class="mdl-card__media mdl-color-text--grey-50" riot-style="background-image: url({image})"> <h3><a href="/blog/{id}" onclick="{holdLink}">{title}</a></h3> </div> <div class="mdl-color-text--grey-600 mdl-card__supporting-text"> {content}... </div> <div class="mdl-card__supporting-text meta mdl-color-text--grey-600"> <div class="minilogo"></div> <div> <strong>The Newist</strong> <span>{timeDiff} ago</span> </div> </div> </div> <nav class="demo-nav mdl-cell mdl-cell--12-col"> <div class="section-spacer"></div> <a href="/test" onclick="{holdLink}" class="demo-nav__button"> More <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">arrow_forward</i> </button> </a> </nav> </div> <footer class="mdl-mini-footer"> <div class="mdl-mini-footer--left-section"> <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button> <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button> </div> <div class="mdl-mini-footer--right-section"> <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button> </div> </footer> </main> <div class="mdl-layout__obfuscator"></div> </div>', function(opts) {
+        app.mixin(this, require('./mixin'));
     
 });
 
-},{"./blog":8,"riot":22}],3:[function(require,module,exports){
+},{"./mixin":11,"riot":26}],4:[function(require,module,exports){
+var riot = require('riot');
+module.exports = riot.tag('dashboard', '<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header"> <header class="demo-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600"> <div class="mdl-layout__header-row"> <span class="mdl-layout-title">Home</span> <div class="mdl-layout-spacer"></div> <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable"> <label class="mdl-button mdl-js-button mdl-button--icon" for="search"> <i class="material-icons">search</i> </label> <div class="mdl-textfield__expandable-holder"> <input class="mdl-textfield__input" type="text" id="search"> <label class="mdl-textfield__label" for="search">Enter your query...</label> </div> </div> <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn"> <i class="material-icons">more_vert</i> </button> <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn"> <li class="mdl-menu__item">About</li> <li class="mdl-menu__item">Contact</li> <li class="mdl-menu__item">Legal information</li> </ul> </div> </header> <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50"> <header class="demo-drawer-header"> <img src="/assets/img/user.png" class="demo-avatar"> <div class="demo-avatar-dropdown"> <span>m@cheft.cn</span> <div class="mdl-layout-spacer"></div> <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"> <i class="material-icons">arrow_drop_down</i> </button> <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn"> <button class="mdl-menu__item">me@cheft.cn</button> <button class="mdl-menu__item">mm@cheft.cn</button> <button class="mdl-menu__item">Add another account...</button> </ul> </div> </header> <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800"> <a class="mdl-navigation__link" href="/dashboard" onclick="{holdLink}"><i class="mdl-color-text--blue-grey-400 material-icons">home</i>Home</a> <a class="mdl-navigation__link" href="/blog-list" onclick="{holdLink}"><i class="mdl-color-text--blue-grey-400 material-icons">forum</i>Blog</a> <a class="mdl-navigation__link" href="/comment" onclick="{holdLink}"><i class="mdl-color-text--blue-grey-400 material-icons">people</i>Comment</a>  </nav> </div> <main class="mdl-layout__content mdl-color--grey-100"> <div class="mdl-grid demo-content"> <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid"> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan font-size="0.2" dy="-0.07">%</tspan> </text> </svg> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan dy="-0.07" font-size="0.2">%</tspan> </text> </svg> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan dy="-0.07" font-size="0.2">%</tspan> </text> </svg> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan dy="-0.07" font-size="0.2">%</tspan> </text> </svg> </div> <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col"> <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph"> <use xlink:href="#chart"></use> </svg> <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph"> <use xlink:href="#chart"></use> </svg> </div> <div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing"> <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop"> <div class="mdl-card__title mdl-card--expand mdl-color--teal-300"> <h2 class="mdl-card__title-text">Updates</h2> </div> <div class="mdl-card__supporting-text mdl-color-text--grey-600"> Non dolore elit adipisicing ea reprehenderit consectetur culpa. </div> <div class="mdl-card__actions mdl-card--border"> <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a> </div> </div> <div class="demo-separator mdl-cell--1-col"></div> <div class="demo-options mdl-card mdl-color--deep-purple-500 mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop"> <div class="mdl-card__supporting-text mdl-color-text--blue-grey-50"> <h3>View options</h3> <ul> <li> <label for="chkbox1" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox1" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Click per object</span> </label> </li> <li> <label for="chkbox2" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox2" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Views per object</span> </label> </li> <li> <label for="chkbox3" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox3" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Objects selected</span> </label> </li> <li> <label for="chkbox4" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox4" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Objects viewed</span> </label> </li> </ul> </div> <div class="mdl-card__actions mdl-card--border"> <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--blue-grey-50">Change location</a> <div class="mdl-layout-spacer"></div> <i class="material-icons">location_on</i> </div> </div> </div> </div> </main> </div> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="position: fixed; left: -1000px; height: -1000px;"> <defs> <mask id="piemask" maskContentUnits="objectBoundingBox"> <circle cx=0.5 cy=0.5 r=0.49 fill="white"></circle> <circle cx=0.5 cy=0.5 r=0.40 fill="black"></circle> </mask> <g id="piechart"> <circle cx=0.5 cy=0.5 r=0.5></circle> <path d="M 0.5 0.5 0.5 0 A 0.5 0.5 0 0 1 0.95 0.28 z" stroke="none" fill="rgba(255, 255, 255, 0.75)"></path> </g> </defs> </svg> <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 250" style="position: fixed; left: -1000px; height: -1000px;"> <defs> <g id="chart"> <g id="Gridlines"> <line fill="#888888" stroke="#888888" stroke-miterlimit="10" x1="0" y1="27.3" x2="468.3" y2="27.3"></line> <line fill="#888888" stroke="#888888" stroke-miterlimit="10" x1="0" y1="66.7" x2="468.3" y2="66.7"></line> <line fill="#888888" stroke="#888888" stroke-miterlimit="10" x1="0" y1="105.3" x2="468.3" y2="105.3"></line> <line fill="#888888" stroke="#888888" stroke-miterlimit="10" x1="0" y1="144.7" x2="468.3" y2="144.7"></line> <line fill="#888888" stroke="#888888" stroke-miterlimit="10" x1="0" y1="184.3" x2="468.3" y2="184.3"></line> </g> <g id="Numbers"> <text transform="matrix(1 0 0 1 485 29.3333)" fill="#888888" font-family="\'Roboto\'" font-size="9">500</text> <text transform="matrix(1 0 0 1 485 69)" fill="#888888" font-family="\'Roboto\'" font-size="9">400</text> <text transform="matrix(1 0 0 1 485 109.3333)" fill="#888888" font-family="\'Roboto\'" font-size="9">300</text> <text transform="matrix(1 0 0 1 485 149)" fill="#888888" font-family="\'Roboto\'" font-size="9">200</text> <text transform="matrix(1 0 0 1 485 188.3333)" fill="#888888" font-family="\'Roboto\'" font-size="9">100</text> <text transform="matrix(1 0 0 1 0 249.0003)" fill="#888888" font-family="\'Roboto\'" font-size="9">1</text> <text transform="matrix(1 0 0 1 78 249.0003)" fill="#888888" font-family="\'Roboto\'" font-size="9">2</text> <text transform="matrix(1 0 0 1 154.6667 249.0003)" fill="#888888" font-family="\'Roboto\'" font-size="9">3</text> <text transform="matrix(1 0 0 1 232.1667 249.0003)" fill="#888888" font-family="\'Roboto\'" font-size="9">4</text> <text transform="matrix(1 0 0 1 309 249.0003)" fill="#888888" font-family="\'Roboto\'" font-size="9">5</text> <text transform="matrix(1 0 0 1 386.6667 249.0003)" fill="#888888" font-family="\'Roboto\'" font-size="9">6</text> <text transform="matrix(1 0 0 1 464.3333 249.0003)" fill="#888888" font-family="\'Roboto\'" font-size="9">7</text> </g> <g id="Layer_5"> <polygon opacity="0.36" stroke-miterlimit="10" points="0,223.3 48,138.5 154.7,169 211,88.5 294.5,80.5 380,165.2 437,75.5 469.5,223.3 "></polygon> </g> <g id="Layer_4"> <polygon stroke-miterlimit="10" points="469.3,222.7 1,222.7 48.7,166.7 155.7,188.3 212,132.7 296.7,128 380.7,184.3 436.7,125 "></polygon> </g> </g> </defs> </svg>', function(opts) {
+        app.mixin(this, require('./mixin'));
+    
+});
+
+},{"./mixin":12,"riot":26}],5:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('menu', '<ul class="menu"> <li each="{links}"><a href="{link}" onclick="{holdLink}">{name}</a></li> </ul>', function(opts) {
         app.mixin(this, require('./menu'));
     
 });
-},{"./menu":9,"riot":22}],4:[function(require,module,exports){
+},{"./menu":13,"riot":26}],6:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('test', '<menu></menu> <h2>{name}</h2> <button onclick="{tt}">clickMe</button> <ul> <li each="{items}"> {position} - {name} </li> </ul>', function(opts) {
 		app.mixin(this, require('./mixin'));
 	
 });
-},{"./mixin":11,"riot":22}],5:[function(require,module,exports){
+},{"./mixin":15,"riot":26}],7:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('todo', '<menu></menu> <h3>{ title }</h3> <ul><li each="{ item, i in items }">{ item }</li></ul> <input name="todo"> <button onclick="{add}">Add #{ items.length + 1 }</button>', function(opts) {
         app.mixin(this, require('./todo'));
     
 });
 
-},{"./todo":12,"riot":22}],6:[function(require,module,exports){
+},{"./todo":16,"riot":26}],8:[function(require,module,exports){
 var riot   = require('riot');
 var client = require('cheft/client');
 var config = require('./config');
@@ -49,7 +63,32 @@ app.render = function(name, model) {
 
 app.start();
 
-},{"./app/router":10,"./config":13,"cheft/client":15,"riot":22}],7:[function(require,module,exports){
+},{"./app/router":14,"./config":17,"cheft/client":19,"riot":26}],9:[function(require,module,exports){
+module.exports = {
+	on: {
+		init: function() {
+
+		}
+	},
+	do: {
+		submit: function() {
+			var data = {username: this.username.value, password: this.password.value};
+			app.rest.post('/admin', data, function(rep) {
+				if(rep.result === 'error') {
+					return alert('error, user/pwd is admin');
+				}
+				app.router.go('/dashboard');
+			});
+		},
+		enter: function(e) {
+			if (e.keyCode == 13){
+		    	this.submit();
+		   	}
+		   	return true;
+		}
+	}
+}
+},{}],10:[function(require,module,exports){
 module.exports = {
     on: {
         init: function() {
@@ -79,7 +118,7 @@ module.exports = {
     }
 }
 
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = {
 	on: {
 		init: function() {
@@ -96,10 +135,25 @@ module.exports = {
 	do: {
 		holdLink: function(e) {
 			app.router.hold(e);
+		},
+		login: function() {
+			app.router.go('/admin');
 		}
 	}
 }
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+module.exports = {
+	do: {
+		holdLink: function(e) {
+			var href;
+            if (e.target.localName === 'i') {
+                href = e.target.parentElement.pathname;
+            }
+            app.router.hold(e, href);
+		}
+	}
+}
+},{}],13:[function(require,module,exports){
 module.exports = {
 	on: {
 		init: function() {
@@ -119,7 +173,7 @@ module.exports = {
 	    }
 	}
 }
-},{}],10:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function(router) {
 	router.get('/', function(req, rep) {
 		return rep.render('blog');
@@ -144,9 +198,17 @@ module.exports = function(router) {
 	router.get('/tab/:id/:name', function(req, rep) {
 		return rep.render('test', {params: [req.params.id, req.params.name]});
 	});
+
+	router.get('/admin', function(req, rep) {
+		return rep.render('admin');
+	});
+
+	router.get('/dashboard', function(req, rep) {
+		return rep.render('dashboard');
+	});
 }
 
-},{}],11:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = {
 	on: {
 		init: function() {
@@ -172,7 +234,7 @@ module.exports = {
 		}
 	}
 }
-},{}],12:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = {
 	on: {
 		init: function() {
@@ -187,7 +249,7 @@ module.exports = {
         }
 	}
 }
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (__dirname){
 module.exports = {
 	apiPrefix: '/api',
@@ -195,7 +257,7 @@ module.exports = {
 	dirname  : typeof window === 'object' ? '/public' : __dirname,
 }
 }).call(this,"/")
-},{}],14:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var riot = require('riot');
 
 var C, Cheft, toString, types, slice = [].slice;
@@ -258,7 +320,7 @@ C.observable = function(el) {
 }
 
 module.exports = C;
-},{"riot":17}],15:[function(require,module,exports){
+},{"riot":21}],19:[function(require,module,exports){
 var MinRouter = require('minrouter');
 var cheft     = require('./cheft');
 var Rest      = require('./rest');
@@ -312,7 +374,7 @@ module.exports = function(config, router) {
 
 	return _app;
 }
-},{"./cheft":14,"./rest":21,"minrouter":16}],16:[function(require,module,exports){
+},{"./cheft":18,"./rest":25,"minrouter":20}],20:[function(require,module,exports){
 ;(function() {
     if(!window) return;
     var win = window, supportPushState = 'pushState' in history, evt = supportPushState ? 'popstate' : 'hashchange', self = {};
@@ -429,7 +491,7 @@ module.exports = function(config, router) {
         window.MinRouter = Router;
     }
 })(typeof window != 'undefined' ? window : undefined);
-},{}],17:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* Riot v2.2.2, @license MIT, (c) 2015 Muut Inc. + contributors */
 
 ;(function(window, undefined) {
@@ -1802,7 +1864,7 @@ riot.mountTo = riot.mount
 
 })(typeof window != 'undefined' ? window : undefined);
 
-},{}],18:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -2927,7 +2989,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":19,"reduce":20}],19:[function(require,module,exports){
+},{"emitter":23,"reduce":24}],23:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -3093,7 +3155,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],20:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -3118,35 +3180,45 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],21:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 var request = require('superagent');
 
 module.exports = function(opts) {
 	if(!opts.apiRoot) throw 'must apiRoot';
-	var accept = opts.accept || 'application/json';
+	var contentType = opts.contentType || 'application/x-www-form-urlencoded';
+
+	var common = function(type, url, obj, cb) {
+		if(cb === undefined) {
+			cb = obj;
+			obj = {};
+		}
+		request[type](opts.apiRoot + url)
+		.send(obj)
+		.set('Content-Type', contentType)
+        .end(function(err, res) {
+        	return cb(res.body, err);
+        });
+	};
 
 	return {
-		get: function(url, cb) {
-			request.get(opts.apiRoot + url)
-			.set('Accept', accept)
-	        .end(function(err, res) {
-	        	return cb(res.body, err);
-	        });
-		},
-		post: function() {
-
+		get: function(url, obj, cb) {
+			common('get', url, obj, cb);
 		},
 
-		put: function() {
-
+		post: function(url, obj, cb) {
+			common('post', url, obj, cb);
 		},
 
-		del: function() {
+		put: function(url, obj, cb) {
+			common('put', url, obj, cb);
+		},
 
+		del: function(url, obj, cb) {
+			common('del', url, obj, cb);
 		}
 	}
 };
 
-},{"superagent":18}],22:[function(require,module,exports){
-arguments[4][17][0].apply(exports,arguments)
-},{"dup":17}]},{},[6,2,1,3,4,5]);
+},{"superagent":22}],26:[function(require,module,exports){
+arguments[4][21][0].apply(exports,arguments)
+},{"dup":21}]},{},[8,1,3,2,4,5,6,7]);

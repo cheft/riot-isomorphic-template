@@ -68,4 +68,13 @@ module.exports = function(router) {
 			rep.send(data);
 		});
 	});
+
+	router.post('/', function(req, rep) {
+		
+	});
+
+	router.put('/', function(req, rep) {
+		
+	});
+
 }

@@ -1,9 +1,4 @@
 module.exports = {
-	on: {
-		init: function() {
-
-		}
-	},
 	do: {
 		submit: function() {
 			var data = {username: this.username.value, password: this.password.value};
@@ -11,7 +6,7 @@ module.exports = {
 				if(rep.result === 'error') {
 					return alert('error, user/pwd is admin');
 				}
-				app.router.go('/dashboard');
+				app.router.go('/admin/dashboard');
 			});
 		},
 		enter: function(e) {

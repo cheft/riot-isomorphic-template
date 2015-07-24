@@ -9,8 +9,6 @@ var rest       = require('./rest');
 var Waterline  = require('waterline');
 var _app = express(), orm = new Waterline();
 
-cheft.observable(_app);
-_app.use(bodyParser.urlencoded({ extended: true }));
 module.exports = function(config, router, dbconfig) {
     var options = {
         dotfiles: 'ignore',
@@ -24,12 +22,14 @@ module.exports = function(config, router, dbconfig) {
         }
     };
 
+    cheft.observable(_app);
+    _app.use(bodyParser.urlencoded({ extended: true }));
     _app.use(express.static('public', options));
 
     require.extensions['.html'] = function(module, filename) {
         var src = riot.compile(fs.readFileSync(filename, 'utf8'))
         module._compile('module.exports = ' + src, filename)
-    }
+    };
 
     var recurse = function(dir, root, base) {
         fs.readdirSync(dir).forEach(function(file) {
@@ -57,8 +57,7 @@ module.exports = function(config, router, dbconfig) {
                 }
             }
         })
-    }
-    recurse(config.dirname + '/app', './', config.dirname + path.sep + 'app');
+    };
 
     riot.render = function(tagName, opts) {
         var root = document.createElement(tagName);
@@ -70,30 +69,44 @@ module.exports = function(config, router, dbconfig) {
         }else {
             return sdom.serialize(root);
         }
-    }
-    _app.set('views', path.join(config.dirname, 'app'));
-    _app.engine('html', function (filePath, options, cb) {
-        var tmp = filePath.replace(path.sep + 'index.html', '');
-        var tagName = tmp.substr(tmp.lastIndexOf(path.sep) + 1);
-        try {
-            var view = riot.render(tagName, options);
-            var index = fs.readFileSync(config.dirname + '/public/index.html', 'utf8');
-            if(view.tag && view.tag.done) {
-                _app.chain(view.tag.done, function() {
-                    cb(null, index.replace('<div id="app"></div>', '<div id="app">' + view.dom(view.root) + '</div>'));
-                });
-            }else {
-                cb(null, index.replace('<div id="app"></div>', '<div id="app">' + view + '</div>'));
-            }
-        } catch (e) {
-            console.log("App engine error: ", e, " Filepath: ", filePath);
-            console.log(e.stack);
-        }
-    });
-    _app.set('view engine', 'html');
+    };
 
-    _app.rest = new rest(config);
+    var appInit = function() {
+        recurse(config.dirname + '/app', './', config.dirname + path.sep + 'app');
+        _app.set('views', path.join(config.dirname, 'app'));
+        _app.engine('html', function (filePath, options, cb) {
+            var tmp = filePath.replace(path.sep + 'index.html', '');
+            var tagName = tmp.substr(tmp.lastIndexOf(path.sep) + 1);
+            try {
+                var view = riot.render(tagName, options);
+                var index = fs.readFileSync(config.dirname + '/public/index.html', 'utf8');
+                if(view.tag && view.tag.done) {
+                    _app.chain(view.tag.done, function() {
+                        cb(null, index.replace('<div id="app"></div>', '<div id="app">' + view.dom(view.root) + '</div>'));
+                    });
+                }else {
+                    cb(null, index.replace('<div id="app"></div>', '<div id="app">' + view + '</div>'));
+                }
+            } catch (e) {
+                console.log("App engine error: ", e, " Filepath: ", filePath);
+                console.log(e.stack);
+            }
+        });
+        _app.set('view engine', 'html');
+        _app.rest = new rest(config);
+        _app = cheft.extend(_app, cheft);
+    };
+
+    _app.mixin = function(tag, obj) {
+        var init = function() {};
+        if (obj.on) {
+            init = obj.on.init || function() {};
+        }
+        tag.mixin({init: init});
+    };
+
     _app.start = function(port) {
+        appInit();
         orm.initialize(dbconfig, function(err, models) {
             if(err) throw err;
             _app.models = models.collections;
@@ -103,14 +116,6 @@ module.exports = function(config, router, dbconfig) {
             });
         });
     };
-    _app = cheft.extend(_app, cheft);
-
-    _app.mixin = function(tag, obj) {
-        var init = function() {};
-        if (obj.on) {
-            init = obj.on.init || function() {};
-        }
-        tag.mixin({init: init});
-    };
+    
     return _app;
 }

@@ -27,7 +27,7 @@ module.exports = function(router) {
 		return rep.render('admin');
 	});
 
-	router.get('/dashboard', function(req, rep) {
-		return rep.render('dashboard');
+	router.get('/admin/:tagName', function(req, rep) {
+		return rep.render('admin/' + req.params.tagName, {params: [req.params.tagName]});
 	});
 }

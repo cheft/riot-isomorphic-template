@@ -2,7 +2,7 @@
   "name": "cheft",
   "version": "0.0.2",
   "description": "a riot isomorphic framework base on riot & express",
-  "main": "index.js",
+  "main": "demo/server.js",
   "dependencies": {
     "body-parser": "^1.13.2",
     "express": "^4.12.4",

@@ -1,0 +1,31 @@
+<setting>
+	<script>app.mixin(this, require('./setting'));</script>
+	<div class="mdl-card__title mdl-card--expand">
+        <form action="#" style="width: 100%;">
+          <div class="mdl-textfield mdl-js-textfield textfield-demo">
+            <input class="mdl-textfield__input" type="text" name="appid" />
+            <label class="mdl-textfield__label">appid</label>
+          </div>
+          <br />
+          <div class="mdl-textfield mdl-js-textfield textfield-demo">
+            <input class="mdl-textfield__input" type="text" name="secret" />
+            <label class="mdl-textfield__label">secret</label>
+          </div>
+          <br />
+          <div class="mdl-textfield mdl-js-textfield textfield-demo">
+            <input class="mdl-textfield__input" type="text" name="token" />
+            <label class="mdl-textfield__label">token</label>
+          </div>
+        </form>
+    </div>
+    <div class="mdl-card__actions login-btn-group">
+        <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect login-btn" onclick="{submit}">
+	     	保存
+	    </a>
+    </div>
+    <style scoped>
+	    :scope {
+	    	text-align: center;
+	    }
+    </style>
+</setting>

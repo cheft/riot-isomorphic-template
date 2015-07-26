@@ -2,11 +2,12 @@ module.exports = {
 	do: {
 		submit: function() {
 			var data = {username: this.username.value, password: this.password.value};
-			app.rest.post('/admin', data, function(rep) {
+			app.rest.post('/login', data, function(rep) {
 				if(rep.result === 'error') {
 					return alert('error, user/pwd is admin');
 				}
-				app.router.go('/admin/dashboard');
+				// app.router.go('/dashboard');
+				location.href = '/dashboard'
 			});
 		},
 		enter: function(e) {

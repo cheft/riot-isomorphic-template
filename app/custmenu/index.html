@@ -1,0 +1,58 @@
+<custmenu>
+    <!-- Wide card with share menu button -->
+    <style scoped>
+    .demo-card-wide.mdl-card {
+        width: 350px;
+    }
+    
+    .demo-card-wide > .mdl-card__title {
+        height: 400px;
+    }
+    
+    .demo-card-wide > .mdl-card__menu {}
+    
+    .menu-add {
+        float: right;
+    }
+    </style>
+    <div class="mdl-card mdl-shadow--2dp demo-card-wide">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Welcome</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked />
+                <span class="mdl-radio__label mdl-js-button" id="demo-menu-top-left">推荐有礼</span>
+            </label>
+            <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="demo-menu-top-left">
+                <li class="mdl-menu__item">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-11">
+                        <input type="radio" id="option-11" class="mdl-radio__button" name="options" value="11" />
+                        <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab">
+                            <i class="material-icons">add</i>
+                        </span>
+                    </label>
+                </li>
+                <li class="mdl-menu__item">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-22">
+                        <input type="radio" id="option-22" class="mdl-radio__button" name="options" value="22" />
+                        <span class="mdl-radio__label mdl-js-button">推荐有礼11</span>
+                    </label>
+                </li>
+                <li class="mdl-menu__item">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-33">
+                        <input type="radio" id="option-33" class="mdl-radio__button" name="options" value="33" />
+                        <span class="mdl-radio__label mdl-js-button">推荐有礼22</span>
+                    </label>
+                </li>
+            </ul>
+
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab menu-add">
+                <i class="material-icons">add</i>
+            </button>
+        </div>
+    </div>
+</custmenu>

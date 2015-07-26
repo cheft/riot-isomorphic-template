@@ -11,7 +11,7 @@
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
         <header class="demo-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
             <div class="mdl-layout__header-row">
-                <span class="mdl-layout-title">主页</span>
+                <span class="mdl-layout-title"></span>
                 <div class="mdl-layout-spacer"></div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
                     <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -27,7 +27,7 @@
                 </button>
                 <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
                     <li class="mdl-menu__item">关于系统</li>
-                    <li class="mdl-menu__item">登出系统</li>
+                    <li class="mdl-menu__item" onclick="javascript:location.href='/api/login/logout'">登出系统</li>
                 </ul>
             </div>
         </header>
@@ -35,14 +35,14 @@
             <header class="demo-drawer-header">
                 <img src="/assets/img/user.png" class="demo-avatar">
                 <div class="demo-avatar-dropdown">
-                    <span>m@cheft.cn</span>
+                    <span id="login_name">cheft</span>
                     <div class="mdl-layout-spacer"></div>
                     <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                         <i class="material-icons">arrow_drop_down</i>
                     </button>
                     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
                         <button class="mdl-menu__item">个人资料</button>
-                        <button class="mdl-menu__item">登出</button>
+                        <button class="mdl-menu__item" onclick="javascript:location.href='/api/login/logout'">登出系统</button>
                     </ul>
                 </div>
             </header>

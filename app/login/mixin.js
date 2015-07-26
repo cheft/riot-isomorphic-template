@@ -3,8 +3,8 @@ module.exports = {
 		submit: function() {
 			var data = {username: this.username.value, password: this.password.value};
 			app.rest.post('/login', data, function(rep) {
-				if(rep.result === 'error') {
-					return alert('error, user/pwd is admin');
+				if(rep.status === 'error') {
+					return alert('username or password error');
 				}
 				// app.router.go('/dashboard');
 				location.href = '/dashboard'

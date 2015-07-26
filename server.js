@@ -4,6 +4,7 @@ var server = require('./lib/server');
 var config = require('./config');
 var router = require('./app/router');
 var dbconfig = require('./db');
+var weixin = require('weixin-apis');
 
 var app = root.app = server(config, router, dbconfig);
 
@@ -20,12 +21,16 @@ app.use(session({
 }));
 
 // session拦截
-// app.use(function (req, rep, next) {
-//     var url = req.originalUrl;
-//     if (url != '/login' && url != '/api/login' && !req.session.user) {
-//         return rep.redirect('/login');
-//     }
-//     next();
-// });
+app.use(function (req, rep, next) {
+    var url = req.originalUrl;
+    if (url === '/favicon.ico') {
+        return rep.send('ico');
+    }
+    if (url != '/login' && url != '/api/login' && url != '/api/login/initdata' && !req.session.user) {
+        return rep.redirect('/login');
+    }
+    next();
+});
 
+app.weixin = weixin;
 app.start();

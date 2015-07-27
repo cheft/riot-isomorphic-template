@@ -6,7 +6,12 @@ module.exports = {
                 self.setting = rep;
                 self.update();
             });
-		}
+		},
+        mount: function() {
+            setTimeout(function() {
+               componentHandler.upgradeAllRegistered(); 
+            }, 100);
+        }
 	},
 
     do: {

@@ -39,6 +39,7 @@ module.exports = function(router) {
         app.models.setting.update({
             id: req.params.id
         }, req.body, function(err, data) {
+            console.log(data);
             if(err) {
                 return rep.send(err);
             }

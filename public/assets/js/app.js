@@ -4,34 +4,35 @@ module.exports = riot.tag('comment', '<table class="mdl-data-table mdl-js-data-t
 
 });
 
-},{"riot":16}],2:[function(require,module,exports){
+},{"riot":17}],2:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('custmenu', ' <div class="mdl-card mdl-shadow--2dp demo-card-wide"> <div class="mdl-card__title"> <h2 class="mdl-card__title-text">Welcome</h2> </div> <div class="mdl-card__supporting-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia... </div> <div class="mdl-card__actions mdl-card--border"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1"> <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked> <span class="mdl-radio__label mdl-js-button" id="demo-menu-top-left">推荐有礼</span> </label> <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="demo-menu-top-left"> <li class="mdl-menu__item"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-11"> <input type="radio" id="option-11" class="mdl-radio__button" name="options" value="11"> <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab"> <i class="material-icons">add</i> </span> </label> </li> <li class="mdl-menu__item"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-22"> <input type="radio" id="option-22" class="mdl-radio__button" name="options" value="22"> <span class="mdl-radio__label mdl-js-button">推荐有礼11</span> </label> </li> <li class="mdl-menu__item"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-33"> <input type="radio" id="option-33" class="mdl-radio__button" name="options" value="33"> <span class="mdl-radio__label mdl-js-button">推荐有礼22</span> </label> </li> </ul> <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab menu-add"> <i class="material-icons">add</i> </button> </div> </div>', 'custmenu .demo-card-wide.mdl-card, [riot-tag="custmenu"] .demo-card-wide.mdl-card{ width: 350px; } custmenu .demo-card-wide > .mdl-card__title, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__title{ height: 400px; } custmenu .demo-card-wide > .mdl-card__menu, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__menu{} custmenu .menu-add, [riot-tag="custmenu"] .menu-add{ float: right; }', function(opts) {
-
+module.exports = riot.tag('custmenu', '<div class="mdl-card mdl-shadow--2dp demo-card-wide"> <div class="mdl-card__title"> <h2 class="mdl-card__title-text">菜单数据</h2> </div> <div class="mdl-card__supporting-text"> <form action="#" style="width: 100%;"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <input class="mdl-textfield__input" type="text" name="name" value="{menu.name}"> <label class="mdl-textfield__label">名称</label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="type_click"> <input type="radio" id="type_click" class="mdl-radio__button" name="type" value="click" __checked="{menu.type == \'click\'}"> 类型 click </label> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="type_view"> <input type="radio" id="type_view" class="mdl-radio__button" name="type" value="view" __checked="{menu.type == \'view\'}"> 类型 view </label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <input class="mdl-textfield__input" type="text" name="key" value="{menu.key}"> <label class="mdl-textfield__label">key</label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <input class="mdl-textfield__input" type="text" name="url" value="{menu.url}"> <label class="mdl-textfield__label">网址</label> </div> </form> <div class="mdl-card__actions login-btn-group"> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" onclick="{save}"> 保存 </a> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" onclick="{revert}"> 撤销 </a> </div> </div> <div class="mdl-card__actions mdl-card--border"> <span each="{data.menu.button}"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="id_{name}" > <input type="radio" id="id_{name}" class="mdl-radio__button" name="options" value="1" onclick="{select_menu}"> <span class="mdl-radio__label mdl-js-button" id="menu_{name}">{name}</span> </label> <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="menu_{name}"> <li class="mdl-menu__item"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-add"> <input type="radio" id="option-add" class="mdl-radio__button" name="options" value="11"> <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab"> <i class="material-icons">add</i> </span> </label> </li> <li class="mdl-menu__item" each="{sub_button}"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="id_{name}"> <input type="radio" id="id_{name}" class="mdl-radio__button" name="options" value="22"> <span class="mdl-radio__label mdl-js-button">{name}</span> </label> </li> </ul> </span> <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab menu-add"> <i class="material-icons">add</i> </button> </div> <div class="mdl-card__menu"> <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"> <i class="material-icons">cloud_upload</i> </button> </div> </div>', 'custmenu .demo-card-wide.mdl-card, [riot-tag="custmenu"] .demo-card-wide.mdl-card{ width: 350px; } custmenu .demo-card-wide > .mdl-card__title, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__title{ } custmenu .demo-card-wide > .mdl-card__menu, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__menu{} custmenu .menu-add, [riot-tag="custmenu"] .menu-add{ float: right; }', function(opts) {
+    app.mixin(this, require('./mixin'))
+    
 });
 
-},{"riot":16}],3:[function(require,module,exports){
+},{"./mixin":7,"riot":17}],3:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('dashboard', '<div class="mdl-grid demo-content"> <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid"> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan font-size="0.2" dy="-0.07">%</tspan> </text> </svg> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan dy="-0.07" font-size="0.2">%</tspan> </text> </svg> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan dy="-0.07" font-size="0.2">%</tspan> </text> </svg> <svg fill="currentColor" width="200px" height="200px" viewBox="0 0 1 1" class="demo-chart mdl-cell mdl-cell--4-col mdl-cell--3-col-desktop"> <use xlink:href="#piechart" mask="url(#piemask)"></use> <text x="0.5" y="0.5" font-family="Roboto" font-size="0.3" fill="#888" text-anchor="middle" dy="0.1">82 <tspan dy="-0.07" font-size="0.2">%</tspan> </text> </svg> </div> <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col"> <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph"> <use xlink:href="#chart"></use> </svg> <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph"> <use xlink:href="#chart"></use> </svg> </div> <div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing"> <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop"> <div class="mdl-card__title mdl-card--expand mdl-color--teal-300"> <h2 class="mdl-card__title-text">Updates</h2> </div> <div class="mdl-card__supporting-text mdl-color-text--grey-600"> Non dolore elit adipisicing ea reprehenderit consectetur culpa. </div> <div class="mdl-card__actions mdl-card--border"> <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect">Read More</a> </div> </div> <div class="demo-separator mdl-cell--1-col"></div> <div class="demo-options mdl-card mdl-color--deep-purple-500 mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--12-col-desktop"> <div class="mdl-card__supporting-text mdl-color-text--blue-grey-50"> <h3>View options</h3> <ul> <li> <label for="chkbox1" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox1" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Click per object</span> </label> </li> <li> <label for="chkbox2" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox2" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Views per object</span> </label> </li> <li> <label for="chkbox3" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox3" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Objects selected</span> </label> </li> <li> <label for="chkbox4" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"> <input type="checkbox" id="chkbox4" class="mdl-checkbox__input"> <span class="mdl-checkbox__label">Objects viewed</span> </label> </li> </ul> </div> <div class="mdl-card__actions mdl-card--border"> <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--blue-grey-50">Change location</a> <div class="mdl-layout-spacer"></div> <i class="material-icons">location_on</i> </div> </div> </div> </div>', function(opts) {        
         app.mixin(this, require('./mixin'));
     
 });
 
-},{"./mixin":7,"riot":16}],4:[function(require,module,exports){
+},{"./mixin":8,"riot":17}],4:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag('login', '<div class="mdl-card mdl-shadow--2dp demo-card-square"> <div class="mdl-card__supporting-text"> 达飞微信后台管理系统 </div> <div class="mdl-card__title mdl-card--expand"> <form action="#" style="width: 100%;"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <input class="mdl-textfield__input" type="text" name="username" onkeypress="{enter}"> <label class="mdl-textfield__label">用户</label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <input class="mdl-textfield__input" type="password" name="password" onkeypress="{enter}"> <label class="mdl-textfield__label">密码</label> </div> </form> </div> <div class="mdl-card__actions login-btn-group"> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect login-btn" onclick="{submit}"> 登录 </a> </div> </div>', 'login , [riot-tag="login"] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-box-pack: center; -webkit-box-align: center; text-align: center; height: 800px; } login .demo-card-square.mdl-card, [riot-tag="login"] .demo-card-square.mdl-card{ width: 320px; height: 320px; } login .mdl-card__supporting-text, [riot-tag="login"] .mdl-card__supporting-text{ text-align: center; background: #3f51b5; color: #FFF; font-size: 1.1em; } login .demo-card-square > .mdl-card__title, [riot-tag="login"] .demo-card-square > .mdl-card__title{ color: rgba(0, 0, 0, 0.87); text-align: center; } login .mdl-textfield.textfield-demo, [riot-tag="login"] .mdl-textfield.textfield-demo{ width: 200px; } login .login-btn-group, [riot-tag="login"] .login-btn-group{ text-align: center; padding-bottom: 50px; } login .login-btn, [riot-tag="login"] .login-btn{ width: 200px; color:#FFF !important; }', function(opts) {
         app.mixin(this, require('./mixin'));
     
 });
 
-},{"./mixin":8,"riot":16}],5:[function(require,module,exports){
+},{"./mixin":9,"riot":17}],5:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('setting', '<div class="mdl-card__title mdl-card--expand"> <form action="#" style="width: 100%;"> <input type="hidden" name="id" value="{setting.id}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="">appid</label> <input class="mdl-textfield__input" type="text" name="appid" value="{setting.appid}"> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="">secret</label> <input class="mdl-textfield__input" type="text" name="secret" value="{setting.secret}"> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="">token</label> <input class="mdl-textfield__input" type="text" name="token" value="{setting.token}"> </div> </form> </div> <div class="mdl-card__actions login-btn-group"> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" onclick="{save}"> 保存 </a> </div>', 'setting , [riot-tag="setting"] { text-align: center; }', function(opts) {
+module.exports = riot.tag('setting', '<div class="mdl-card__title mdl-card--expand"> <form action="#" style="width: 100%;"> <input type="hidden" name="id" value="{setting.id}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="mdl-textfield__label">appid</label> <input class="mdl-textfield__input" type="text" name="appid" value="{setting.appid}"> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="mdl-textfield__label">secret</label> <input class="mdl-textfield__input" type="text" name="secret" value="{setting.secret}"> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="mdl-textfield__label">token</label> <input class="mdl-textfield__input" type="text" name="token" value="{setting.token}"> </div> </form> </div> <div class="mdl-card__actions login-btn-group"> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" onclick="{save}"> 保存 </a> </div>', 'setting , [riot-tag="setting"] { text-align: center; }', function(opts) {
     app.mixin(this, require('./mixin'));
     
 });
 
-},{"./mixin":10,"riot":16}],6:[function(require,module,exports){
+},{"./mixin":11,"riot":17}],6:[function(require,module,exports){
 var riot   = require('riot');
 var client = require('./lib/client');
 var config = require('./config');
@@ -66,7 +67,33 @@ app.holdLink = function(e) {
 
 app.start();
 
-},{"./app/router":9,"./config":11,"./lib/client":13,"riot":16}],7:[function(require,module,exports){
+},{"./app/router":10,"./config":12,"./lib/client":14,"riot":17}],7:[function(require,module,exports){
+module.exports = {
+    on: {
+        init: function() {
+            var self = this;
+            self.done = 'custmenu.done';
+            app.rest.get('/custmenu', function(rep) {
+                self.data = rep;
+                self.update();
+                app.trigger('custmenu.done');
+            });
+        },
+        updated: function() {
+            setTimeout(function() {
+               componentHandler.upgradeAllRegistered(); 
+            }, 100);
+        }
+    },
+    do: {
+        select_menu: function(e) {
+            this.menu = e.item;
+            return true;
+        }
+    }
+}
+
+},{}],8:[function(require,module,exports){
 module.exports = {
     on: {
         mount: function() {
@@ -78,7 +105,7 @@ module.exports = {
         }
     }
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = {
 	do: {
 		submit: function() {
@@ -99,7 +126,7 @@ module.exports = {
 		}
 	}
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function(router) {
 	router.get('/', function(req, rep) {
 		return rep.render('dashboard');
@@ -114,7 +141,7 @@ module.exports = function(router) {
 	});
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = {
 	on: {
 		init: function() {
@@ -123,7 +150,12 @@ module.exports = {
                 self.setting = rep;
                 self.update();
             });
-		}
+		},
+        mount: function() {
+            setTimeout(function() {
+               componentHandler.upgradeAllRegistered(); 
+            }, 100);
+        }
 	},
 
     do: {
@@ -149,7 +181,7 @@ module.exports = {
         }
     }
 }
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (__dirname){
 module.exports = {
 	apiPrefix: '/api',
@@ -158,7 +190,7 @@ module.exports = {
 	blacklist: ['/admin/*', '/api/admin/*']
 }
 }).call(this,"/")
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var riot = require('riot');
 
 var C, Cheft, toString, types, slice = [].slice;
@@ -221,7 +253,7 @@ C.observable = function(el) {
 }
 
 module.exports = C;
-},{"riot":16}],13:[function(require,module,exports){
+},{"riot":17}],14:[function(require,module,exports){
 var MinRouter = require('minrouter');
 var cheft     = require('./cheft');
 var Rest      = require('./rest');
@@ -278,7 +310,7 @@ module.exports = function(config, router, links) {
 
 	return _app;
 }
-},{"./cheft":12,"./rest":14,"minrouter":15}],14:[function(require,module,exports){
+},{"./cheft":13,"./rest":15,"minrouter":16}],15:[function(require,module,exports){
 var request = require('superagent');
 
 module.exports = function(opts) {
@@ -294,7 +326,7 @@ module.exports = function(opts) {
 		.send(obj)
 		.set('Content-Type', contentType)
         .end(function(err, res) {
-        	return cb(res.body, err);
+        	return cb(res ? res.body : {}, err);
         });
 	};
 
@@ -317,7 +349,7 @@ module.exports = function(opts) {
 	}
 };
 
-},{"superagent":17}],15:[function(require,module,exports){
+},{"superagent":18}],16:[function(require,module,exports){
 ;(function() {
     if(!window) return;
     var win = window, supportPushState = 'pushState' in history, evt = supportPushState ? 'popstate' : 'hashchange', self = {};
@@ -434,7 +466,7 @@ module.exports = function(opts) {
         window.MinRouter = Router;
     }
 })(typeof window != 'undefined' ? window : undefined);
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* Riot v2.2.2, @license MIT, (c) 2015 Muut Inc. + contributors */
 
 ;(function(window, undefined) {
@@ -1807,7 +1839,7 @@ riot.mountTo = riot.mount
 
 })(typeof window != 'undefined' ? window : undefined);
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -2932,7 +2964,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":18,"reduce":19}],18:[function(require,module,exports){
+},{"emitter":19,"reduce":20}],19:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -3098,7 +3130,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.

@@ -10,7 +10,7 @@ module.exports = {
         mount: function() {
             setTimeout(function() {
                componentHandler.upgradeAllRegistered(); 
-            }, 100);
+            }, 50);
         }
 	},
 
@@ -26,14 +26,13 @@ module.exports = {
             };
             if(this.id.value === '') {
                 app.rest.post('/setting', setting, function(rep) {
-                    alert('success');
+                    alert('保存成功');
                 });
             }else {
                 app.rest.put('/setting/' + this.id.value, setting, function(rep) {
-                    alert('success');
+                    alert('修改成功');
                 });
             }
-            
         }
     }
 }

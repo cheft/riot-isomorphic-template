@@ -6,8 +6,11 @@
         <div class="mdl-card__title">
             <h2 class="mdl-card__title-text">菜单数据</h2>
         </div>
+        <div class="mdl-card__title">一级菜单小于3个，二级菜单小于5个</div>
         <div class="mdl-card__supporting-text">
             <form action="#" style="width: 100%;">
+                <input type="hidden" name="pname" value="{item.pname}"/>
+                <input type="hidden" name="oldname" value="{item.name}"/>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo {is-dirty: item.name}">
                     <input class="mdl-textfield__input" type="text" name="name" value="{item.name}" />
                     <label class="mdl-textfield__label">名称</label>
@@ -16,22 +19,29 @@
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect is-upgraded {is-checked: item.type == 'click'}" for="type_click">
                         <input type="radio" id="type_click" class="mdl-radio__button" name="type" value="click" />
-                        类型 click
+                        click
                     </label>
                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect is-upgraded {is-checked: item.type == 'view'}" for="type_view">
                         <input type="radio" id="type_view" class="mdl-radio__button" name="type" value="view" />
-                        类型 view
+                        view
                     </label>
+                </div>
+                <br />
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
+                    类型click为key值，类型view为url值
                 </div>
                 <br />
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo {is-dirty: item.key || item.url}">
                     <input class="mdl-textfield__input" type="text" name="value" value="{item.key || item.url}"/>
-                    <label class="mdl-textfield__label">key/url</label>
+                    <label class="mdl-textfield__label">key / url</label>
                 </div>
             </form>
             <div class="mdl-card__actions login-btn-group">
                 <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" onclick="{saveMenu}">
-                    保存
+                    保存菜单
+                </a>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-button--colored mdl-js-ripple-effect" onclick="{removeMenu}">
+                    删除菜单
                 </a>
             </div>
         </div>
@@ -42,19 +52,13 @@
                     <span class="mdl-radio__label mdl-js-button" id="menu_{name}">{name}</span>
                 </label>
                 <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="menu_{name}">
-                    <li class="mdl-menu__item">
-                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-add" onclick="{addSubMenu}">
-                            <input type="radio" id="option-add" class="mdl-radio__button" name="options" value="11" />
-                            <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab">
-                                <i class="material-icons">add</i>
-                            </span>
-                        </label>
+                    <li class="mdl-menu__item" each={sub_button} onclick="{parent.selectMenu}">
+                        <span class="mdl-radio__label mdl-js-button">{name}</span>
                     </li>
-                    <li class="mdl-menu__item" each={sub_button}>
-                        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="id_{name}">
-                            <input type="radio" id="id_{name}" class="mdl-radio__button" name="options" value="22" onclick="{parent.selectMenu}" />
-                            <span class="mdl-radio__label mdl-js-button">{name}</span>
-                        </label>
+                    <li class="mdl-menu__item" onclick="{addSubMenu}">
+                        <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab">
+                            <i class="material-icons">add</i>
+                        </span>
                     </li>
                 </ul>
             </span>

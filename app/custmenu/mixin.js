@@ -32,26 +32,46 @@ module.exports = {
                 }
             }
         },
+        removeMenuByName: function(name) {
+            var btns = this.menus.menu.button;
+            for(var i = 0; i < btns.length; i++) {
+                if(name === btns[i].name) {
+                    return btns.splice(i, 1);
+                }
+                for(var k = 0; k < btns[i].sub_button.length; k++) {
+                    if(name === btns[i].sub_button[k].name) {
+                        return btns[i].sub_button.splice(k, 1);
+                    }
+                }
+            }
+        },
         selectMenu: function(e) {
             this.update({item: e.item, menus: this.menus});
             e.preventUpdate = true;
+            e.target.parentNode.parentNode.classList.remove('is-visible');
             return true;
         },
         addMenu: function(e) {
-            // alert('最多只能创建三个一级菜单');
+            var btns = this.menus.menu.button;
+            if(btns.length > 2) {
+                return alert('最多只能创建3个一级菜单');
+            }
             this.item = {};
             return true;
         },
         addSubMenu: function(e) {
+            var menu = this.getMenuByName(e.item.name);
+            if(menu.sub_button.length > 4) {
+                return alert('最多只能创建5个一级菜单');
+            }
             this.item = {pname: e.item.name};
             return true;
         },
         saveMenu: function(e) {
-            var btns = this.menus.menu.button;
             var menu = this.getMenuByName(this.oldname.value);
             var isAdd = false;
             if(!menu) {
-                status = true;
+                isAdd = true;
                 menu = {name: this.name.value};
             }else {
                 menu.name = this.name.value;
@@ -65,17 +85,32 @@ module.exports = {
             }
             if(isAdd) {
                 if(this.pname.value === '') {
+                    var btns = this.menus.menu.button;
+                    if(btns.length > 2) {
+                        return alert('最多只能创建3个一级菜单');
+                    }
                     btns.push(menu);
                 }else{
                     var pmenu = this.getMenuByName(this.pname.value);
+                    if(pmenu.sub_button.length > 4) {
+                        return alert('最多只能创建5个一级菜单');
+                    }
                     pmenu.sub_button.push(menu);
                 }
             }
-            console.log(btns);
+            e.preventUpdate = true;
+            this.update({item: {}});
             this.trigger('upgrade');
         },
+        removeMenu: function(e) {
+            this.removeMenuByName(this.oldname.value);
+            this.update({item: {}, menus: this.menus});
+            e.preventUpdate = true;
+            return true;
+        },
         pushMenu: function(e) {
-
+            console.log(this.menus);
+            alert('推送成功，请于微信公众号中查看');
         }
     }
 }

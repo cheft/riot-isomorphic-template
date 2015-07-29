@@ -7,6 +7,7 @@
             <h2 class="mdl-card__title-text">菜单数据</h2>
         </div>
         <div class="mdl-card__title">一级菜单小于3个，二级菜单小于5个</div>
+        <div class="mdl-card__title">注意：数据没有缓存，请编辑好菜单后立即点右上角按钮推送</div>
         <div class="mdl-card__supporting-text">
             <form action="#" style="width: 100%;">
                 <input type="hidden" name="pname" value="{item.pname}"/>
@@ -52,9 +53,7 @@
                     <span class="mdl-radio__label mdl-js-button" id="menu_{name}">{name}</span>
                 </label>
                 <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="menu_{name}">
-                    <li class="mdl-menu__item" each={sub_button} onclick="{parent.selectMenu}">
-                        <span class="mdl-radio__label mdl-js-button">{name}</span>
-                    </li>
+                    <li class="mdl-menu__item" each={sub_button} onclick="{parent.selectMenu}">{name}</li>
                     <li class="mdl-menu__item" onclick="{addSubMenu}">
                         <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab">
                             <i class="material-icons">add</i>
@@ -67,7 +66,7 @@
             </button>
         </div>
         <div class="mdl-card__menu">
-            <button id="custmenu_upload" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+            <button id="custmenu_upload" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onclick="{pushMenu}">
                 <i class="material-icons">cloud_upload</i>
             </button>
             <div class="mdl-tooltip" for="custmenu_upload">

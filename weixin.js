@@ -1,7 +1,7 @@
 var weixin = require('weixin-apis');
 
 module.exports = function(app) {
-	app.weixin.on('textMsg', function(data) {
+	weixin.on('textMsg', function(data) {
 	    console.log(data);
 	    var content = data.content;
 	    var msg = {
@@ -14,7 +14,7 @@ module.exports = function(app) {
         	if(!err) {
         		msg.content = data.message;
         	}
-        	app.weixin.sendMsg(msg);
+        	weixin.sendMsg(msg);
 		});
 	});
 	

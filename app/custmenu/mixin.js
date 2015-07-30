@@ -4,7 +4,7 @@ module.exports = {
             var self = this;
             self.done = 'custmenu.done';
             app.rest.get('/custmenu', function(rep) {
-                self.menu = rep;
+                self.menus = rep;
                 self.update();
                 app.trigger('custmenu.done');
                 self.trigger('upgrade');
@@ -18,7 +18,7 @@ module.exports = {
     },
     do: {
         getMenuByName: function(name) {
-            var btns = this.menu.button;
+            var btns = this.menus.menu.button;
             for(var i = 0; i < btns.length; i++) {
                 if(name === btns[i].name) {
                     return btns[i];
@@ -31,7 +31,7 @@ module.exports = {
             }
         },
         removeMenuByName: function(name) {
-            var btns = this.menu.button;
+            var btns = this.menus.menu.button;
             for(var i = 0; i < btns.length; i++) {
                 if(name === btns[i].name) {
                     return btns.splice(i, 1);
@@ -44,13 +44,13 @@ module.exports = {
             }
         },
         selectMenu: function(e) {
-            this.update({item: e.item, menu: this.menu});
+            this.update({item: e.item, menu: this.menus.menu});
             e.preventUpdate = true;
             e.target.parentNode.parentNode.classList.remove('is-visible');
             return true;
         },
         addMenu: function(e) {
-            var btns = this.menu.button;
+            var btns = this.menus.menu.button;
             if(btns.length > 2) {
                 return alert('最多只能创建3个一级菜单');
             }
@@ -83,7 +83,7 @@ module.exports = {
             }
             if(isAdd) {
                 if(this.pname.value === '') {
-                    var btns = this.menu.button;
+                    var btns = this.menus.menu.button;
                     if(btns.length > 2) {
                         return alert('最多只能创建3个一级菜单');
                     }
@@ -102,12 +102,12 @@ module.exports = {
         },
         removeMenu: function(e) {
             this.removeMenuByName(this.oldname.value);
-            this.update({item: {}, menu: this.menu});
+            this.update({item: {}, menu: this.menus.menu});
             e.preventUpdate = true;
             return true;
         },
         pushMenu: function(e) {
-            console.log(this.menu);
+            console.log(this.menus.menu);
             app.rest.post('/custmenu', {menu: JSON.stringify(this.menu)}, function(data) {
                 console.log(data);
                 alert('推送成功，请于微信公众号中查看');

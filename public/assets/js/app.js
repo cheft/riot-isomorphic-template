@@ -7,7 +7,7 @@ module.exports = riot.tag('comment', '<table class="mdl-data-table mdl-js-data-t
 
 },{"./mixin":7,"riot":18}],2:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag('custmenu', '<div class="mdl-card mdl-shadow--2dp demo-card-wide"> <div class="mdl-card__title"> <h2 class="mdl-card__title-text">菜单数据</h2> </div> <div class="mdl-card__title">一级菜单小于3个，二级菜单小于5个</div> <div class="mdl-card__title">注意：数据没有缓存，请编辑好菜单后立即点右上角按钮推送</div> <div class="mdl-card__supporting-text"> <form action="#" style="width: 100%;"> <input type="hidden" name="pname" value="{item.pname}"> <input type="hidden" name="oldname" value="{item.name}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo {is-dirty: item.name}"> <input class="mdl-textfield__input" type="text" name="name" value="{item.name}"> <label class="mdl-textfield__label">名称</label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect is-upgraded {is-checked: item.type == \'click\'}" for="type_click"> <input type="radio" id="type_click" class="mdl-radio__button" name="type" value="click"> click </label> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect is-upgraded {is-checked: item.type == \'view\'}" for="type_view"> <input type="radio" id="type_view" class="mdl-radio__button" name="type" value="view"> view </label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> 类型click为key值，类型view为url值 </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo {is-dirty: item.key || item.url}"> <input class="mdl-textfield__input" type="text" name="value" value="{item.key || item.url}"> <label class="mdl-textfield__label">key / url</label> </div> </form> <div class="mdl-card__actions login-btn-group"> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" onclick="{saveMenu}"> 保存菜单 </a> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-button--colored mdl-js-ripple-effect" onclick="{removeMenu}"> 删除菜单 </a> </div> </div> <div class="mdl-card__actions mdl-card--border"> <span each="{menu.button}"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="id_{name}" > <input type="radio" id="id_{name}" class="mdl-radio__button" name="options" value="1" onclick="{selectMenu}"> <span class="mdl-radio__label mdl-js-button" id="menu_{name}">{name}</span> </label> <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="menu_{name}"> <li class="mdl-menu__item" each="{sub_button}" onclick="{parent.selectMenu}">{name}</li> <li class="mdl-menu__item" onclick="{addSubMenu}"> <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab"> <i class="material-icons">add</i> </span> </li> </ul> </span> <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab menu-add" onclick="{addMenu}"> <i class="material-icons">add</i> </button> </div> <div class="mdl-card__menu"> <button id="custmenu_upload" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onclick="{pushMenu}"> <i class="material-icons">cloud_upload</i> </button> <div class="mdl-tooltip" for="custmenu_upload"> 推送菜单 </div> </div> </div>', 'custmenu .demo-card-wide.mdl-card, [riot-tag="custmenu"] .demo-card-wide.mdl-card{ width: 350px; } custmenu .demo-card-wide > .mdl-card__title, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__title{ } custmenu .demo-card-wide > .mdl-card__menu, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__menu{} custmenu .menu-add, [riot-tag="custmenu"] .menu-add{ float: right; }', function(opts) {
+module.exports = riot.tag('custmenu', '<div class="mdl-card mdl-shadow--2dp demo-card-wide"> <div class="mdl-card__title"> <h2 class="mdl-card__title-text">菜单数据</h2> </div> <div class="mdl-card__title">一级菜单小于3个，二级菜单小于5个</div> <div class="mdl-card__title">注意：数据没有缓存，请编辑好菜单后立即点右上角按钮推送</div> <div class="mdl-card__supporting-text"> <form action="#" style="width: 100%;"> <input type="hidden" name="pname" value="{item.pname}"> <input type="hidden" name="oldname" value="{item.name}"> <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo {is-dirty: item.name}"> <input class="mdl-textfield__input" type="text" name="name" value="{item.name}"> <label class="mdl-textfield__label">名称</label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect is-upgraded {is-checked: item.type == \'click\'}" for="type_click"> <input type="radio" id="type_click" class="mdl-radio__button" name="type" value="click"> click </label> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect is-upgraded {is-checked: item.type == \'view\'}" for="type_view"> <input type="radio" id="type_view" class="mdl-radio__button" name="type" value="view"> view </label> </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo"> 类型click为key值，类型view为url值 </div> <br > <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo {is-dirty: item.key || item.url}"> <input class="mdl-textfield__input" type="text" name="value" value="{item.key || item.url}"> <label class="mdl-textfield__label">key / url</label> </div> </form> <div class="mdl-card__actions login-btn-group"> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" onclick="{saveMenu}"> 保存菜单 </a> <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-button--colored mdl-js-ripple-effect" onclick="{removeMenu}"> 删除菜单 </a> </div> </div> <div class="mdl-card__actions mdl-card--border"> <span each="{menus.menu.button}"> <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="id_{name}" > <input type="radio" id="id_{name}" class="mdl-radio__button" name="options" value="1" onclick="{selectMenu}"> <span class="mdl-radio__label mdl-js-button" id="menu_{name}">{name}</span> </label> <ul class="mdl-menu mdl-menu--top-left mdl-js-menu mdl-js-ripple-effect" for="menu_{name}"> <li class="mdl-menu__item" each="{sub_button}" onclick="{parent.selectMenu}">{name}</li> <li class="mdl-menu__item" onclick="{addSubMenu}"> <span class="mdl-radio__label mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab"> <i class="material-icons">add</i> </span> </li> </ul> </span> <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--mini-fab menu-add" onclick="{addMenu}"> <i class="material-icons">add</i> </button> </div> <div class="mdl-card__menu"> <button id="custmenu_upload" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onclick="{pushMenu}"> <i class="material-icons">cloud_upload</i> </button> <div class="mdl-tooltip" for="custmenu_upload"> 推送菜单 </div> </div> </div>', 'custmenu .demo-card-wide.mdl-card, [riot-tag="custmenu"] .demo-card-wide.mdl-card{ width: 350px; } custmenu .demo-card-wide > .mdl-card__title, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__title{ } custmenu .demo-card-wide > .mdl-card__menu, [riot-tag="custmenu"] .demo-card-wide > .mdl-card__menu{} custmenu .menu-add, [riot-tag="custmenu"] .menu-add{ float: right; }', function(opts) {
     app.mixin(this, require('./mixin'))
     
 });
@@ -135,7 +135,7 @@ module.exports = {
             var self = this;
             self.done = 'custmenu.done';
             app.rest.get('/custmenu', function(rep) {
-                self.menu = rep;
+                self.menus = rep;
                 self.update();
                 app.trigger('custmenu.done');
                 self.trigger('upgrade');
@@ -149,7 +149,7 @@ module.exports = {
     },
     do: {
         getMenuByName: function(name) {
-            var btns = this.menu.button;
+            var btns = this.menus.menu.button;
             for(var i = 0; i < btns.length; i++) {
                 if(name === btns[i].name) {
                     return btns[i];
@@ -162,7 +162,7 @@ module.exports = {
             }
         },
         removeMenuByName: function(name) {
-            var btns = this.menu.button;
+            var btns = this.menus.menu.button;
             for(var i = 0; i < btns.length; i++) {
                 if(name === btns[i].name) {
                     return btns.splice(i, 1);
@@ -175,13 +175,13 @@ module.exports = {
             }
         },
         selectMenu: function(e) {
-            this.update({item: e.item, menu: this.menu});
+            this.update({item: e.item, menu: this.menus.menu});
             e.preventUpdate = true;
             e.target.parentNode.parentNode.classList.remove('is-visible');
             return true;
         },
         addMenu: function(e) {
-            var btns = this.menu.button;
+            var btns = this.menus.menu.button;
             if(btns.length > 2) {
                 return alert('最多只能创建3个一级菜单');
             }
@@ -214,7 +214,7 @@ module.exports = {
             }
             if(isAdd) {
                 if(this.pname.value === '') {
-                    var btns = this.menu.button;
+                    var btns = this.menus.menu.button;
                     if(btns.length > 2) {
                         return alert('最多只能创建3个一级菜单');
                     }
@@ -233,12 +233,12 @@ module.exports = {
         },
         removeMenu: function(e) {
             this.removeMenuByName(this.oldname.value);
-            this.update({item: {}, menu: this.menu});
+            this.update({item: {}, menu: this.menus.menu});
             e.preventUpdate = true;
             return true;
         },
         pushMenu: function(e) {
-            console.log(this.menu);
+            console.log(this.menus.menu);
             app.rest.post('/custmenu', {menu: JSON.stringify(this.menu)}, function(data) {
                 console.log(data);
                 alert('推送成功，请于微信公众号中查看');
@@ -338,7 +338,8 @@ module.exports = {
 (function (__dirname){
 module.exports = {
 	apiPrefix: '/api',
-	apiRoot  : 'http://cheft.coding.io//api',
+	// apiRoot  : 'http://localhost:3000/api',
+	apiRoot  : 'http://cheft.coding.io/api',
 	dirname  : typeof window === 'object' ? '/public' : __dirname,
 	blacklist: ['/admin/*', '/api/admin/*']
 }

@@ -26,7 +26,10 @@ app.use(function (req, rep, next) {
     if (url === '/favicon.ico') {
         return rep.send('ico');
     }
-    if (url != '/login' && url != '/api/login' && url != '/api/verify' && url != '/api/login/initdata' && !req.session.user) {
+    if(url.indexOf('/api/verify') !== -1) {
+        return next();
+    }
+    if (url != '/login' && url != '/api/login' && url != '' && url != '/api/login/initdata' && !req.session.user) {
         return rep.redirect('/login');
     }
     next();

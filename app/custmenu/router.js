@@ -3,7 +3,7 @@ module.exports = function(router) {
 
     router.get('/', function(req, rep) {
         app.weixin.getMenu(function(data) {
-            rep.send(d);
+            rep.send(data);
         });
     });
 

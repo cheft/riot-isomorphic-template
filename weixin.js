@@ -11,7 +11,7 @@ module.exports = function(app) {
             content : '没有匹配到'
         };
         app.models.comment.findOne({keyword: data.content}, function(err, res) {
-        	if(!err) {
+            if(res) {
         		msg.content = res.message;
         	}
         	weixin.sendMsg(msg);

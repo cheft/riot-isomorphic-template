@@ -10,9 +10,9 @@ module.exports = function(app) {
             msgType : 'text',
             content : '没有匹配到'
         };
-        app.models.comment.findOne({keyword: data.content}, function(err, data) {
+        app.models.comment.findOne({keyword: data.content}, function(err, res) {
         	if(!err) {
-        		msg.content = data.message;
+        		msg.content = res.message;
         	}
         	weixin.sendMsg(msg);
 		});

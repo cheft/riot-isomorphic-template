@@ -43,6 +43,20 @@ module.exports = {
                 }
             }
         },
+        removeMenuSubButton: function() {
+            var btns = this.menus.menu.button;
+            for(var i = 0; i < btns.length; i++) {
+                if(btns[i].sub_button.length === 0) {
+                    delete btns[i].sub_button;
+                    continue;
+                }
+                for(var k = 0; k < btns[i].sub_button.length; k++) {
+                    if(btns[i].sub_button[k].sub_button.length === 0) {
+                        delete btns[i].sub_button[k].sub_button;
+                    }
+                }
+            }
+        },
         selectMenu: function(e) {
             this.update({item: e.item, menu: this.menus.menu});
             e.preventUpdate = true;
@@ -107,8 +121,9 @@ module.exports = {
             return true;
         },
         pushMenu: function(e) {
+            this.removeMenuSubButton();
             console.log(this.menus.menu);
-            app.rest.post('/custmenu', {menu: JSON.stringify(this.menu)}, function(data) {
+            app.rest.post('/custmenu', {menu: JSON.stringify(this.menus.menu)}, function(data) {
                 console.log(data);
                 alert('推送成功，请于微信公众号中查看');
             });

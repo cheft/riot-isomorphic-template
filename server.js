@@ -26,11 +26,26 @@ app.use(function (req, rep, next) {
     if (url === '/favicon.ico') {
         return rep.send('ico');
     }
-    if (url != '/login' && url != '/api/login' && url != '/api/login/initdata' && !req.session.user) {
+    if (url != '/login' && url != '/api/login' && url != '/api/verify' && url != '/api/login/initdata' && !req.session.user) {
         return rep.redirect('/login');
     }
     next();
 });
 
 app.weixin = weixinHandle(app);
+
+// 接入验证
+app.get('/api/verify', function(req, res) {
+    if (app.weixin.checkSignature(req)) {
+        res.send(200, req.query.echostr);
+    } else {
+        res.send(200, 'fail');
+    }
+});
+
+// Start
+app.post('/api/verify', function(req, res) {
+    app.weixin.loop(req, res);
+});
+
 app.start();

@@ -4,7 +4,7 @@ var server = require('./lib/server');
 var config = require('./config');
 var router = require('./app/router');
 var dbconfig = require('./db');
-var weixin = require('weixin-apis');
+var weixinHandle = require('./weixin');
 
 var app = root.app = server(config, router, dbconfig);
 
@@ -32,5 +32,5 @@ app.use(function (req, rep, next) {
     next();
 });
 
-app.weixin = weixin;
+app.weixin = weixinHandle(app);
 app.start();

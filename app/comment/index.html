@@ -34,22 +34,22 @@
     <div class="mdl-card mdl-shadow--2dp demo-card-wide flex-middle-center">
         <div class="mdl-card__title">
             <form action="#" style="width: 100%;">
-                <input type="hidden" name="id" value={id}>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-                    <input class="mdl-textfield__input" type="text" name="keyword" />
+                <input type="hidden" name="id" value={comment.id}>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo {is-dirty: comment.keyword}">
+                    <input class="mdl-textfield__input" type="text" name="keyword" value={comment.keyword} />
                     <label class="mdl-textfield__label">关键字</label>
                 </div>
                 <br />
-                <div class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <textarea class="mdl-textfield__input" type="text" rows="3" name="message"></textarea>
+                <div class="mdl-textfield mdl-js-textfield textfield-demo {is-dirty: comment.message}">
+                    <textarea class="mdl-textfield__input" type="text" rows="3" name="message" value={comment.message} ></textarea>
                     <label class="mdl-textfield__label">消息</label>
                 </div>
             </form>
         </div>
         <div class="mdl-card__actions mdl-card--border">
-            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            保存
-        </a>
+            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="{save}">
+                保存
+            </a>
         </div>
     </div>
 </comment>

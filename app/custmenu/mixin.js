@@ -4,13 +4,11 @@ module.exports = {
             var self = this;
             self.done = 'custmenu.done';
             app.rest.get('/custmenu', function(rep) {
-                self.menus = rep;
+                self.menu = rep;
                 self.update();
                 app.trigger('custmenu.done');
+                self.trigger('upgrade');
             });
-        },
-        mount: function() {
-            this.trigger('upgrade');
         },
         upgrade: function() {
             setTimeout(function() {
@@ -20,7 +18,7 @@ module.exports = {
     },
     do: {
         getMenuByName: function(name) {
-            var btns = this.menus.menu.button;
+            var btns = this.menu.button;
             for(var i = 0; i < btns.length; i++) {
                 if(name === btns[i].name) {
                     return btns[i];
@@ -33,7 +31,7 @@ module.exports = {
             }
         },
         removeMenuByName: function(name) {
-            var btns = this.menus.menu.button;
+            var btns = this.menu.button;
             for(var i = 0; i < btns.length; i++) {
                 if(name === btns[i].name) {
                     return btns.splice(i, 1);
@@ -46,13 +44,13 @@ module.exports = {
             }
         },
         selectMenu: function(e) {
-            this.update({item: e.item, menus: this.menus});
+            this.update({item: e.item, menu: this.menu});
             e.preventUpdate = true;
             e.target.parentNode.parentNode.classList.remove('is-visible');
             return true;
         },
         addMenu: function(e) {
-            var btns = this.menus.menu.button;
+            var btns = this.menu.button;
             if(btns.length > 2) {
                 return alert('最多只能创建3个一级菜单');
             }
@@ -85,7 +83,7 @@ module.exports = {
             }
             if(isAdd) {
                 if(this.pname.value === '') {
-                    var btns = this.menus.menu.button;
+                    var btns = this.menu.button;
                     if(btns.length > 2) {
                         return alert('最多只能创建3个一级菜单');
                     }
@@ -104,13 +102,16 @@ module.exports = {
         },
         removeMenu: function(e) {
             this.removeMenuByName(this.oldname.value);
-            this.update({item: {}, menus: this.menus});
+            this.update({item: {}, menu: this.menu});
             e.preventUpdate = true;
             return true;
         },
         pushMenu: function(e) {
-            console.log(this.menus);
-            alert('推送成功，请于微信公众号中查看');
+            console.log(this.menu);
+            app.rest.post('/custmenu', {menu: JSON.stringify(this.menu)}, function(data) {
+                console.log(data);
+                alert('推送成功，请于微信公众号中查看');
+            });
         }
     }
 }

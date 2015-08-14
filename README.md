@@ -8,9 +8,9 @@ a riot isomorphic framework base on riot & express
 * Support hashchange if IE < 10
 * Support IE9+
 
-## Run [Demo](http://cheft.cn)
+## Run [Demo](http://echoboxd.coding.io/) admin/admin
 
-	npm install
+    npm install
 
     gulp
 

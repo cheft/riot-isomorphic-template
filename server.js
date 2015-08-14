@@ -8,7 +8,6 @@ var dbconfig = require('./db');
 var app = root.app = server(config, router, dbconfig);
 app.config = config;
 app.use(cookieParser());
-app.set('tz', 'GMT+8');
 app.use(session({
     secret: '12345',
     name: 'cheft', // cookie的name，默认connect.sid

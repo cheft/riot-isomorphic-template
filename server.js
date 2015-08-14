@@ -7,15 +7,14 @@ var dbconfig = require('./db');
 
 var app = root.app = server(config, router, dbconfig);
 app.config = config;
+
 app.use(cookieParser());
+app.set('trust proxy', 1);
 app.use(session({
-    secret: '12345',
-    name: 'cheft', // cookie的name，默认connect.sid
-    cookie: {
-        maxAge: 1800000 // 30分钟
-    }, 
-    resave: false,
-    saveUninitialized: true,
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
 }));
 
 // session拦截
@@ -23,12 +22,15 @@ app.use(function (req, rep, next) {
     rep.set('Cache-Control', 'no-cache, no-store');
     var url = req.originalUrl;
     if (url === '/favicon.ico') {
-        return rep.send('ico');
+        return rep.send('favicon.ico');
     }
-    if (url != '/login' && url != '/api/login' && url != '' && url != '/api/login/reset' && !req.session.user) {
-        return rep.redirect('/login');
+    if(req.session.user) {
+        next();
+    }else if(url === '/login' || url === '/api/login' || url === '/api/login/reset') {
+        next();
+    }else {
+        rep.redirect('/login');
     }
-    next();
 });
 
 app.start();

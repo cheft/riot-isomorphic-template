@@ -25,7 +25,9 @@ module.exports = function(router) {
             password: req.body.password
         }, function(err, users) {
             if (users.length > 0) {
-                req.session.user = {username: users[0].username, password: users[0].password};
+                req.session.user = {username: users[0].username};
+                app.sessionID = req.cookies.sessionID;
+                app.cookieSID = req.cookies['connect.sid'];
                 return rep.send({status: 'success'});
             }
             return rep.send({status: 'error'});
@@ -35,6 +37,8 @@ module.exports = function(router) {
 
     router.get('/logout', function(req, rep) {
         req.session.user = null;
+        app.sessionID = null;
+        app.cookieSID = null;
         rep.redirect('/login');
     });
 }

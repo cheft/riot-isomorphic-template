@@ -474,6 +474,9 @@ module.exports = function(opts) {
 		var rest = request[type](opts.apiRoot + url).send(obj);
 		if(contentType) {
 			rest = rest.set('Content-Type', contentType);
+		}      
+		if(typeof window　=== 'undefined') {
+			rest.req.setHeader('Cookie', 'sessionID=' + app.sessionID + '; connect.sid=' + app.cookieSID);
 		}
 		rest.set('Process-Data', processData)
         .end(function(err, res) {

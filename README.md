@@ -10,8 +10,6 @@ a riot isomorphic framework base on riot & express
 
 ## Run [Demo](http://cheft.cn)
 
-	cd demo
-
 	npm install
 
     gulp

@@ -1,0 +1,41 @@
+<news>
+    <script>app.mixin(this, require('./mixin'));</script>
+    <breadcrumb name="News"></breadcrumb>
+    <div class="content box">
+        <div class="box-header">
+            <div class="box-title">
+                <button class="btn btn-sm btn-success" data-toggle="tooltip" title="Create" onclick={create}><i class="fa fa-fw fa-plus"></i></button>
+            </div>
+            <div class="box-tools">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="javascript:void(0);" onclick={prev}>&laquo;</a></li>
+                    <li><a href="javascript:void(0);">{page} / {pages}</a></li>
+                    <li><a href="javascript:void(0);" onclick={next}>&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tr>
+                    <th>Date</th>
+                    <th>Subject</th>
+                    <th>Content</th>
+                    <th>Status</th>
+                    <th>Detail</th>
+                </tr>
+                <tr each={messages}>
+                    <td>{new Date(createdAt).toLocaleString()}</td>
+                    <td>{subject.substr(0, 50)}</td>
+                    <td>{content.substr(0, 20)}...</td>
+                    <td>
+                        <span if={status === 'publish'} class="label label-success">Published</span>
+                        <span if={status === 'unpublish'} class="label label-primary">Not Publish</span>
+                    </td>
+                    <td>
+                        <a href="/news/{id}" onclick={app.holdLink} class="fa fa-fw fa-eye" data-toggle="tooltip" title="View"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</news>

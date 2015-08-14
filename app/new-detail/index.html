@@ -1,0 +1,43 @@
+<new-detail>
+    <script>app.mixin(this, require('./mixin'));</script>
+    <breadcrumb name="News Detail"></breadcrumb>
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title"><a href="javascript:void(0);" onclick={app.back}><i class="fa fa-fw fa-chevron-left"></i> Back</a></h3>
+            <div class="box-tools pull-right" if={news.id}>
+                <button class="btn btn-box-tool" data-toggle="tooltip" title="Toggle" onclick={edit}><i class="fa fa-fw {isEdit ? 'fa-eye' : 'fa-edit'}"></i></button>
+                <button if={news.status === 'unpublish'} class="btn btn-box-tool" data-toggle="tooltip" title="Publish" onclick={publish}><i class="fa fa-fw fa-share"></i></button>
+                <button if={news.status === 'publish'} class="btn btn-box-tool" data-toggle="tooltip" title="Unpublish" onclick={unpublish}><i class="fa fa-fw fa-history"></i></button>
+                <button class="btn btn-box-tool" data-toggle="tooltip" title="Destory" onclick={remove}><i class="fa fa-fw fa-trash"></i></button>
+            </div>
+        </div>
+        <form name="news_form" role="form" enctype="multipart/form-data" >
+            <div class="box-body">
+                <div class="alert alert-danger" if={errorMsg}>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <raw content={errorMsg}></raw>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="id" value={news.id} />
+                    <label for="cover{_id}">Cover</label>
+                    <div if={!isEdit}><img class="img-responsive" src="{coverPath ? coverPath : ''}" /></div>
+                    <input if={isEdit} name="cover" type="file" id="cover{_id}">
+                    <p if={isEdit} class="help-block">600 x 300</p>
+                </div>
+                <div class="form-group">
+                    <label for="subject{_id}">Subject</label>
+                    <div if={!isEdit}>{news.subject}</div>
+                    <textarea if={isEdit} name="subject" id="subject{_id}" class="form-control" rows="3" placeholder="Enter Subject">{news.subject}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="content{_id}">Content</label>
+                    <div if={!isEdit}>{news.content}</div>
+                    <textarea if={isEdit}  name="content" id="content{_id}" class="form-control" rows="6" placeholder="Enter Content">{news.content}</textarea>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button if={isEdit} type="button" class="btn btn-primary" onclick={save}>Save</button>
+            </div>
+        </form>
+    </div>
+</new-detail>

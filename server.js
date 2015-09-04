@@ -17,22 +17,23 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// session拦截
+// session 拦截
 app.use(function (req, rep, next) {
     rep.set('Cache-Control', 'no-cache, no-store');
     var url = req.originalUrl;
     if (url === '/favicon.ico') {
         return rep.send('favicon.ico');
     }
-    if(req.session.user) {
-        next();
-    }else if(url.indexOf('upload') !== -1) {
-        next();
-    }else if(url === '/login' || url === '/api/login' || url === '/api/login/reset') {
-        next();
-    }else {
-        rep.redirect('/login');
-    }
+    // if(req.session.user) {
+    //     next();
+    // }else if(url.indexOf('upload') !== -1) {
+    //     next();
+    // }else if(url === '/login' || url === '/api/login' || url === '/api/login/reset') {
+    //     next();
+    // }else {
+    //     rep.redirect('/login');
+    // }
+    next();
 });
 
 app.start();

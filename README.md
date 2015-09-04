@@ -17,8 +17,6 @@ a riot isomorphic framework base on riot & express
 
     npm install
 
-    gulp
-
-    node server
+    npm watch
 
 > tips: For the first deploy, access 'http://{yourdomain}/api/login/reset' to initialize the username and password

@@ -11,8 +11,10 @@ var delFile = function(newsId) {
         if(!data.cover) {
             return;
         }
-        fs.unlink(app.config.uploadDir + '/' + data.timestamp + '/' + data.cover, function() {
-            fs.rmdir(app.config.uploadDir + '/' + data.timestamp);
+        fs.unlink(app.config.uploadDir + '/' + data.timestamp + '/' + data.cover, function(err) {
+            if(!err) {
+                fs.rmdir(app.config.uploadDir + '/' + data.timestamp);
+            }
         });
     });
 }
@@ -60,13 +62,19 @@ module.exports = function(router) {
 
     router.post('/', multipart(), function(req, rep) {
         upload(req, rep);
-        req.body.status = 'unpublish';
+        var obj = {body: {
+            status: 'unpublish',
+            subject: req.body.subject,
+            content: req.body.content,
+            cover: req.body.cover,
+            timestamp: req.body.timestamp
+        }};
         if(req.body.id) {
-            req.params.id = req.body.id;
+            obj.params = {id: req.body.id};
             delete req.body.id;
             return handle.doUpdate(req, rep);
         }
-        return handle.doCreate(req, rep);
+        return handle.doCreate(obj, rep);
     });
 
     router.delete('/:id', function(req, rep) {

@@ -26,6 +26,8 @@ app.use(function (req, rep, next) {
     }
     if(req.session.user) {
         next();
+    }else if(url.indexOf('upload') !== -1) {
+        next();
     }else if(url === '/login' || url === '/api/login' || url === '/api/login/reset') {
         next();
     }else {

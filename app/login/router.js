@@ -1,6 +1,6 @@
 var users = [{
     username: 'admin',
-    password: 'admin'
+    password: 'echobox88'
 }];
 
 module.exports = function(router) {

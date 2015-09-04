@@ -6,7 +6,7 @@ module.exports = {
 				if(rep.status === 'error') {
 					return alert('username or password error');
 				}
-				location.href = '/';
+				location.href = '/'
 			});
 		},
 		enter: function(e) {

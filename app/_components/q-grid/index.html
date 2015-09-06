@@ -1,0 +1,16 @@
+<q-grid>
+    <table class="table table-hover">
+        <tr>
+            <th>序号</th>
+            <th each={opts.grid.columns}>{label}</th>
+        </tr>
+        <tr each={d, i in opts.grid.data}>
+            <td>{i + 1}</td>
+            <td each={c, j in parent.opts.grid.columns}>{d[c.name]}</td>
+            <td>
+                <yield />
+            </td>
+        </tr>
+    </table>
+</q-grid>
+

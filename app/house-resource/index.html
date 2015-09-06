@@ -1,0 +1,14 @@
+<house-resource>
+    <script>app.mixin(this, require('./mixin'));</script>
+	<breadcrumb name="房源管理"></breadcrumb>
+	<div class="content box">
+        <div class="box-header">
+            <q-pagination pagination={pagination}></q-pagination>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <q-grid grid={grid}>
+				<a href="/messages" onclick={app.holdLink} class="fa fa-fw fa-eye" data-toggle="tooltip" title="View"></a>
+			</q-grid>
+        </div>
+    </div>
+</house-resource>

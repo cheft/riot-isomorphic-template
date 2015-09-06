@@ -11,10 +11,10 @@ app.config = config;
 app.use(cookieParser());
 app.set('trust proxy', 1);
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
 
 // session 拦截

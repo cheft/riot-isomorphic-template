@@ -1,3 +1,20 @@
 .content-header {
     padding: 15px 15px 15px 15px;
 }
+
+.logo-lg {
+	background: url(../img/logo.png) no-repeat center center;
+	width: 100%;
+	height: 100%;
+}
+
+.logo-mini {
+	background: url(../img/logo-mini.png) no-repeat center center;
+	width: 100%;
+	height: 100%;
+}
+
+.sidebar-mini.sidebar-collapse .main-header .logo>.logo-mini {
+	margin-right: 0px !important;
+	margin-left: 0px !important;
+}

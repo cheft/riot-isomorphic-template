@@ -1,0 +1,10 @@
+<q-pagination>
+	<script>app.mixin(this, require('./mixin'));</script>
+	<div class="box-tools">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <li><a href="javascript:void(0);" onclick={prev}>&laquo;</a></li>
+            <li><a href="javascript:void(0);">{opts.pagination.page} / {opts.pagination.pages}</a></li>
+            <li><a href="javascript:void(0);" onclick={next}>&raquo;</a></li>
+        </ul>
+    </div>
+</q-pagination>

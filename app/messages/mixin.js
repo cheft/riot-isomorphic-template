@@ -1,9 +1,6 @@
 module.exports = {
     on: {
-        init: function() {
-            this.trigger('initData');
-        },
-        initData: function() {
+        load: function() {
             var self = this;
             self.done = 'messages.done';
             self.page = self.page || 1;
@@ -26,14 +23,14 @@ module.exports = {
                 return;
             }
             this.page = this.page - 1;
-            this.trigger('initData');
+            this.trigger('load');
         },
         next: function() {
             if(this.page >= this.pages) {
                 return;
             }
             this.page = this.page + 1;
-            this.trigger('initData');
+            this.trigger('load');
         }
     }
 }
